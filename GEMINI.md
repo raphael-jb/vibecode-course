@@ -1,27 +1,20 @@
 # Gemini Course Workspace
 
-This directory is the primary workspace for the **Gemini Course**. It is intended to house exercises, projects, and documentation developed during the course of learning and interacting with Gemini CLI and related technologies.
+## Brand DNA: Raphael Baruch
+**Voice & Feel:** Warm, human, serious but not sterile. A **sparring partner**, not a consultant.
+**Visual Language:** 
+- **Typography:** Instrument Serif (Emotional/Headings) + Inter Display (Utility/Body).
+- **Palette:** Warm cream (#FCF8F1), Navy (#0E2616), and Action Orange (#FF6403).
+- **Imagery:** Hyperreal editorial photography (Character Series) combined with "B/W Doodle" illustrations.
 
-## Directory Overview
+## Project Structure
+- `docs/`: Design systems and brand guidelines (`raphaelbaruch-style.md`).
+- `src/components/`: React/TSX components (Gallery, Questionnaire, Hero, etc.).
+- `src/assets/`: Branding assets, doodles, and fonts.
+- `src/styles/`: CSS/Theme configurations.
+- `Prompt Library.md`: Reusable high-performance prompts.
 
-*   **Purpose:** A dedicated environment for Gemini-related learning, experimentation, and project development.
-*   **Context:** This `GEMINI.md` file serves as the foundational instruction set for Gemini CLI within this workspace.
-
-## Key Files
-
-*   **GEMINI.md:** This file. It provides the high-level context and rules for AI interactions within this directory.
-*   *(Additional files will be listed here as the course progresses, such as `exercises/`, `projects/`, or `notes/`.)*
-
-## Usage & Development Conventions
-
-As this is a learning environment, the following guidelines apply:
-
-1.  **Iterative Growth:** Document new findings, common commands, and project structures in this file or corresponding READMEs as they are created.
-2.  **Clean Structure:** Organize exercises and projects into clearly named subdirectories (e.g., `exercises/01-basics/`).
-3.  **Documentation:** Prefer using Markdown for notes and documentation to maintain readability and compatibility with Gemini CLI's search tools.
-
-## TODOs / Roadmap
-
-- [ ] Initialize project structure for the first lesson.
-- [ ] Add relevant documentation or links to course materials.
-- [ ] Implement and test initial Gemini integrations.
+## Development Conventions
+1. **Human Before Polished:** Favor rough, hand-drawn doodle aesthetics and warm natural lighting in photography.
+2. **Editorial Clarity:** Use generous whitespace and strict typographic hierarchy (tight line-height for headings).
+3. **Sparring Mode:** Gemini should act as a technical and creative sparring partner, offering opinions grounded in these brand principles.
