@@ -3,35 +3,16 @@ import { addPropertyControls, ControlType, RenderTarget } from "framer"
 import { motion, useScroll, useTransform, useSpring } from "framer-motion"
 
 /**
- * MasterplanStickyScroll (DESKTOP GOLD)
- * ──────────────────────────────────────
+ * StickyScrollFilmStrip
+ * ──────────────────────
  * - Architecture: Tall "Track" (scrollY) + Sticky "Stage" (100vh).
- * - Logic: Transforms mapping scroll % to exclusive item states.
+ * - Narrative: "Film Strip" vertical stack on the left.
+ * - UX: Peeking content (0.1 opacity) implies depth naturally.
  * - Design: Raphael Baruch Style (Instrument Serif + Inter).
  */
 
 const FONTS = `
     @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap');
-    
-    @keyframes rbScrollDrop {
-        0%  { top: -100%; }
-        60% { top: 100%;  }
-        100%{ top: 100%;  }
-    }
-
-    .rb-scroll-track { 
-        position: relative; 
-        overflow: hidden; 
-        border-radius: 2px; 
-    }
-    
-    .rb-scroll-track::after {
-        content: '';
-        position: absolute; top: -100%; left: 0;
-        width: 100%; height: 100%;
-        background: currentColor;
-        animation: rbScrollDrop 2.2s ease-in-out infinite;
-    }
 `
 
 const COLORS = {
@@ -44,7 +25,7 @@ const COLORS = {
     borderPrimary: "#E5E5E5",
 }
 
-export default function MasterplanStickyScroll(props) {
+export default function StickyScrollFilmStrip(props) {
     const { items, overline, tagline, accentColor, background, vhPerItem } = props
     const containerRef = useRef(null)
     const isCanvas = RenderTarget.current() === RenderTarget.canvas
@@ -54,27 +35,24 @@ export default function MasterplanStickyScroll(props) {
         offset: ["start start", "end end"],
     })
 
-    const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
+    // Heavier spring for a more serious, grounded feel
+    const smoothProgress = useSpring(scrollYProgress, { stiffness: 60, damping: 35, restDelta: 0.001 })
     
     const itemCount = items.length
     const totalHeight = isCanvas ? "auto" : `${itemCount * vhPerItem}vh`
 
-    // Click-to-Scroll Logic: Lands in the middle of the segment for stability
+    // Navigation logic: Lands in the middle of the segment
     const handleScrollTo = (index) => {
         if (!containerRef.current || isCanvas) return
-        
         const containerTop = containerRef.current.offsetTop
         const segmentHeight = window.innerHeight * (vhPerItem / 100)
         const targetY = containerTop + (index * segmentHeight) + (segmentHeight / 2)
-        
-        window.scrollTo({
-            top: targetY,
-            behavior: "smooth"
-        })
+        window.scrollTo({ top: targetY, behavior: "smooth" })
     }
 
-    // Scroll Indicator Visibility
-    const indicatorOpacity = useTransform(scrollYProgress, [0, 0.05], [1, 0])
+    // Dynamic Y offset for the text stack (centered active item)
+    // We adjust the range slightly to ensure the last item "locks" earlier
+    const textStackY = useTransform(smoothProgress, [0, 0.95], [0, -(itemCount - 1) * 450])
 
     return (
         <div 
@@ -88,7 +66,6 @@ export default function MasterplanStickyScroll(props) {
         >
             <style>{FONTS}</style>
 
-            {/* Sticky Stage: This pins to the viewport */}
             <div style={{
                 position: isCanvas ? "relative" : "-webkit-sticky",
                 // @ts-ignore
@@ -99,11 +76,11 @@ export default function MasterplanStickyScroll(props) {
                 display: "flex",
                 flexDirection: "row",
                 overflow: "hidden",
-                zIndex: 100, // Enforce stacking context
-                backgroundColor: background, // Prevent transparency bleed
+                zIndex: 100,
+                backgroundColor: background,
             }}>
                 
-                {/* Left Side: Text Narrative */}
+                {/* Left Side: Film-Strip Narrative */}
                 <div style={{
                     flex: 1,
                     display: "flex",
@@ -113,10 +90,11 @@ export default function MasterplanStickyScroll(props) {
                     zIndex: 2,
                     position: "relative",
                 }}>
-                    <div style={{ marginBottom: 60 }}>
+                    {/* Brand Header (Static) */}
+                    <div style={{ position: "absolute", top: "10%", left: "10%" }}>
                         <h4 style={{ 
                             fontFamily: "'Instrument Serif', serif", 
-                            fontSize: 32, 
+                            fontSize: 24, 
                             margin: 0, 
                             lineHeight: 1.1,
                             color: COLORS.textPrimary 
@@ -126,67 +104,81 @@ export default function MasterplanStickyScroll(props) {
                         </h4>
                     </div>
 
-                    <div style={{ position: "relative", height: 360 }}>
-                        {items.map((item, i) => {
-                            const start = i / itemCount
-                            const end = (i + 1) / itemCount
-                            
-                            const activeOpacity = useTransform(smoothProgress, [start, start + 0.05, end - 0.05, end], [0, 1, 1, 0])
-                            const activeY = useTransform(smoothProgress, [start, start + 0.05, end - 0.05, end], [40, 0, 0, -40])
+                    {/* The Film Strip: Centered active window */}
+                    <div style={{ height: 450, overflow: "visible", position: "relative" }}>
+                        <motion.div style={{ y: isCanvas ? 0 : textStackY }}>
+                            {items.map((item, i) => {
+                                const start = i / itemCount
+                                const end = (i + 1) / itemCount
+                                const center = (start + end) / 2
+                                
+                                // Subtle peeking (0.1 opacity) and very minimal scale shift
+                                const opacity = useTransform(smoothProgress, 
+                                    [center - 0.2, center, center + 0.2], 
+                                    [0.1, 1, 0.1]
+                                )
+                                const scale = useTransform(smoothProgress, 
+                                    [center - 0.2, center, center + 0.2], 
+                                    [0.98, 1, 0.98]
+                                )
 
-                            return (
-                                <motion.div
-                                    key={i}
-                                    style={{
-                                        position: "absolute",
-                                        top: 0, left: 0, right: 0,
-                                        opacity: isCanvas && i === 0 ? 1 : activeOpacity,
-                                        y: isCanvas && i === 0 ? 0 : activeY,
-                                        pointerEvents: isCanvas && i === 0 ? "auto" : "none",
-                                    }}
-                                >
-                                    <span style={{ 
-                                        display: "block", 
-                                        fontFamily: "'Inter', sans-serif", 
-                                        fontSize: 11, 
-                                        fontWeight: 600, 
-                                        letterSpacing: "0.15em", 
-                                        textTransform: "uppercase", 
-                                        color: accentColor, 
-                                        marginBottom: 16 
-                                    }}>
-                                        0{i + 1} · {item.label}
-                                    </span>
-                                    <h2 style={{ 
-                                        fontFamily: "'Instrument Serif', serif", 
-                                        fontSize: "clamp(32px, 4vw, 56px)", 
-                                        fontWeight: 400, 
-                                        lineHeight: 1.0, 
-                                        color: COLORS.textPrimary, 
-                                        margin: "0 0 24px",
-                                        letterSpacing: "-0.01em"
-                                    }}>
-                                        {item.headline.split("*").map((p, idx) => (
-                                            <span key={idx} style={{ fontStyle: idx % 2 !== 0 ? "italic" : "normal" }}>{p}</span>
-                                        ))}
-                                    </h2>
-                                    <p style={{ 
-                                        fontFamily: "'Inter', sans-serif", 
-                                        fontSize: 18, 
-                                        fontWeight: 300, 
-                                        lineHeight: 1.6, 
-                                        color: COLORS.textSecondary, 
-                                        maxWidth: 440, 
-                                        margin: 0 
-                                    }}>
-                                        {item.body}
-                                    </p>
-                                </motion.div>
-                            )
-                        })}
+                                return (
+                                    <motion.div
+                                        key={i}
+                                        style={{
+                                            height: 450,
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            justifyContent: "center",
+                                            opacity: isCanvas && i === 0 ? 1 : opacity,
+                                            scale: isCanvas && i === 0 ? 1 : scale,
+                                            originX: 0,
+                                        }}
+                                    >
+                                        <span style={{ 
+                                            display: "block", 
+                                            fontFamily: "'Inter', sans-serif", 
+                                            fontSize: 11, 
+                                            fontWeight: 600, 
+                                            letterSpacing: "0.15em", 
+                                            textTransform: "uppercase", 
+                                            color: accentColor, 
+                                            marginBottom: 16 
+                                        }}>
+                                            0{i + 1} · {item.label}
+                                        </span>
+                                        <h2 style={{ 
+                                            fontFamily: "'Instrument Serif', serif", 
+                                            fontSize: "clamp(32px, 4vw, 56px)", 
+                                            fontWeight: 400, 
+                                            lineHeight: 1.0, 
+                                            color: COLORS.textPrimary, 
+                                            margin: "0 0 24px",
+                                            letterSpacing: "-0.01em"
+                                        }}>
+                                            {item.headline.split("*").map((p, idx) => (
+                                                <span key={idx} style={{ fontStyle: idx % 2 !== 0 ? "italic" : "normal" }}>{p}</span>
+                                            ))}
+                                        </h2>
+                                        <p style={{ 
+                                            fontFamily: "'Inter', sans-serif", 
+                                            fontSize: 18, 
+                                            fontWeight: 300, 
+                                            lineHeight: 1.6, 
+                                            color: COLORS.textSecondary, 
+                                            maxWidth: 440, 
+                                            margin: 0 
+                                        }}>
+                                            {item.body}
+                                        </p>
+                                    </motion.div>
+                                )
+                            })}
+                        </motion.div>
                     </div>
 
-                    <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 60 }}>
+                    {/* Dots Navigation */}
+                    <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 40 }}>
                         {items.map((_, i) => {
                             const activeIndex = useTransform(smoothProgress, [0, 1], [0, itemCount - 1])
                             const width = useTransform(activeIndex, [i - 0.5, i, i + 0.5], [12, 48, 12])
@@ -196,7 +188,7 @@ export default function MasterplanStickyScroll(props) {
                                     key={i} 
                                     onClick={() => handleScrollTo(i)}
                                     style={{ 
-                                        height: 12, // Increased for perfect hit area
+                                        height: 12, 
                                         width: isCanvas && i === 0 ? 48 : width, 
                                         backgroundColor: accentColor, 
                                         opacity: isCanvas && i === 0 ? 1 : opacity, 
@@ -207,39 +199,6 @@ export default function MasterplanStickyScroll(props) {
                             )
                         })}
                     </div>
-
-                    {/* Dynamic Scroll Indicator (Hero-Style) */}
-                    <motion.div
-                        style={{
-                            position: "absolute",
-                            bottom: 40,
-                            left: "10%",
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "flex-start",
-                            gap: 12,
-                            opacity: indicatorOpacity,
-                        }}
-                    >
-                        <div
-                            className={isCanvas ? undefined : "rb-scroll-track"}
-                            style={{
-                                width: 1, height: 52,
-                                background: "rgba(0,0,0,0.1)",
-                                color: accentColor, // The dropping highlight color
-                            }}
-                        />
-                        <span style={{
-                            fontFamily: "'Inter', sans-serif",
-                            fontSize: 10,
-                            fontWeight: 600,
-                            textTransform: "uppercase",
-                            letterSpacing: "0.1em",
-                            color: COLORS.textSecondary,
-                        }}>
-                            Scroll to explore
-                        </span>
-                    </motion.div>
                 </div>
 
                 {/* Right Side: Visual Showcase */}
@@ -257,8 +216,8 @@ export default function MasterplanStickyScroll(props) {
                         const start = i / itemCount
                         const end = (i + 1) / itemCount
                         const opacity = useTransform(smoothProgress, [start - 0.1, start, end - 0.1, end], [0, 1, 1, 0])
-                        const scale = useTransform(smoothProgress, [start - 0.1, start, end - 0.1, end], [0.9, 1, 1, 1.1])
-                        const rotate = useTransform(smoothProgress, [start, end], [0, 2])
+                        const scale = useTransform(smoothProgress, [start - 0.1, start, end - 0.1, end], [0.98, 1, 1, 1.02])
+                        const rotate = useTransform(smoothProgress, [start, end], [0, 0.5]) // Reduced rotation for editorial feel
 
                         return (
                             <motion.div
@@ -343,7 +302,7 @@ export default function MasterplanStickyScroll(props) {
     )
 }
 
-MasterplanStickyScroll.defaultProps = {
+StickyScrollFilmStrip.defaultProps = {
     overline: "Next Level Thinking.",
     tagline: "Mit Raphael Baruch.",
     accentColor: COLORS.brand01,
@@ -356,7 +315,7 @@ MasterplanStickyScroll.defaultProps = {
     ]
 }
 
-addPropertyControls(MasterplanStickyScroll, {
+addPropertyControls(StickyScrollFilmStrip, {
     overline: { type: ControlType.String, title: "Overline" },
     tagline: { type: ControlType.String, title: "Tagline" },
     accentColor: { type: ControlType.Color, title: "Accent Color" },

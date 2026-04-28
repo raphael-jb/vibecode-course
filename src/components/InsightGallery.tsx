@@ -68,7 +68,15 @@ export default function InsightGallery(props) {
     )
 }
 
-function InsightCard({ title, frontImage, backText, tintColor }) {
+function InsightCard({ 
+    title, 
+    frontImage, 
+    backEyebrow, 
+    backHeadline, 
+    backParagraph, 
+    backExample, 
+    tintColor 
+}) {
     const [isFlipped, setIsFlipped] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
 
@@ -86,7 +94,7 @@ function InsightCard({ title, frontImage, backText, tintColor }) {
             style={{
                 position: "relative",
                 width: "100%",
-                height: 480, // Fixed height to prevent width/height jumping
+                height: 520, // Slightly increased height for richer content
                 borderRadius: 32,
                 backgroundColor: tintColor || COLORS.backgroundAlt,
                 overflow: "hidden",
@@ -140,7 +148,6 @@ function InsightCard({ title, frontImage, backText, tintColor }) {
                             justifyContent: "center",
                             position: "relative",
                         }}>
-                            {/* Halo/Glow Effect */}
                             <div style={{
                                 position: "absolute",
                                 width: "140%",
@@ -183,28 +190,90 @@ function InsightCard({ title, frontImage, backText, tintColor }) {
                         style={{
                             width: "100%",
                             height: "100%",
-                            padding: 40,
+                            padding: 32,
                             display: "flex",
                             flexDirection: "column",
-                            justifyContent: "center",
+                            justifyContent: "flex-start",
                             boxSizing: "border-box",
                             backgroundColor: "white",
+                            gap: 16,
                         }}
                     >
-                        <p style={{
-                            fontFamily: "'Inter Tight', sans-serif",
-                            fontSize: 18,
-                            fontWeight: 300,
-                            lineHeight: 1.6,
-                            color: COLORS.textSecondary,
-                            margin: 0,
-                        }}>
-                            {backText}
-                        </p>
+                        {backEyebrow && (
+                            <span style={{
+                                fontFamily: "'Inter Tight', sans-serif",
+                                fontSize: 12,
+                                fontWeight: 500,
+                                textTransform: "uppercase",
+                                letterSpacing: "0.05em",
+                                color: COLORS.brand02,
+                            }}>
+                                {backEyebrow}
+                            </span>
+                        )}
+
+                        {backHeadline && (
+                            <h3 style={{
+                                fontFamily: "'Instrument Serif', serif",
+                                fontSize: 28,
+                                fontWeight: 400,
+                                lineHeight: 1.1,
+                                color: COLORS.textPrimary,
+                                margin: 0,
+                            }}>
+                                {backHeadline.split("*").map((part, i) => (
+                                    <span key={i} style={{ fontStyle: i % 2 !== 0 ? "italic" : "normal" }}>{part}</span>
+                                ))}
+                            </h3>
+                        )}
+
+                        {backParagraph && (
+                            <p style={{
+                                fontFamily: "'Inter Tight', sans-serif",
+                                fontSize: 16,
+                                fontWeight: 300,
+                                lineHeight: 1.5,
+                                color: COLORS.textSecondary,
+                                margin: 0,
+                            }}>
+                                {backParagraph}
+                            </p>
+                        )}
+
+                        {backExample && (
+                            <div style={{
+                                marginTop: "auto",
+                                padding: 16,
+                                borderRadius: 16,
+                                border: `1px dashed ${tintColor || COLORS.brand01}`,
+                                backgroundColor: COLORS.backgroundAlt,
+                            }}>
+                                <span style={{
+                                    display: "block",
+                                    fontFamily: "'Inter Tight', sans-serif",
+                                    fontSize: 10,
+                                    fontWeight: 500,
+                                    textTransform: "uppercase",
+                                    color: COLORS.textSecondary,
+                                    marginBottom: 4,
+                                }}>
+                                    Beispiel
+                                </span>
+                                <p style={{
+                                    fontFamily: "'Instrument Serif', serif",
+                                    fontSize: 18,
+                                    lineHeight: 1.2,
+                                    margin: 0,
+                                    color: COLORS.textPrimary,
+                                }}>
+                                    {backExample}
+                                </p>
+                            </div>
+                        )}
 
                         {isMobile && (
-                            <div style={{ position: "absolute", bottom: 32, right: 32 }}>
-                                <span style={{ fontSize: 20, color: COLORS.brand02 }}>✕</span>
+                            <div style={{ position: "absolute", top: 20, right: 20 }}>
+                                <span style={{ fontSize: 18, color: COLORS.brand02 }}>✕</span>
                             </div>
                         )}
                     </motion.div>
@@ -217,9 +286,33 @@ function InsightCard({ title, frontImage, backText, tintColor }) {
 InsightGallery.defaultProps = {
     background: "#FFFFFF",
     items: [
-        { title: "Messbarer *Erfolg*", backText: "Über 90 % der Lernenden auf Masterplan sind nicht nur überdurchschnittlich zufrieden mit dem Lernangebot, sondern auch hochmotiviert.", tintColor: PASTELS.orange, frontImage: "" },
-        { title: "Hohes *Engagement*", backText: "3,7x mehr Lernaktivität als auf anderen Lernplattformen. Unsere Inhalte fesseln Ihre Mitarbeitenden nachhaltig.", tintColor: PASTELS.purple, frontImage: "" },
-        { title: "Effiziente *Prozesse*", backText: "Sparen Sie bis zu 30 % Zeit in der Personalentwicklung durch automatisierte Zuweisungen und klares Reporting.", tintColor: PASTELS.teal, frontImage: "" },
+        { 
+            title: "Messbarer *Erfolg*", 
+            backEyebrow: "Leadership",
+            backHeadline: "Wachstum *verstehen*",
+            backParagraph: "Über 90 % der Lernenden auf Masterplan sind nicht nur überdurchschnittlich zufrieden, sondern auch hochmotiviert.",
+            backExample: "Führungskräfte nutzen Dashboards zur Team-Entwicklung.",
+            tintColor: PASTELS.orange, 
+            frontImage: "" 
+        },
+        { 
+            title: "Hohes *Engagement*", 
+            backEyebrow: "Community",
+            backHeadline: "Aktivität *steigern*",
+            backParagraph: "3,7x mehr Lernaktivität als auf anderen Plattformen. Unsere Inhalte fesseln nachhaltig.", 
+            backExample: "Mitarbeitende teilen Insights direkt in Slack.",
+            tintColor: PASTELS.purple, 
+            frontImage: "" 
+        },
+        { 
+            title: "Effiziente *Prozesse*", 
+            backEyebrow: "Scale",
+            backHeadline: "Zeit *gewinnen*",
+            backParagraph: "Sparen Sie bis zu 30 % Zeit in der Personalentwicklung durch automatisierte Zuweisungen.", 
+            backExample: "Automatisierte Onboarding-Strecken für neue Leads.",
+            tintColor: PASTELS.teal, 
+            frontImage: "" 
+        },
     ]
 }
 
@@ -233,8 +326,11 @@ addPropertyControls(InsightGallery, {
             controls: {
                 title: { type: ControlType.String, title: "Headline (Front)", defaultValue: "Titel *hier*" },
                 frontImage: { type: ControlType.Image, title: "Visual (Front)" },
-                backText: { type: ControlType.String, title: "Text (Back)", displayTextArea: true, defaultValue: "Beschreibungstext hier eingeben..." },
                 tintColor: { type: ControlType.Color, title: "Card Tint", defaultValue: COLORS.backgroundAlt },
+                backEyebrow: { type: ControlType.String, title: "Eyebrow (Back)", defaultValue: "EYEBROW" },
+                backHeadline: { type: ControlType.String, title: "Headline (Back)", defaultValue: "Headline *Italic*" },
+                backParagraph: { type: ControlType.String, title: "Paragraph (Back)", displayTextArea: true, defaultValue: "Beschreibungstext hier..." },
+                backExample: { type: ControlType.String, title: "Example Box (Back)", defaultValue: "Ein konkretes Beispiel..." },
             }
         }
     }
