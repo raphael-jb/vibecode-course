@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { addPropertyControls, ControlType, motion, AnimatePresence } from "framer"
+import { addPropertyControls, ControlType, motion } from "framer"
 
 /**
  * CollaborativeFAQ (RESPONSIVE)
@@ -8,6 +8,7 @@ import { addPropertyControls, ControlType, motion, AnimatePresence } from "frame
  * - Architecture: 2-column Desktop, 1-column Tablet/Mobile.
  * - Design: Instrument Serif H2 (65px), 400 weight only.
  * - Interaction: Focus mode + No/Solid borders only.
+ * - SEO: Always renders answers in DOM, toggles visibility via CSS/Motion.
  */
 
 const COLORS = {
@@ -189,27 +190,27 @@ export default function CollaborativeFAQ(props) {
                                     </motion.div>
                                 </div>
 
-                                <AnimatePresence>
-                                    {isOpen && (
-                                        <motion.div
-                                            initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                                            animate={{ height: "auto", opacity: 1, marginTop: 24 }}
-                                            exit={{ height: 0, opacity: 0, marginTop: 0 }}
-                                            transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                                        >
-                                            <p style={{
-                                                fontFamily: "'Inter Tight', sans-serif",
-                                                fontSize: 18,
-                                                fontWeight: 300,
-                                                lineHeight: 1.5,
-                                                color: COLORS.textSecondary,
-                                                margin: 0,
-                                            }}>
-                                                {item.answer}
-                                            </p>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
+                                <motion.div
+                                    initial={false}
+                                    animate={{ 
+                                        height: isOpen ? "auto" : 0, 
+                                        opacity: isOpen ? 1 : 0, 
+                                        marginTop: isOpen ? 24 : 0 
+                                    }}
+                                    transition={{ type: "spring", stiffness: 200, damping: 25 }}
+                                    style={{ overflow: "hidden" }}
+                                >
+                                    <p style={{
+                                        fontFamily: "'Inter Tight', sans-serif",
+                                        fontSize: 18,
+                                        fontWeight: 300,
+                                        lineHeight: 1.5,
+                                        color: COLORS.textSecondary,
+                                        margin: 0,
+                                    }}>
+                                        {item.answer}
+                                    </p>
+                                </motion.div>
                             </motion.div>
                         )
                     })}
@@ -263,7 +264,7 @@ CollaborativeFAQ.defaultProps = {
     subtitle: "Wir klären alles, was Dir auf dem Herzen liegt. Direkt, ehrlich und ohne Berater-Sprech.",
     accentColor: COLORS.brand02,
     ctaLabel: "Lass uns persönlich sprechen",
-    ctaHref: "#",
+    ctaHref: "https://calendar.app.google/TxnYmbFXwquFFQKK9",
     borderWidth: 0,
     borderColor: COLORS.borderPrimary,
     items: [

@@ -69,7 +69,7 @@ function SliderRow({ dimension, isMobile, animated, rowIndex }) {
                         transition={{
                             duration: 0.9,
                             ease: "easeOut",
-                            delay: rowIndex * 0.12,
+                            delay: rowIndex * 0.3,
                         }}
                         style={{
                             position: "absolute",
@@ -144,14 +144,21 @@ export default function ProcessSpectrum(props) {
 
     useEffect(() => {
         if (isCanvas) return
+        if (typeof IntersectionObserver === "undefined") {
+            setAnimated(true)
+            return
+        }
         const observer = new IntersectionObserver(
             (entries) => {
-                if (entries[0].isIntersecting) {
+                if (entries.some((entry) => entry.isIntersecting)) {
                     setAnimated(true)
                     observer.disconnect()
                 }
             },
-            { threshold: 0.25 }
+            {
+                threshold: 0.35,
+                rootMargin: "0px 0px -10% 0px",
+            }
         )
         if (containerRef.current) observer.observe(containerRef.current)
         return () => observer.disconnect()
@@ -351,8 +358,8 @@ ProcessSpectrum.defaultProps = {
     paddingTop: 96,
     paddingBottom: 96,
     showQuizCta: true,
-    quizCtaText: "Nicht sicher, welches Format zu Dir passt?",
-    quizCtaLink: "#quiz",
+    quizCtaText: "Nicht sicher, welches Format zu Dir passt? Schreib mir kurz Deinen Fall.",
+    quizCtaLink: "https://calendar.app.google/TxnYmbFXwquFFQKK9",
     dimensions: [
         { label: "Vorbereitung",    minLabel: "Optional",   maxLabel: "Ausführlich"    },
         { label: "Sessionstruktur", minLabel: "Reaktiv",    maxLabel: "Konzipiert"     },
@@ -382,8 +389,8 @@ addPropertyControls(ProcessSpectrum, {
         maxCount: 6,
     },
     showQuizCta:  { type: ControlType.Boolean, title: "Quiz CTA", defaultValue: true },
-    quizCtaText:  { type: ControlType.String,  title: "Quiz CTA Text", displayTextArea: true, defaultValue: "Nicht sicher, welches Format zu Dir passt?", hidden: (p) => !p.showQuizCta },
-    quizCtaLink:  { type: ControlType.String,  title: "Quiz CTA Link", defaultValue: "#quiz", hidden: (p) => !p.showQuizCta },
+    quizCtaText:  { type: ControlType.String,  title: "Quiz CTA Text", displayTextArea: true, defaultValue: "Nicht sicher, welches Format zu Dir passt? Schreib mir kurz Deinen Fall.", hidden: (p) => !p.showQuizCta },
+    quizCtaLink:  { type: ControlType.String,  title: "Quiz CTA Link", defaultValue: "https://calendar.app.google/TxnYmbFXwquFFQKK9", hidden: (p) => !p.showQuizCta },
     accentColor:  { type: ControlType.Color,   title: "Accent Color", defaultValue: COLORS.brand01 },
     background:   { type: ControlType.Color,   title: "Background",   defaultValue: COLORS.backgroundAlt },
     paddingTop:   { type: ControlType.Number,  title: "Padding Top",    defaultValue: 96, min: 0, max: 200, step: 8 },

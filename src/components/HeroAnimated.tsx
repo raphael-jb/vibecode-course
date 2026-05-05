@@ -192,7 +192,7 @@ export default function HeroAnimated({
     line3          = "anderen da bist?",
     subline        = "Gestalte einen Raum, in dem es nur um Dich gehen darf.",
     ctaLabel       = "Gespräch vereinbaren →",
-    ctaHref        = "#",
+    ctaHref        = "https://calendar.app.google/TxnYmbFXwquFFQKK9",
     bokehMode      = "medium",
     overlayVariant = "medium",
 }: {
@@ -557,7 +557,7 @@ addPropertyControls(HeroAnimated, {
     ctaHref: {
         type: ControlType.String,
         title: "CTA URL",
-        defaultValue: "#",
+        defaultValue: "https://calendar.app.google/TxnYmbFXwquFFQKK9",
     },
     bokehMode: {
         type: ControlType.Enum,

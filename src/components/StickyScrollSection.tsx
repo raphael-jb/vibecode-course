@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { addPropertyControls, ControlType, RenderTarget } from "framer"
 import { motion, useScroll, useTransform, useSpring } from "framer-motion"
 
@@ -12,26 +12,6 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion"
 
 const FONTS = `
     @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap');
-    
-    @keyframes rbScrollDrop {
-        0%  { top: -100%; }
-        60% { top: 100%;  }
-        100%{ top: 100%;  }
-    }
-
-    .rb-scroll-track { 
-        position: relative; 
-        overflow: hidden; 
-        border-radius: 2px; 
-    }
-    
-    .rb-scroll-track::after {
-        content: '';
-        position: absolute; top: -100%; left: 0;
-        width: 100%; height: 100%;
-        background: currentColor;
-        animation: rbScrollDrop 2.2s ease-in-out infinite;
-    }
 `
 
 const COLORS = {
@@ -45,9 +25,32 @@ const COLORS = {
 }
 
 export default function MasterplanStickyScroll(props) {
-    const { items, overline, tagline, accentColor, background, vhPerItem } = props
+    const { items, overline, tagline, accentColor, background, vhPerItem, bodyFontSizeL, bodyFontSizeM, bodyFontSizeS } = props
     const containerRef = useRef(null)
     const isCanvas = RenderTarget.current() === RenderTarget.canvas
+    const [viewportSize, setViewportSize] = useState<"L" | "M" | "S">("L")
+
+    useEffect(() => {
+        if (isCanvas) return
+        const checkViewport = () => {
+            if (window.innerWidth < 768) {
+                setViewportSize("S")
+            } else if (window.innerWidth < 1200) {
+                setViewportSize("M")
+            } else {
+                setViewportSize("L")
+            }
+        }
+        checkViewport()
+        window.addEventListener("resize", checkViewport)
+        return () => window.removeEventListener("resize", checkViewport)
+    }, [isCanvas])
+
+    const bodyFontSize = viewportSize === "S"
+        ? bodyFontSizeS
+        : viewportSize === "M"
+            ? bodyFontSizeM
+            : bodyFontSizeL
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -59,13 +62,15 @@ export default function MasterplanStickyScroll(props) {
     const itemCount = items.length
     const totalHeight = isCanvas ? "auto" : `${itemCount * vhPerItem}vh`
 
-    // Click-to-Scroll Logic: Lands in the middle of the segment for stability
+    // Click-to-Scroll Logic
     const handleScrollTo = (index) => {
         if (!containerRef.current || isCanvas) return
         
+        // Calculate the target scroll position:
+        // container top + (index * height of one scroll segment)
         const containerTop = containerRef.current.offsetTop
         const segmentHeight = window.innerHeight * (vhPerItem / 100)
-        const targetY = containerTop + (index * segmentHeight) + (segmentHeight / 2)
+        const targetY = containerTop + (index * segmentHeight) + 10 // +10px buffer to ensure trigger
         
         window.scrollTo({
             top: targetY,
@@ -131,6 +136,7 @@ export default function MasterplanStickyScroll(props) {
                             const start = i / itemCount
                             const end = (i + 1) / itemCount
                             
+                            // Re-bind transforms to ensure they update within this scope
                             const activeOpacity = useTransform(smoothProgress, [start, start + 0.05, end - 0.05, end], [0, 1, 1, 0])
                             const activeY = useTransform(smoothProgress, [start, start + 0.05, end - 0.05, end], [40, 0, 0, -40])
 
@@ -172,7 +178,7 @@ export default function MasterplanStickyScroll(props) {
                                     </h2>
                                     <p style={{ 
                                         fontFamily: "'Inter', sans-serif", 
-                                        fontSize: 18, 
+                                        fontSize: bodyFontSize,
                                         fontWeight: 300, 
                                         lineHeight: 1.6, 
                                         color: COLORS.textSecondary, 
@@ -186,7 +192,7 @@ export default function MasterplanStickyScroll(props) {
                         })}
                     </div>
 
-                    <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 60 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 60 }}>
                         {items.map((_, i) => {
                             const activeIndex = useTransform(smoothProgress, [0, 1], [0, itemCount - 1])
                             const width = useTransform(activeIndex, [i - 0.5, i, i + 0.5], [12, 48, 12])
@@ -196,11 +202,11 @@ export default function MasterplanStickyScroll(props) {
                                     key={i} 
                                     onClick={() => handleScrollTo(i)}
                                     style={{ 
-                                        height: 12, // Increased for perfect hit area
+                                        height: 8, // Slightly taller for better hit area
                                         width: isCanvas && i === 0 ? 48 : width, 
                                         backgroundColor: accentColor, 
                                         opacity: isCanvas && i === 0 ? 1 : opacity, 
-                                        borderRadius: 6,
+                                        borderRadius: 4,
                                         cursor: "pointer",
                                     }} 
                                 />
@@ -208,25 +214,25 @@ export default function MasterplanStickyScroll(props) {
                         })}
                     </div>
 
-                    {/* Dynamic Scroll Indicator (Hero-Style) */}
+                    {/* Scroll Indicator */}
                     <motion.div
                         style={{
                             position: "absolute",
                             bottom: 40,
                             left: "10%",
                             display: "flex",
-                            flexDirection: "column",
-                            alignItems: "flex-start",
+                            alignItems: "center",
                             gap: 12,
                             opacity: indicatorOpacity,
                         }}
                     >
-                        <div
-                            className={isCanvas ? undefined : "rb-scroll-track"}
+                        <motion.div
+                            animate={{ y: [0, 5, 0] }}
+                            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
                             style={{
-                                width: 1, height: 52,
-                                background: "rgba(0,0,0,0.1)",
-                                color: accentColor, // The dropping highlight color
+                                width: 1,
+                                height: 30,
+                                backgroundColor: accentColor,
                             }}
                         />
                         <span style={{
@@ -290,13 +296,13 @@ export default function MasterplanStickyScroll(props) {
 
                                 <div style={{ 
                                     width: "80%", 
-                                    aspectRatio: "1/1",
+                                    aspectRatio: "1/1", // Force square
                                     display: "flex", 
                                     justifyContent: "center", 
                                     alignItems: "center",
                                     position: "relative",
                                     backgroundColor: item.imageBgColor || "#FFFFFF",
-                                    borderRadius: 15,
+                                    borderRadius: 15, // Requested 15px radius
                                     boxShadow: "0 20px 40px rgba(0,0,0,0.08)",
                                     zIndex: 1,
                                     overflow: "hidden"
@@ -324,7 +330,7 @@ export default function MasterplanStickyScroll(props) {
                                             style={{ 
                                                 width: "100%", 
                                                 height: "100%", 
-                                                objectFit: "cover",
+                                                objectFit: "cover", // Auto-fill and crop (supports GIFs)
                                                 objectPosition: item.focalPoint 
                                                     ? `${item.focalPoint.x * 100}% ${item.focalPoint.y * 100}%` 
                                                     : "center",
@@ -349,6 +355,9 @@ MasterplanStickyScroll.defaultProps = {
     accentColor: COLORS.brand01,
     background: "#FFFFFF",
     vhPerItem: 120,
+    bodyFontSizeL: 20,
+    bodyFontSizeM: 16,
+    bodyFontSizeS: 14,
     items: [
         { label: "Power Skills", headline: "Identify what *really* matters.", body: "Analyse skill gaps in your organisation and provide direct learning paths to close them.", image: "", video: "", focalPoint: { x: 0.5, y: 0.5 }, panelColor: COLORS.backgroundAlt, imageBgColor: "#FFFFFF" },
         { label: "Great Courses", headline: "Cinema-quality *learning.*", body: "High-end video productions with industry experts ensure maximum engagement.", image: "", video: "", focalPoint: { x: 0.5, y: 0.5 }, panelColor: COLORS.backgroundAlt, imageBgColor: "#FFFFFF" },
@@ -362,6 +371,9 @@ addPropertyControls(MasterplanStickyScroll, {
     accentColor: { type: ControlType.Color, title: "Accent Color" },
     background: { type: ControlType.Color, title: "Background" },
     vhPerItem: { type: ControlType.Number, title: "Scroll Pace", defaultValue: 120, min: 80, max: 300 },
+    bodyFontSizeL: { type: ControlType.Number, title: "Body Font L", defaultValue: 20, min: 10, max: 40, step: 1 },
+    bodyFontSizeM: { type: ControlType.Number, title: "Body Font M", defaultValue: 16, min: 10, max: 40, step: 1 },
+    bodyFontSizeS: { type: ControlType.Number, title: "Body Font S", defaultValue: 14, min: 10, max: 40, step: 1 },
     items: {
         type: ControlType.Array,
         title: "Items",

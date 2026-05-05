@@ -111,7 +111,7 @@ export default function StickyScrollMobile(props) {
                             <span key={idx} style={{ fontStyle: idx % 2 !== 0 ? "italic" : "normal" }}>{p}</span>
                         ))}
                     </h2>
-                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 17, fontWeight: 300, lineHeight: 1.6, color: COLORS.textSecondary, margin: 0 }}>
+                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, fontWeight: 300, lineHeight: 1.6, color: COLORS.textSecondary, margin: 0 }}>
                         {item.body}
                     </p>
                 </div>

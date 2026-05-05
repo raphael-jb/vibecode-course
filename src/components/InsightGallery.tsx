@@ -53,7 +53,7 @@ const STYLES = `
 `
 
 export default function InsightGallery(props) {
-    const { items, background } = props
+    const { items, background, mobileFrontCtaLabel, mobileBackCtaLabel } = props
     const isCanvas = RenderTarget.current() === RenderTarget.canvas
 
     return (
@@ -61,7 +61,12 @@ export default function InsightGallery(props) {
             <style>{STYLES}</style>
             <div className="rb-insight-grid">
                 {items.map((item, i) => (
-                    <InsightCard key={i} {...item} />
+                    <InsightCard
+                        key={i}
+                        {...item}
+                        mobileFrontCtaLabel={mobileFrontCtaLabel}
+                        mobileBackCtaLabel={mobileBackCtaLabel}
+                    />
                 ))}
             </div>
         </div>
@@ -75,7 +80,9 @@ function InsightCard({
     backHeadline, 
     backParagraph, 
     backExample, 
-    tintColor 
+    tintColor,
+    mobileFrontCtaLabel,
+    mobileBackCtaLabel,
 }) {
     const [isFlipped, setIsFlipped] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
@@ -175,9 +182,15 @@ function InsightCard({
                         </div>
 
                         {isMobile && (
-                            <div style={{ textAlign: "right" }}>
-                                <motion.div animate={{ x: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 1.5 }} style={{ fontSize: 24, color: COLORS.textSecondary }}>→</motion.div>
-                            </div>
+                            <motion.div
+                                initial={{ y: 4, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.25, duration: 0.25 }}
+                                style={mobilePillStyle}
+                            >
+                                <span>{mobileFrontCtaLabel}</span>
+                                <span style={{ color: COLORS.brand02, fontSize: 18, lineHeight: 1 }}>+</span>
+                            </motion.div>
                         )}
                     </motion.div>
                 ) : (
@@ -272,9 +285,21 @@ function InsightCard({
                         )}
 
                         {isMobile && (
-                            <div style={{ position: "absolute", top: 20, right: 20 }}>
-                                <span style={{ fontSize: 18, color: COLORS.brand02 }}>✕</span>
-                            </div>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    setIsFlipped(false)
+                                }}
+                                style={{
+                                    ...mobilePillStyle,
+                                    marginTop: 0,
+                                    width: "100%",
+                                    borderColor: "rgba(0,0,0,0.08)",
+                                }}
+                            >
+                                <span>{mobileBackCtaLabel}</span>
+                                <span style={{ color: COLORS.brand02, fontSize: 18, lineHeight: 1 }}>−</span>
+                            </button>
                         )}
                     </motion.div>
                 )}
@@ -285,6 +310,8 @@ function InsightCard({
 
 InsightGallery.defaultProps = {
     background: "#FFFFFF",
+    mobileFrontCtaLabel: "Mehr ansehen",
+    mobileBackCtaLabel: "Zurück",
     items: [
         { 
             title: "Messbarer *Erfolg*", 
@@ -316,8 +343,29 @@ InsightGallery.defaultProps = {
     ]
 }
 
+const mobilePillStyle = {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
+    width: "100%",
+    minHeight: 48,
+    padding: "13px 18px",
+    borderRadius: 9999,
+    border: "1px solid rgba(0,0,0,0.08)",
+    backgroundColor: "rgba(255,255,255,0.72)",
+    color: COLORS.textPrimary,
+    fontFamily: "'Inter Tight', sans-serif",
+    fontSize: 14,
+    fontWeight: 400,
+    cursor: "pointer",
+    boxSizing: "border-box" as const,
+}
+
 addPropertyControls(InsightGallery, {
     background: { type: ControlType.Color, title: "Background" },
+    mobileFrontCtaLabel: { type: ControlType.String, title: "Mobile Front CTA", defaultValue: "Mehr ansehen" },
+    mobileBackCtaLabel: { type: ControlType.String, title: "Mobile Back CTA", defaultValue: "Zurück" },
     items: {
         type: ControlType.Array,
         title: "Insight Cards",

@@ -172,6 +172,7 @@ export default function QuestionnaireOverlay(props) {
         submittingLabel,
         closeLabel,
         buttonIcon,
+        showButton,
     } = props
     const [isOpen, setIsOpen] = useState(false)
     const [currentStep, setCurrentStep] = useState(0)
@@ -347,22 +348,24 @@ export default function QuestionnaireOverlay(props) {
         <div id={resolvedQuizId} style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
             <style>{FONTS}</style>
 
-            <button
-                onClick={() => setIsOpen(true)}
-                style={{
-                    backgroundColor: COLORS.orange,
-                    color: "white",
-                    border: "none",
-                    borderRadius: 15,
-                    padding: "16px 32px",
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: 16,
-                    fontWeight: 300,
-                    cursor: "pointer",
-                }}
-            >
-                {buttonText}
-            </button>
+            {showButton ? (
+                <button
+                    onClick={() => setIsOpen(true)}
+                    style={{
+                        backgroundColor: COLORS.orange,
+                        color: "white",
+                        border: "none",
+                        borderRadius: 15,
+                        padding: "16px 32px",
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: 16,
+                        fontWeight: 300,
+                        cursor: "pointer",
+                    }}
+                >
+                    {buttonText}
+                </button>
+            ) : null}
 
             <AnimatePresence>
                 {isOpen && (
@@ -590,7 +593,7 @@ QuestionnaireOverlay.defaultProps = {
     quizId: "quiz",
     anchorId: "quiz",
     triggerHash: "quiz",
-    bookingLink: "/erstgespraech",
+    bookingLink: "https://calendar.app.google/TxnYmbFXwquFFQKK9",
     resultEyebrow: "Passendes Format:",
     showLeadStep: false,
     leadTitle: "Wenn Du willst: *direkt weiter.*",
@@ -603,6 +606,7 @@ QuestionnaireOverlay.defaultProps = {
     submittingLabel: "Sende...",
     closeLabel: "Zurück zur Seite",
     buttonIcon: "",
+    showButton: true,
     steps: DEFAULT_STEPS,
     resultPages: DEFAULT_RESULTS,
     successTitle: "Dein *Ergebnis.*",
@@ -611,10 +615,11 @@ QuestionnaireOverlay.defaultProps = {
 
 addPropertyControls(QuestionnaireOverlay, {
     buttonText: { type: ControlType.String, title: "Button Text", defaultValue: "Format finden" },
+    showButton: { type: ControlType.Boolean, title: "Show Button", defaultValue: true },
     quizId: { type: ControlType.String, title: "Quiz ID", defaultValue: "quiz" },
     anchorId: { type: ControlType.String, title: "Legacy Anchor", defaultValue: "quiz", hidden: () => true },
     triggerHash: { type: ControlType.String, title: "Legacy Hash", defaultValue: "quiz", hidden: () => true },
-    bookingLink: { type: ControlType.String, title: "Booking Link", defaultValue: "/erstgespraech" },
+    bookingLink: { type: ControlType.String, title: "Booking Link", defaultValue: "https://calendar.app.google/TxnYmbFXwquFFQKK9" },
     resultEyebrow: { type: ControlType.String, title: "Result Eyebrow", defaultValue: "Passendes Format:" },
     webhookUrl: { type: ControlType.String, title: "Webhook URL", placeholder: "e.g. Formspark/Zapier URL" },
     showLeadStep: { type: ControlType.Boolean, title: "Lead Step", defaultValue: false },
@@ -679,7 +684,7 @@ addPropertyControls(QuestionnaireOverlay, {
                 bullets: { type: ControlType.String, title: "Bullets", displayTextArea: true, defaultValue: "Ein Punkt pro Zeile." },
                 image: { type: ControlType.Image, title: "Image / Icon" },
                 ctaText: { type: ControlType.String, title: "CTA Text", defaultValue: "Erstgespräch buchen" },
-                ctaLink: { type: ControlType.String, title: "CTA Link", defaultValue: "/erstgespraech" },
+                ctaLink: { type: ControlType.String, title: "CTA Link", defaultValue: "https://calendar.app.google/TxnYmbFXwquFFQKK9" },
             }
         },
         defaultValue: DEFAULT_RESULTS,

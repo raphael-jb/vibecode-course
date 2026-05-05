@@ -184,7 +184,7 @@ PageHeader.defaultProps = {
     subline: "Kein Framework, kein Coaching-Programm — ein Gespräch auf Augenhöhe für Führungskräfte, die wissen was sie tun wollen, aber einen Raum brauchen um es zu finden.",
     showCta: true,
     ctaLabel: "Erstgespräch vereinbaren",
-    ctaHref: "/erstgespraech",
+    ctaHref: "https://calendar.app.google/TxnYmbFXwquFFQKK9",
     accentColor: COLORS.brand02,
     background: COLORS.backgroundAlt,
     paddingTop: 80,
@@ -223,7 +223,7 @@ addPropertyControls(PageHeader, {
     ctaHref: {
         type: ControlType.String,
         title: "CTA Link",
-        defaultValue: "/erstgespraech",
+        defaultValue: "https://calendar.app.google/TxnYmbFXwquFFQKK9",
         hidden: (props) => !props.showCta,
     },
     accentColor: {
