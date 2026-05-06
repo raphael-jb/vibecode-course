@@ -2,14 +2,14 @@
 
 ## Übersicht
 
-6 Seiten. Jede Seite hat einen klaren SEO-Fokus, einen definierten Job in der User Journey, und Sektionen mit vollständigem Content-Outline. Keine Seite ist überladen.
+7 Seiten. Alle Seiten haben einen klaren SEO-Fokus, einen definierten Job in der User Journey, und Sektionen mit vollständigem Content-Outline. Keine Seite ist überladen.
 
 ---
 
 ## Navigation
 
 ```
-Home  |  Sparring  |  Über Raphael  |  Für Dich?  |  Erstgespräch  |  Gedanken
+Home  |  Sparring  |  Über Raphael  |  Für Dich?  |  Erstgespräch  |  Kontakt  |  Gedanken
 ```
 
 Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter → Bin ich die Zielgruppe → Wie fange ich an → Was denkt er so.
@@ -18,12 +18,12 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 ## Page 1 — Home `/`
 
-**SEO-Ziel:** `Sparringspartner für Führungskräfte`
+**SEO-Ziel:** `Executive Sparring`, `Führungskräfte-Sparring`, `Sparringspartner:in für Geschäftsführende`
 
 **Job in der User Journey:** Die richtige Person in 90 Sekunden qualifizieren. WHY zuerst — Raphaels persönlicher Grund steht vor der Positionierung. Erkennung erzeugen, Kategorie etablieren, tiefer führen.
 
 > **Warum das Sandwich-Modell (Company / Team / Individual) hier nicht steht:**
-> Das Drei-Ebenen-Modell ist eine intellektuelle Analyse der Problemstruktur — es erklärt das *WAS*, nicht das *WARUM*. Auf der Homepage braucht der Leser keinen Framework, er braucht Erkennung. Die Thought Cards leisten das emotional und konkret, das Sandwich-Modell würde denselben Raum mit einer Erklärung füllen, die Kognition kostet. Außerdem verlängert ein Sticky-Scroll-Abschnitt die Zeit bis zum CTA erheblich — auf einer Seite, deren einziger Job es ist, den Leser eine Ebene tiefer zu bringen. Das Modell gehört auf `/sparring`, wo der Leser bereits entschieden hat, mehr verstehen zu wollen.
+> Das Drei-Ebenen-Modell ist eine intellektuelle Analyse der Problemstruktur — es erklärt das *WAS*, nicht das *WARUM*. Auf der Homepage brauchen Lesende keinen Framework, sondern Erkennung. Die Thought Cards leisten das emotional und konkret, das Sandwich-Modell würde denselben Raum mit einer Erklärung füllen, die Kognition kostet. Außerdem verlängert ein Sticky-Scroll-Abschnitt die Zeit bis zum CTA erheblich — auf einer Seite, deren einziger Job es ist, Lesende eine Ebene tiefer zu bringen. Das Modell gehört auf `/sparring`, wo Lesende bereits entschieden haben, mehr verstehen zu wollen.
 
 ---
 
@@ -37,7 +37,7 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 **Content Outline:**
 - Headline: "Wer ist für Dich da, während Du für alle anderen da bist?"
-- Subline (optional, max. eine Zeile): "Sparring auf Augenhöhe — für Führungskräfte, die Klarheit suchen."
+- Subline (optional, max. eine Zeile): "Executive Sparring auf Augenhöhe — für Führungskräfte, die Klarheit unter Druck suchen."
 - Primäres CTA: "Kostenloses Erstgespräch vereinbaren"
 - Scroll-Indikator nach unten
 
@@ -47,9 +47,9 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 **Headline:** *"Je höher Du stehst, desto weniger darfst Du zeigen, wie es Dir wirklich geht."*
 
-**Ziel in der User Journey:** Erster tiefer Erkennungsmoment. Der Leser hört auf zu scannen.
+**Ziel in der User Journey:** Erster tiefer Erkennungsmoment. Lesende hören auf zu scannen.
 
-**Framing:** Wir benennen die unsichtbare Steuer der Führung — die Pflicht zur Stärke — bevor wir irgendeine Lösung anbieten. Die Thought Cards sind die konkrete Ausformung dieses Gedankens: nicht abstrakt, sondern sechs Momente, die der Leser aus dem eigenen Alltag kennt.
+**Framing:** Wir benennen die unsichtbare Steuer der Führung — die Pflicht zur Stärke — bevor wir irgendeine Lösung anbieten. Die Thought Cards sind die konkrete Ausformung dieses Gedankens: nicht abstrakt, sondern sechs Momente, die Lesende aus dem eigenen Alltag kennt.
 
 > **Korrektur gegenüber vorheriger Version:** Die Thought Cards sind *nicht* ein eigenes Element neben "Das Schweigen an der Spitze" — sie *sind* der Inhalt dieser Sektion. Die Überschrift gibt dem Erlebnis einen Namen, die Cards machen es greifbar. Beides zusammen, nicht als Alternative.
 
@@ -57,7 +57,7 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 - Eröffnung: Die ungeschriebene Regel an der Spitze — je mehr Verantwortung, desto performter die Stärke
 - Der Widerspruch: Du bist verantwortlich für die Energie aller um Dich — aber niemand ist verantwortlich für Deine
 - 6 Thought Cards mit konkreten Momenten aus dem Führungsalltag:
-  - Entscheidungsmüdigkeit: "Ich treffe jeden Tag Entscheidungen, die niemand außer mir treffen kann"
+  - Entscheidungsmüdigkeit: "Ich treffe täglich Entscheidungen, die niemand außer mir treffen kann"
   - Doppeltes Gesicht: Innen zweifeln, außen Richtung geben
   - Meeting-Isolation: Der Raum wird stiller, wenn Du reinkommst
   - Emotionaler Puffer: Du nimmst auf — und niemand nimmt bei Dir auf
@@ -69,16 +69,17 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 ### Sektion 3 — Raphaels Vorstellung + WHY / HOW
 
-**Headline:** *"Strategisches Sparring statt klassischem Coaching"*
+**Headline:** *"Executive Sparring statt klassischem Coaching"*
 
-**Ziel in der User Journey:** Vertrauen durch Herkunft und Purpose. Der Leser hat sich in den Thought Cards erkannt — jetzt will er wissen, wer dieser Mensch ist, warum er das macht, und wie er denkt. Das ist kein biographischer Block — es ist das strukturelle WHY-HOW, das erklärt warum dieses Angebot überhaupt existiert.
+**Ziel in der User Journey:** Vertrauen durch Herkunft und Purpose. Lesende haben sich in den Thought Cards erkannt — jetzt wollen sie wissen, wer dieser Mensch ist, warum er das macht, und wie er denkt. Das ist kein biographischer Block — es ist das strukturelle WHY-HOW, das erklärt warum dieses Angebot überhaupt existiert.
 
-**Framing:** Purpose ist der Kleber — in jedem Gespräch und auf jeder Seite. Vision und Mission sind das WHY. Ansatz ist das HOW. Diesen Block auf `/ueber-raphael` zu verschieben würde bedeuten, das Rückgrat der Marke zu verstecken — das ist das Gegenteil von Start With Why. Die Texte sind nicht selbstreferenziell: "Gute Führung beginnt mit Klarheit" spricht den Leser direkt an, "Ich helfe Führungskräften, Komplexität in Orientierung zu übersetzen" beschreibt sein Problem. Das Framing macht den Unterschied: nicht Selbstdarstellung, sondern Grund warum das hier existiert.
+**Framing:** Purpose ist der Kleber — in allen Gesprächen und auf allen Seiten. Vision und Mission sind das WHY. Ansatz ist das HOW. Diesen Block auf `/ueber-raphael` zu verschieben würde bedeuten, das Rückgrat der Marke zu verstecken — das ist das Gegenteil von Start With Why. Die Texte sind nicht selbstreferenziell: "Gute Führung beginnt mit Klarheit" spricht Lesende direkt an, "Ich helfe Führungskräften, Komplexität in Orientierung zu übersetzen" beschreibt ihr Problem. Das Framing macht den Unterschied: nicht Selbstdarstellung, sondern Grund warum das hier existiert.
 
 **Content Outline:**
-- Foto + kurze persönliche Einführung: wer Raphael ist, aus welcher Rolle er kommt (ehemaliger Geschäftsführer)
+- Foto + kurze persönliche Einführung: wer Raphael ist, aus welcher Rolle er kommt (eigene Geschäftsführungserfahrung)
 - Ein konkreter Satz über den eigenen Moment der Isolation — nicht als Erfolgsgeschichte, sondern als geteilte Realität
-- Label: "Ansatz" → Headline: *"Strategisches Sparring statt klassischem Coaching"*
+- Label: "Ansatz" → Headline: *"Executive Sparring statt klassischem Coaching"*
+- Differenzierung: Kein klassisches Führungskräfte Coaching. Kein Consulting. Ein Denkraum für den Menschen in Führung.
 - Drei Säulen:
   - **Meine Vision (WHY):** Gute Führung beginnt mit Klarheit — über Richtung, Verantwortung und die Menschen, die sie tragen.
   - **Meine Mission (WHY):** Ich helfe Führungskräften und Teams, Komplexität in Orientierung, Entscheidungen und Wirkung zu übersetzen.
@@ -87,19 +88,19 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 ---
 
-### Sektion 4 — Nicht schon wieder ein Berater
+### Sektion 4 — Nicht schon wieder ein:e Berater:in
 
 **Headline:** *"Ich verkaufe Dir keine Lösung. Ich helfe Dir, Deine eigene zu finden."*
 
 **Ziel in der User Journey:** Den stärksten unbewussten Einwand auflösen, bevor er sich formt: "Das ist bestimmt wieder jemand, der mir sagt, was ich tun soll."
 
-**Framing:** Keine Gegenüberstellung mit Wettbewerbern — eine Neudefinition der Kategorie. Der Leser soll verstehen: das ist etwas, das er noch nicht hatte.
+**Framing:** Keine Gegenüberstellung mit Wettbewerber:innen — eine Neudefinition der Kategorie. Lesende sollen verstehen: das ist etwas, das sie noch nicht hatten.
 
 **Content Outline:**
-- Berater bringen Antworten. Raphael bringt einen Spiegel.
+- Beratung bringt Antworten. Raphael bringt einen Spiegel.
 - Kein Framework zum Implementieren. Keine Hausaufgaben. Kein 12-Wochen-Programm.
 - Was wirklich passiert: Du denkst laut. Er stellt die Frage, die Du Dir nicht gestellt hast. Du gehst mit Klarheit, die Du schon hattest — nur vergraben.
-- Kern-Satz: *"Ein Berater weiß, was Du tun sollst. Ein Sparringspartner hilft Dir herauszufinden, was Du tun willst."*
+- Kern-Satz: *"Beratung sagt Dir, was Du tun sollst. Sparring hilft Dir herauszufinden, was Du tun willst."*
 
 ---
 
@@ -107,7 +108,7 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 **Headline:** *"Drei Wege, wie wir zusammenarbeiten können."*
 
-**Ziel in der User Journey:** Das WHAT sichtbar machen — kurz, nicht vollständig. Der Leser soll verstehen, welche Formen es gibt, und einen klaren Weg zur Vertiefung haben. Schließt den WHY → HOW → WHAT Bogen ab, bevor Beweis und Konversion folgen.
+**Ziel in der User Journey:** Das WHAT sichtbar machen — kurz, nicht vollständig. Lesende sollen verstehen, welche Formen es gibt, und einen klaren Weg zur Vertiefung haben. Schließt den WHY → HOW → WHAT Bogen ab, bevor Beweis und Konversion folgen.
 
 **Framing:** Nicht die volle Leistungsbeschreibung — das ist die Aufgabe von `/sparring`. Hier reicht ein visueller Überblick: drei Karten, je ein kurzer Satz, ein Link. Die InsightGallery-Komponente (Flip-Cards) ist das richtige Format: kompakt, interaktiv, neugierig machend ohne zu überladen.
 
@@ -123,7 +124,7 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 **Headline:** *"Es ist Sonntag, 18 Uhr."*
 
-**Ziel in der User Journey:** Emotionale Präzision — der Moment, an dem der Leser denkt: "Er beschreibt genau das." Raphael erzählt das direkt in die Kamera. Aus Text wird Stimme, aus Stimme wird Vertrauen.
+**Ziel in der User Journey:** Emotionale Präzision — der Moment, an dem Lesende denken: "Er beschreibt genau das." Raphael erzählt das direkt in die Kamera. Aus Text wird Stimme, aus Stimme wird Vertrauen.
 
 **Framing:** Die Szene lebt von Präsenz. Text kann sie beschreiben — Raphael, der das sagt, *ist* sie. Video macht aus einem Angebot einen Menschen. Nahbar, nicht poliert — das ist das Signal. Profi-Setup, aber kein Studio-Feeling: warmes Licht, direkte Ansprache, keine Ablenkung.
 
@@ -151,11 +152,11 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 **Ziel in der User Journey:** Rationale Absicherung nach der emotionalen Szene. Zwei reichen — genug, um Glaubwürdigkeit zu erzeugen, nicht genug, um zu überladen.
 
-**Framing:** Gefühl zuerst, Zahl danach. Der Leser soll sich in der beschriebenen Ausgangssituation wiedererkennen, bevor das Ergebnis ihn überzeugt.
+**Framing:** Gefühl zuerst, Zahl danach. Lesende sollen sich in der beschriebenen Ausgangssituation wiedererkennen, bevor das Ergebnis ihn überzeugt.
 
 **Content Outline:**
 - Testimonial 1: Führungskraft, die skeptisch reinging — fokus auf den Moment, wo etwas klar wurde
-- Testimonial 2: Quantifiziertes Ergebnis (z.B. +24% Umsatz pro Mitarbeiter) — aber mit dem emotionalen Shift davor
+- Testimonial 2: Quantifiziertes Ergebnis (z.B. +24% Umsatz pro Mitarbeitende) — aber mit dem emotionalen Shift davor
 - Kein vollständiger Name nötig: Rolle + Unternehmensgröße + Kontext reicht für diese Zielgruppe
 - Link: "Weitere Stimmen →" (führt zu `/fuer-dich`)
 
@@ -176,20 +177,20 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 ## Page 2 — Sparring `/sparring`
 
-**SEO-Ziel:** `Executive Sparring`, `Sparringspartner CEO`, `Führungskräfteentwicklung`
+**SEO-Ziel:** `Executive Sparring`, `Sparringspartner:in Geschäftsführende`, `Führungskräfte-Sparring`
 
-**Job in der User Journey:** Den Informationsbedarf eines Entscheiders decken. Erklären, wo das Format sitzt (Kategorie), was es abdeckt (Scope) und wie es sich operativ anfühlt (Mechanik). Wir behandeln den Leser als informierten Peer, der eine präzise Einordnung sucht.
+**Job in der User Journey:** Den Informationsbedarf einer entscheidenden Person decken. Erklären, wo das Format sitzt (Kategorie), was es abdeckt (Scope) und wie es sich operativ anfühlt (Mechanik). Wir behandeln Lesende als informierte Peers, die eine präzise Einordnung suchen.
 
 ---
 
-### Sektion 1 — Die Definition: Was Strategisches Sparring ist
+### Sektion 1 — Die Definition: Was Executive Sparring ist
 
 **Headline:** *"Die Brücke zwischen Deiner Strategie und Deiner Menschlichkeit."*
 
-**Ziel in der User Journey:** Sofortige Einordnung (The "What"). Der Leser lernt, dass Sparring weder reines Business-Consulting noch klassisches Coaching ist, sondern die Verbindung aus beidem.
+**Ziel in der User Journey:** Sofortige Einordnung (The "What"). Lesende lernen, dass Executive Sparring weder reines Business-Consulting noch klassisches Coaching ist, sondern ein geschützter Denkraum für den Menschen in Führung.
 
 **Content Outline:**
-- **Lead Text:** "An der Spitze gibt es keine isolierten Probleme. Eine strategische Entscheidung hat immer eine menschliche Konsequenz — und eine persönliche Verfassung hat immer eine unternehmerische Auswirkung. Strategisches Sparring ist der Raum, in dem beides gleichzeitig Platz hat."
+- **Lead Text:** "An der Spitze gibt es keine isolierten Probleme. Eine strategische Entscheidung hat immer eine menschliche Konsequenz — und eine persönliche Verfassung hat immer eine unternehmerische Auswirkung. Executive Sparring ist der geschützte Denkraum, in dem Deine Rolle als Mensch in Führung, Deine Entscheidungen und Dein System gleichzeitig Platz haben."
 - Definition: Sparring ist Denken auf Augenhöhe. Ohne Agenda, ohne Ratschlag-Druck, aber mit der Substanz aus eigener unternehmerischer Erfahrung.
 - Fokus: Es geht nicht um Optimierung, sondern um Klarheit.
 
@@ -199,11 +200,11 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 **Headline:** *"Du stehst zwischen allen Kräften."*
 
-**Ziel in der User Journey:** Die Map des Service (The "Where"). Der Leser lernt, dass das Sparring alle drei Ebenen seiner Realität gleichzeitig im Blick hat. Das entlastet ihn ("Es ist die Geometrie der Rolle") und schafft Vertrauen in die Tiefe des Ansatzes.
+**Ziel in der User Journey:** Die Map des Service (The "Where"). Lesende lernen, dass das Sparring alle drei Ebenen ihrer Realität gleichzeitig im Blick hat. Das entlastet ("Es ist die Geometrie der Rolle") und schafft Vertrauen in die Tiefe des Ansatzes.
 
 **Content Outline:**
 - **Visualisierung (Das Sandwich):** Drei Druckebenen, die auf die Mitte (Dich) wirken.
-  - **Board / Investoren (UP):** Erwartungsdruck, Ergebnisse, strategische Ausrichtung.
+  - **Board / Investor:innen (UP):** Erwartungsdruck, Ergebnisse, strategische Ausrichtung.
   - **Team / Organisation (DOWN):** Orientierung, Energie, operative PS, Konflikte.
   - **Innenwelt (IN):** Eigene Überzeugung, Zweifel, Belastungsgrenze, Intuition.
 - **Die Botschaft:** Ein wirksames Sparring findet nicht im Vakuum statt. Wir arbeiten an Deiner Innenwelt, *damit* Du nach oben und unten klarer agieren kannst. 
@@ -215,12 +216,12 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 **Headline:** *"Dein Case bestimmt den Ansatz. Nicht umgekehrt."*
 
-**Ziel in der User Journey:** Die rationale Abgrenzung (The "Why this way"). Nachdem der Leser die Komplexität des Sandwich-Modells gesehen hat, versteht er jetzt, warum Standard-Methoden hier versagen müssen.
+**Ziel in der User Journey:** Die rationale Abgrenzung (The "Why this way"). Nachdem Lesende die Komplexität des Sandwich-Modells gesehen haben, verstehen sie, warum Standard-Methoden hier versagen müssen.
 
 **Komponente:** `SparringContrast` (Tabelle)
 
 **Content Outline:**
-- **Lead Text:** "Warum herkömmliche Formate oft zu kurz greifen: Berater sehen meist nur die Strategie (Up/Down). Coaches sehen meist nur die Person (In). Sparring sieht das System."
+- **Lead Text:** "Warum herkömmliche Formate oft zu kurz greifen: Consulting sieht oft die Strategie. Klassisches Führungskräfte Coaching sieht oft die Person. Executive Sparring sieht beides: Dich, Deine Rolle und das System, in dem Du entscheiden musst."
 - **Kontrast-Paare:**
   - Nicht: "Methoden-Fokus (Frameworks zuerst)" → Sondern: "Fall-Fokus (Deine Realität zuerst)"
   - Nicht: "Einseitige Sicht (Nur Business oder nur Psyche)" → Sondern: "Ganzheitliche Sicht (Mensch & Strategie)"
@@ -233,7 +234,7 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 **Headline:** *"Keine Agenda. Kein Protokoll. Keine Hausaufgaben."*
 
-**Ziel in der User Journey:** Die operative Angst nehmen (The "How"). Der Leser lernt, dass dieses Format seine Zeit respektiert und keine zusätzliche Last erzeugt.
+**Ziel in der User Journey:** Die operative Angst nehmen (The "How"). Lesende lernen, dass dieses Format seine Zeit respektiert und keine zusätzliche Last erzeugt.
 
 **Content Outline:**
 - **Der Ablauf:** Wir starten mit dem, was heute die meiste Energie bindet. Du denkst laut, Raphael hört zwischen den Zeilen zu und spiegelt zurück.
@@ -282,7 +283,7 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 **SEO-Ziel:** `Raphael Baruch`, `Executive Coach ehemaliger CEO`
 
-**Job in der User Journey:** Credibility durch gelebte Erfahrung. Der Leser soll denken: "Er kennt das von innen — nicht aus dem Lehrbuch."
+**Job in der User Journey:** Credibility durch gelebte Erfahrung. Lesende sollen denken: "Er kennt das von innen — nicht aus dem Lehrbuch."
 
 ---
 
@@ -293,7 +294,7 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 **Ziel in der User Journey:** Earned Credibility — nicht durch Zertifikate oder Methodik, sondern durch einen Moment der geteilten Realität.
 
 **Content Outline:**
-- Ein konkreter Moment aus Raphaels Zeit als Geschäftsführer — nicht eine Erfolgsgeschichte, sondern ein Moment echten Zweifels oder echter Isolation
+- Ein konkreter Moment aus Raphaels Zeit als Geschäftsführende — nicht eine Erfolgsgeschichte, sondern ein Moment echten Zweifels oder echter Isolation
 - Was es kostete, diesen Moment allein zu tragen
 - Was sich dadurch veränderte und was er daraus gelernt hat
 - Nicht als Held erzählt — als Mensch
@@ -304,11 +305,11 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 **Headline:** *"Das ist der Grund."*
 
-**Ziel in der User Journey:** Das WHY vollständig ausformulieren — für Leser, die mehr wollen als den Mikro-Moment auf der Homepage.
+**Ziel in der User Journey:** Das WHY vollständig ausformulieren — für Lesende, die mehr wollen als den Mikro-Moment auf der Homepage.
 
 **Content Outline:**
 - Nicht um Führungskräfte zu reparieren — sondern weil er weiß, was es bedeutet, etwas allein zu tragen, das nicht allein getragen werden muss
-- Die Lücke, die er selbst kannte: kein Berater, kein Coach, kein Peer mit echtem Verständnis
+- Die Lücke, die er selbst kannte: kein:e Berater:in, kein Coach, kein Peer mit echtem Verständnis
 - Warum er dieses Gespräch für genau die Führungskräfte führt, die er sich damals selbst gewünscht hätte
 
 ---
@@ -326,7 +327,7 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 ### Sektion 4 — Persönlicher Satz
 
-**Ziel:** Tone Anchor — der eine Satz, der Raphaels Stimme zusammenfasst, bevor der Leser die Seite verlässt.
+**Ziel:** Tone Anchor — der eine Satz, der Raphaels Stimme zusammenfasst, bevor Lesende die Seite verlassen.
 
 **Content Outline:**
 - Ein direktes Zitat, warm und ohne Distanz
@@ -347,9 +348,9 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 ## Page 4 — Für Dich? `/fuer-dich`
 
-**SEO-Ziel:** `Executive Coaching für wen`, `Leadership Coaching Geschäftsführer`, `Coaching für Gründer`
+**SEO-Ziel:** `Executive Sparring für wen`, `Führungskräfte Coaching Alternative`, `Sparringspartner:in Geschäftsführende`
 
-**Job in der User Journey:** Selbst-Qualifizierung. Der Leser entscheidet selbst: "Ja, das bin ich" — ohne dass Raphael ihn überreden muss.
+**Job in der User Journey:** Selbst-Qualifizierung. Lesende entscheiden selbst: "Ja, das bin ich" — ohne dass Raphael ihn überreden muss.
 
 ---
 
@@ -360,24 +361,24 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 **Ziel in der User Journey:** Präzise Profilbeschreibung erzeugt das Gefühl des "Speziell für mich" — ohne dass jemand angeworben wird.
 
 **Content Outline:**
-- Founder-CEOs und Geschäftsführer mit 20–120 Mitarbeitern
+- Gründer:innen-CEOs und Geschäftsführende mit 20–120 Mitarbeitenden
 - Du weißt, wie gute Führung aussieht — aber Du brauchst einen Raum, in dem Du das nicht performen musst
 - Du bist nicht in der Krise, Du bist im Modus: Funktionieren, Entscheiden, Halten
-- Du hast genug Berater, Coaches, Anwälte — aber niemanden, mit dem Du wirklich frei sprechen kannst
+- Du hast genug Beratung, Coaching und Anwält:innen — aber niemanden, mit dem Du wirklich frei sprechen kannst
 - Du willst keine Antworten geliefert bekommen — Du willst Deine eigenen Gedanken klarer hören
 
 ---
 
 ### Sektion 2 — Für wen das nicht ist
 
-**Headline:** *"Das ist nicht für jeden. Und das ist gut so."*
+**Headline:** *"Das ist nicht für alle. Und das ist gut so."*
 
-**Ziel in der User Journey:** Vertrauen durch Ehrlichkeit. Reverse Qualifizierung erzeugt Vorwärtssog — der Leser scannt die Liste halb in Erwartung ausgeschlossen zu werden. Wenn er es nicht wird, fühlt er sich spezifisch gewählt.
+**Ziel in der User Journey:** Vertrauen durch Ehrlichkeit. Reverse Qualifizierung erzeugt Vorwärtssog — Lesende scannen die Liste halb in Erwartung ausgeschlossen zu werden. Wenn sie es nicht werden, fühlen sie sich spezifisch angesprochen.
 
 **Content Outline:**
 - Nicht für: Führungskräfte, die eine fertige Strategie geliefert haben wollen
 - Nicht für: Menschen, die Bestätigung für bereits getroffene Entscheidungen suchen
-- Nicht für: Early-Stage-Gründer, die noch Product-Market-Fit suchen (anderes Problem)
+- Nicht für: Early-Stage-Gründer:innen, die noch Product-Market-Fit suchen (anderes Problem)
 - Nicht für: Akute Krisen, die professionelle Krisenintervention oder Therapie brauchen
 - Für: Wer bereits weiß, wie gut aussieht — aber einen Raum braucht, um ohne Performance zu denken
 - Abschluss: *"Wenn Du Dir nicht sicher bist, ob das für Dich passt — dann ist das erste Gespräch genau dafür da."*
@@ -402,7 +403,7 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 **Headline:** *"Was andere Führungskräfte danach gesagt haben."*
 
-**Ziel in der User Journey:** Emotionale Erlaubnis + rationale Absicherung. Der Leser soll sich in der Ausgangssituation eines anderen wiedererkennen, bevor das Ergebnis ihn überzeugt.
+**Ziel in der User Journey:** Emotionale Erlaubnis + rationale Absicherung. Lesende sollen sich in der Ausgangssituation eines anderen wiedererkennen, bevor das Ergebnis ihn überzeugt.
 
 **Content Outline:**
 - 4 Testimonials, jeweils strukturiert als: Ausgangssituation → Shift → Was sie einem Peer sagen würden
@@ -434,13 +435,13 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 **Headline:** *"Wenn Du mit niemandem reden müsstest — würdest Du trotzdem reden wollen?"*
 
-**Ziel in der User Journey:** Letzter Insight-Moment vor der Entscheidung. Der Leser soll erkennen: "Ja. Ich will das eigentlich schon länger."
+**Ziel in der User Journey:** Letzter Insight-Moment vor der Entscheidung. Lesende sollen erkennen: "Ja. Ich will das eigentlich schon länger."
 
-**Framing:** Wir drängen nicht zum CTA — wir erzeugen einen Moment innerer Ehrlichkeit, der den CTA zur eigenen Schlussfolgerung des Lesers macht, nicht zu einem Sales-Abschluss.
+**Framing:** Wir drängen nicht zum CTA — wir erzeugen einen Moment innerer Ehrlichkeit, der den CTA zur eigenen Schlussfolgerung des Lesendes macht, nicht zu einem Sales-Abschluss.
 
 **Content Outline:**
 - Die meisten Führungskräfte, die sich melden, tun das nicht weil sie müssen — sondern weil sie schon länger wollten, als sie zugeben würden
-- Die Frage verschiebt das Buchen von "Hilfe suchen" (Identitätsbedrohung) zu "etwas beanspruchen, das man sich sowieso gewünscht hat"
+- Die Frage verschiebt das Buchen von "Hilfe suchen" (Identitätsbedrohung) zu "etwas beanspruchen, das ohnehin schon gewünscht war"
 - Kurz. Sparsam. Die Frage stehen lassen.
 - Direkte Überleitung zum Booking-Widget — kein Fülltext dazwischen
 
@@ -489,11 +490,80 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 ---
 ---
 
-## Page 6 — Gedanken `/gedanken`
+## Page 6 — Kontakt `/kontakt`
 
-**SEO-Ziel:** Long-tail pro Artikel — `Entscheidungsfindung Führungskraft`, `Führungseinsamkeit`, `Klarheit gewinnen als CEO`
+**SEO-Ziel:** `Raphael Baruch Kontakt`, `Executive Sparring Kontakt`
 
-**Job in der User Journey:** Organischer Traffic über Suchbegriffe, die Raphael's Zielgruppe googelt — bevor sie nach einem Sparringspartner suchen. Positioniert ihn als Denker, nicht als Dienstleister.
+**Job in der User Journey:** Kontakt aufnehmen ohne Booking-Druck. Die Seite ergänzt `/erstgespraech`: Wer direkt buchen will, bekommt den Kalender; wer erst Kontext teilen will, bekommt eine persönliche E-Mail-Option.
+
+**Framer-Aufbau:** Als getrennte Sections bauen, nicht als eine Fullpage-Komponente. So können Hintergrundflächen und Übergänge sauber gesetzt werden.
+
+---
+
+### Sektion 1 — Direkter Einstieg
+
+**Komponente:** `KontaktHeader`
+
+**Headline:** *"Lass uns sprechen."*
+
+**Content Outline:**
+- Eyebrow: "Kontakt"
+- Subline: "Wenn Du einen Case, eine Frage oder einen ersten Gedanken hast: Schreib mir kurz. Ich melde mich persönlich."
+- Primärer CTA: "Erstgespräch buchen"
+- Sekundärer Link: `rb@raphaelbaruch.com`
+
+---
+
+### Sektion 2 — Zwei Kontaktwege
+
+**Komponente:** `KontaktThoughtCards`
+
+**Content Outline:**
+- **Erstgespräch:** Für Sparring-Anfragen, konkrete Entscheidungssituationen oder die Frage, ob dieses Format passt.
+- **Nachricht:** Für Fragen, Presse, Kooperationen oder Kontext vorab.
+- Keine Formularwand, keine Lead-Gate-Mechanik.
+
+---
+
+### Sektion 3 — Was Du schreiben kannst
+
+**Komponente:** `KontaktPromptList`
+
+**Headline:** *"Du musst es nicht perfekt formulieren."*
+
+**Content Outline:**
+- Was liegt gerade bei Dir?
+- Was soll sich klären?
+- Was wäre ein gutes erstes Ergebnis?
+
+---
+
+### Sektion 4 — Optionaler Textblock / Vertraulichkeit
+
+**Content Outline:**
+- Kein eigener Kontakt-Page-Block vorbereitet.
+- Optional normaler Framer-Textblock oder `StoryBridge` ohne dekorative Quotes.
+- Möglicher Satz: "Was Du mir schreibst, bleibt vertraulich. Der geschützte Raum beginnt nicht erst nach dem Vertrag."
+
+---
+
+### Sektion 5 — Mini-FAQ
+
+**Komponente:** `KontaktFAQCards`
+
+**Content Outline:**
+- *Kostet das erste Gespräch etwas?* → Nein. Das erste Gespräch ist kostenlos und unverbindlich.
+- *Muss ich mich vorbereiten?* → Nein. Bring mit, was gerade bei Dir liegt. Ein paar Sätze reichen.
+- *Wie schnell meldest Du Dich?* → Persönlich, in der Regel innerhalb von 1–2 Werktagen.
+
+---
+---
+
+## Page 7 — Gedanken `/gedanken`
+
+**SEO-Ziel:** Long-tail pro Artikel — `Einsamkeit an der Spitze`, `Entscheidungen unter Unsicherheit treffen`, `Sparringspartner:in Geschäftsführende finden`
+
+**Job in der User Journey:** Organischer Traffic über Suchbegriffe, die Raphael's Zielgruppe googelt — bevor sie nach einer Sparringspartner:in suchen. Positioniert ihn als Denker, nicht als Dienstleister.
 
 ---
 
@@ -516,7 +586,7 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 
 ---
 
-### Sektion 3 — CTA am Ende jedes Artikels
+### Sektion 3 — CTA am Ende aller Artikel
 
 **Content Outline:**
 - *"Wenn das resoniert — lass uns sprechen."*
@@ -530,4 +600,4 @@ Reihenfolge folgt der Entscheidungslogik: Was ist das → Wer steckt dahinter �
 - **Preisseite** — Preistransparenz vor dem Gespräch ist für dieses Format eher Conversion-Killer als Enabler
 - **Standalone-Testimonials-Seite** — rankt schlecht, wirkt wie Werbung; besser verteilt über die Seiten
 - **Team-Seite** — das ist ein One-Man-Brand; eine Teamseite wäre unecht
-- **Sandwich-Modell auf der Homepage** — intellektuelle Analyse statt emotionaler Erkennung; gehört auf `/sparring` wo der Leser bereits bereit ist zu verstehen, nicht nur zu fühlen
+- **Sandwich-Modell auf der Homepage** — intellektuelle Analyse statt emotionaler Erkennung; gehört auf `/sparring` wo Lesende bereits bereit sind zu verstehen, nicht nur zu fühlen

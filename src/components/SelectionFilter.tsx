@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { addPropertyControls, ControlType, motion, RenderTarget } from "framer"
 
 const COLORS = {
@@ -32,6 +32,15 @@ export default function SelectionFilter(props) {
     } = props
 
     const isCanvas = RenderTarget.current() === RenderTarget.canvas
+    const [isMobile, setIsMobile] = useState(false)
+
+    useEffect(() => {
+        if (isCanvas) return
+        const check = () => setIsMobile(window.innerWidth < 760)
+        check()
+        window.addEventListener("resize", check)
+        return () => window.removeEventListener("resize", check)
+    }, [isCanvas])
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -80,8 +89,8 @@ export default function SelectionFilter(props) {
                 <div style={{
                     flex: "1 1 300px",
                     minWidth: 0,
-                    position: "sticky",
-                    top: 100,
+                    position: isMobile ? "relative" : "sticky",
+                    top: isMobile ? 0 : 100,
                     display: "flex",
                     flexDirection: "column",
                     gap: 24,

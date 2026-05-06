@@ -6,7 +6,7 @@ import { addPropertyControls, ControlType, motion, RenderTarget } from "framer"
  * ───────────
  * A high-impact transition component for the "About" page.
  * Bridges the personal story with the current professional offering.
- * Features: High-end editorial typography, dashed border aesthetic, and subtle background visual.
+ * Features: High-end editorial typography, solid frame, and subtle background visual.
  */
 
 const COLORS = {
@@ -81,19 +81,6 @@ export default function StoryBridge(props) {
                 position: "relative",
             }}>
                 
-                {/* Stylized Quote Mark background */}
-                <div style={{
-                    position: "absolute",
-                    top: -40,
-                    left: isMobile ? -10 : -60,
-                    fontFamily: "'Instrument Serif', serif",
-                    fontSize: isMobile ? 120 : 240,
-                    color: `${accentColor}11`,
-                    lineHeight: 1,
-                    pointerEvents: "none",
-                    zIndex: 0,
-                }}>„</div>
-
                 {/* Main Content Box */}
                 <motion.div
                     initial={isCanvas ? { opacity: 1 } : { opacity: 0, y: 30 }}
@@ -104,7 +91,7 @@ export default function StoryBridge(props) {
                         width: "100%",
                         padding: isMobile ? "48px 32px" : "80px 100px",
                         borderRadius: 40,
-                        border: `1.5px dashed ${accentColor}33`,
+                        border: `1.5px solid ${accentColor}33`,
                         backgroundColor: "#FFFFFF",
                         display: "flex",
                         flexDirection: "column",
@@ -193,19 +180,6 @@ export default function StoryBridge(props) {
                         </div>
                     )}
                 </motion.div>
-
-                {/* Stylized Closing Quote Mark */}
-                <div style={{
-                    position: "absolute",
-                    bottom: -100,
-                    right: isMobile ? -10 : -40,
-                    fontFamily: "'Instrument Serif', serif",
-                    fontSize: isMobile ? 120 : 240,
-                    color: `${accentColor}11`,
-                    lineHeight: 1,
-                    pointerEvents: "none",
-                    zIndex: 0,
-                }}>“</div>
 
             </div>
         </section>

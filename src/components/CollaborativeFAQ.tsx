@@ -270,7 +270,7 @@ CollaborativeFAQ.defaultProps = {
     items: [
         { 
             question: "Ist das Coaching oder Consulting?", 
-            answer: "Es ist beides – und mehr. Ich nenne es Strategisches Sparring. Wir arbeiten an Dir als Führungskraft und gleichzeitig an den harten Business-Zielen." 
+            answer: "Es ist beides – und mehr. Ich nenne es Executive Sparring: näher am Coaching als am Consulting, aber mit unternehmerischer Substanz. Wir arbeiten an Dir als Führungskraft und gleichzeitig an den harten Business-Zielen."
         },
         { 
             question: "Wie schnell sehen wir Ergebnisse?", 

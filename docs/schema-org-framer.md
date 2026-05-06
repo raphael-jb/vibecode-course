@@ -14,18 +14,19 @@ Framer Site Settings → **Code** → **End of Body** → Add Script
 var p={};
 p['@type']='Person';
 p['name']='Raphael Baruch';
-p['jobTitle']='Strategischer Sparringpartner';
+p['jobTitle']='Executive Sparringspartner mit Geschäftsführungserfahrung';
 p['url']='https://raphaelbaruch.com';
 p['sameAs']=[
 'https://www.linkedin.com/in/raphael-baruch/'
 ];
-p['description']='Ex-CEO, Sparringpartner DACH.';
+p['description']='Executive Sparringspartner mit Geschäftsführungserfahrung in DACH.';
 var sv={};
 sv['@type']='ProfessionalService';
-sv['name']='Strategisches Sparring';
+sv['name']='Executive Sparring für Führungskräfte';
 sv['url']='https://raphaelbaruch.com/sparring';
+sv['description']='Executive Sparring für GF und C-Level.';
 sv['areaServed']=['DE','AT','CH'];
-sv['serviceType']='Executive Coaching';
+sv['serviceType']='Executive Sparring';
 var d={};
 d['@context']='https://schema.org';
 d['@graph']=[p,sv];

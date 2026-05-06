@@ -1,0 +1,722 @@
+{
+  "name": "Weekly SEO/GEO Editorial Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                4
+              ],
+              "triggerAtHour": 8,
+              "triggerAtMinute": 30
+            }
+          ]
+        },
+        "timezone": "Europe/Berlin"
+      },
+      "id": "schedule-weekly-thursday",
+      "name": "Weekly Thursday 08:30",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1060,
+        -180
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "manual-dry-run",
+      "name": "Manual Dry Run",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1060,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "repo-path",
+              "name": "repoPath",
+              "type": "string",
+              "value": "/data/raphaelbaruch"
+            },
+            {
+              "id": "dry-run-slug",
+              "name": "dryRunSlug",
+              "type": "string",
+              "value": "einsamkeit-an-der-spitze"
+            },
+            {
+              "id": "github-artifact-base",
+              "name": "githubArtifactBaseUrl",
+              "type": "string",
+              "value": "https://github.com/OWNER/REPO/blob/main"
+            },
+            {
+              "id": "framer-endpoint",
+              "name": "framerEndpointUrl",
+              "type": "string",
+              "value": "https://YOUR-FRAMER-SYNC-ENDPOINT.example.com/cms/gedanken"
+            },
+            {
+              "id": "raphael-email",
+              "name": "raphaelEmail",
+              "type": "string",
+              "value": "raphael@example.com"
+            },
+            {
+              "id": "anthropic-model",
+              "name": "anthropicModel",
+              "type": "string",
+              "value": "claude-3-5-sonnet-latest"
+            },
+            {
+              "id": "openai-model",
+              "name": "openaiModel",
+              "type": "string",
+              "value": "gpt-4.1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "runtime-config",
+      "name": "Runtime Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -800,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "command": "cd {{$json.repoPath}} && git pull --ff-only"
+      },
+      "id": "pull-latest",
+      "name": "Pull Latest Repo",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\nconst config = $('Runtime Config').first().json;\nconst repoPath = config.repoPath;\nconst phaseDir = path.join(repoPath, 'docs/editorial-phase-0');\nconst pipelineDir = path.join(repoPath, 'docs/editorial-pipeline');\nconst read = (rel) => fs.readFileSync(path.join(repoPath, rel), 'utf8');\nconst dryRunSlug = (config.dryRunSlug || '').trim();\nconst phaseFiles = fs.readdirSync(phaseDir).filter(f => f.endsWith('.md')).sort();\nconst done = new Set();\nif (fs.existsSync(pipelineDir)) {\n  for (const folder of fs.readdirSync(pipelineDir)) {\n    const logPath = path.join(pipelineDir, folder, 'run-log.json');\n    if (fs.existsSync(logPath)) {\n      try { const log = JSON.parse(fs.readFileSync(logPath, 'utf8')); if (log.slug) done.add(log.slug); } catch (e) {}\n    }\n  }\n}\nlet file = dryRunSlug ? `${dryRunSlug}.md` : phaseFiles.find(f => !done.has(f.replace(/\\.md$/, '')));\nlet needsHumanTopicExpansion = false;\nif (!file || !fs.existsSync(path.join(phaseDir, file))) {\n  file = phaseFiles[0];\n  needsHumanTopicExpansion = true;\n}\nconst slug = file.replace(/\\.md$/, '');\nconst today = new Date().toISOString().slice(0, 10);\nconst runFolder = `docs/editorial-pipeline/${today}-${slug}`;\nreturn [{ json: {\n  ...config,\n  slug,\n  topicFile: `docs/editorial-phase-0/${file}`,\n  topicMarkdown: fs.readFileSync(path.join(phaseDir, file), 'utf8'),\n  contentPlan: read('docs/seo-geo-content-plan.md'),\n  styleGuide: read('docs/raphaelbaruch-style.md'),\n  framerContract: read('docs/framer-cms-field-contract.md'),\n  orchestratorPrompt: read('automations/n8n/prompts/orchestrator.md'),\n  writerPrompt: read('automations/n8n/prompts/writer.md'),\n  editorPrompt: read('automations/n8n/prompts/editor-validator.md'),\n  runFolder,\n  needsHumanTopicExpansion,\n  selectedTopicReason: dryRunSlug ? `Manual dry run slug: ${dryRunSlug}` : `First unpublished Phase-0 topic: ${slug}`\n}}];"
+      },
+      "id": "select-topic",
+      "name": "Select Next Topic",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -300,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { model: $json.anthropicModel, max_tokens: 5000, messages: [{ role: 'user', content: $json.orchestratorPrompt + '\\n\\nSelected reason: ' + $json.selectedTopicReason + '\\n\\nCONTENT PLAN:\\n' + $json.contentPlan + '\\n\\nTOPIC SOURCE:\\n' + $json.topicMarkdown + '\\n\\nSTYLE GUIDE:\\n' + $json.styleGuide }] } }}"
+      },
+      "id": "anthropic-brief",
+      "name": "Anthropic Orchestrator Brief",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -40,
+        -60
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ANTHROPIC_CREDENTIAL_ID",
+          "name": "Anthropic API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { model: $('Select Next Topic').first().json.anthropicModel, max_tokens: 12000, messages: [{ role: 'user', content: $('Select Next Topic').first().json.writerPrompt + '\\n\\nBRIEF RESPONSE:\\n' + JSON.stringify($json) + '\\n\\nTOPIC SOURCE:\\n' + $('Select Next Topic').first().json.topicMarkdown + '\\n\\nSTYLE GUIDE:\\n' + $('Select Next Topic').first().json.styleGuide }] } }}"
+      },
+      "id": "anthropic-draft-v1",
+      "name": "Anthropic Writer Draft v1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        -60
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ANTHROPIC_CREDENTIAL_ID",
+          "name": "Anthropic API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { model: $('Select Next Topic').first().json.openaiModel, temperature: 0.2, messages: [{ role: 'user', content: $('Select Next Topic').first().json.editorPrompt + '\\n\\nReturn JSON only.\\n\\nDRAFT V1:\\n' + JSON.stringify($json) + '\\n\\nSTYLE GUIDE:\\n' + $('Select Next Topic').first().json.styleGuide + '\\n\\nFRAMER CONTRACT:\\n' + $('Select Next Topic').first().json.framerContract }] } }}"
+      },
+      "id": "openai-review-v1",
+      "name": "OpenAI Editor Review v1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        -60
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "approved-v1",
+              "leftValue": "={{ JSON.stringify($json).includes('\"approved\":true') || JSON.stringify($json).includes('\"approved\": true') }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-approved-v1",
+      "name": "Approved v1?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        720,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { model: $('Select Next Topic').first().json.anthropicModel, max_tokens: 12000, messages: [{ role: 'user', content: $('Select Next Topic').first().json.writerPrompt + '\\n\\nRevise the article. Keep the same required output format.\\n\\nDRAFT V1:\\n' + JSON.stringify($('Anthropic Writer Draft v1').first().json) + '\\n\\nEDITOR REVIEW V1:\\n' + JSON.stringify($json) }] } }}"
+      },
+      "id": "anthropic-draft-v2",
+      "name": "Anthropic Writer Draft v2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        980,
+        80
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ANTHROPIC_CREDENTIAL_ID",
+          "name": "Anthropic API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { model: $('Select Next Topic').first().json.openaiModel, temperature: 0.2, messages: [{ role: 'user', content: $('Select Next Topic').first().json.editorPrompt + '\\n\\nReturn JSON only.\\n\\nDRAFT V2:\\n' + JSON.stringify($json) + '\\n\\nFRAMER CONTRACT:\\n' + $('Select Next Topic').first().json.framerContract }] } }}"
+      },
+      "id": "openai-review-v2",
+      "name": "OpenAI Editor Review v2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1240,
+        80
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "approved-v2",
+              "leftValue": "={{ JSON.stringify($json).includes('\"approved\":true') || JSON.stringify($json).includes('\"approved\": true') }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-approved-v2",
+      "name": "Approved v2?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1480,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { model: $('Select Next Topic').first().json.anthropicModel, max_tokens: 12000, messages: [{ role: 'user', content: $('Select Next Topic').first().json.writerPrompt + '\\n\\nFinal revision round. Keep the same required output format.\\n\\nDRAFT V2:\\n' + JSON.stringify($('Anthropic Writer Draft v2').first().json) + '\\n\\nEDITOR REVIEW V2:\\n' + JSON.stringify($json) }] } }}"
+      },
+      "id": "anthropic-draft-v3",
+      "name": "Anthropic Writer Draft v3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1740,
+        220
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ANTHROPIC_CREDENTIAL_ID",
+          "name": "Anthropic API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { model: $('Select Next Topic').first().json.openaiModel, temperature: 0.2, messages: [{ role: 'user', content: $('Select Next Topic').first().json.editorPrompt + '\\n\\nReturn JSON only. This is the final allowed review round.\\n\\nDRAFT V3:\\n' + JSON.stringify($json) + '\\n\\nFRAMER CONTRACT:\\n' + $('Select Next Topic').first().json.framerContract }] } }}"
+      },
+      "id": "openai-review-v3",
+      "name": "OpenAI Editor Review v3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2000,
+        220
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI Bearer Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\nconst { execSync } = require('child_process');\nconst base = $('Select Next Topic').first().json;\nconst repoPath = base.repoPath;\nconst runDir = path.join(repoPath, base.runFolder);\nfs.mkdirSync(runDir, { recursive: true });\nfunction raw(name) { try { return $(name).first().json; } catch (e) { return null; } }\nfunction text(name) { const value = raw(name); if (!value) return ''; if (value.content && value.content[0] && value.content[0].text) return value.content[0].text; if (value.choices && value.choices[0] && value.choices[0].message) return value.choices[0].message.content; return JSON.stringify(value, null, 2); }\nfunction write(name, value) { if (value) fs.writeFileSync(path.join(runDir, name), value); }\nfunction approved(review) { return review.includes('\"approved\": true') || review.includes('\"approved\":true'); }\nfunction extractPayload(markdown) { const fenced = markdown.match(/## Framer CMS JSON[\\s\\S]*?```json\\s*([\\s\\S]*?)```/i) || markdown.match(/```json\\s*([\\s\\S]*?)```/i); if (!fenced) return {}; try { return JSON.parse(fenced[1]); } catch (e) { return {}; } }\nconst review3 = text('OpenAI Editor Review v3');\nconst review2 = text('OpenAI Editor Review v2');\nconst review1 = text('OpenAI Editor Review v1');\nconst draft3 = text('Anthropic Writer Draft v3');\nconst draft2 = text('Anthropic Writer Draft v2');\nconst draft1 = text('Anthropic Writer Draft v1');\nconst approved1 = approved(review1);\nconst approved2 = approved(review2);\nconst approved3 = approved(review3);\nconst finalDraft = approved1 ? draft1 : (approved2 ? draft2 : (draft3 || draft2 || draft1));\nconst finalReview = approved1 ? review1 : (approved2 ? review2 : (review3 || review2 || review1));\nconst isApproved = approved1 || approved2 || approved3;\nwrite('brief.md', text('Anthropic Orchestrator Brief'));\nwrite('draft-v1.md', draft1);\nwrite('draft-v2.md', draft2);\nwrite('draft-v3.md', draft3);\nwrite('editor-review-v1.md', review1);\nwrite('editor-review-v2.md', review2);\nwrite('editor-review-v3.md', review3);\nwrite('final.md', finalDraft);\nconst extracted = extractPayload(finalDraft);\nconst payload = {\n  'Title': extracted['Title'] || base.slug,\n  'Slug': extracted['Slug'] || base.slug,\n  'Meta Title': extracted['Meta Title'] || extracted['Title'] || base.slug,\n  'Meta Description': extracted['Meta Description'] || extracted['Excerpt'] || '',\n  'Excerpt': extracted['Excerpt'] || '',\n  'Primary Keyword': extracted['Primary Keyword'] || '',\n  'Secondary Keywords': extracted['Secondary Keywords'] || [],\n  'Longtail Keywords': extracted['Longtail Keywords'] || [],\n  'Article Body': extracted['Article Body'] || finalDraft,\n  'FAQ': extracted['FAQ'] || [],\n  'Video Brief': extracted['Video Brief'] || '',\n  'Carousel Brief': extracted['Carousel Brief'] || '',\n  'Status': 'Draft',\n  'Review Notes': (extracted['Review Notes'] || '') + '\\n\\nEditor status: ' + (isApproved ? 'approved' : 'needs human decision after max 3 rounds') + '\\n' + finalReview\n};\nwrite('framer-payload.json', JSON.stringify(payload, null, 2));\nconst log = { slug: base.slug, runFolder: base.runFolder, approved: isApproved, needs_human_decision: !isApproved, selectedTopicReason: base.selectedTopicReason, createdAt: new Date().toISOString() };\nwrite('run-log.json', JSON.stringify(log, null, 2));\nexecSync(`git add ${base.runFolder}`, { cwd: repoPath, stdio: 'inherit' });\nexecSync(`git commit -m \"Add editorial draft: ${base.slug}\"`, { cwd: repoPath, stdio: 'inherit' });\nexecSync('git push', { cwd: repoPath, stdio: 'inherit' });\nreturn [{ json: { ...base, ...log, framerPayload: payload, artifactPath: base.runFolder, artifactUrl: `${base.githubArtifactBaseUrl}/${base.runFolder}` } }];"
+      },
+      "id": "store-artifacts",
+      "name": "Store Artifacts and Push",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2280,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$json.framerEndpointUrl}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{$json.framerPayload}}"
+      },
+      "id": "framer-cms-draft",
+      "name": "Create or Update Framer CMS Draft",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2540,
+        -60
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_FRAMER_CREDENTIAL_ID",
+          "name": "Framer CMS Sync Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "n8n@raphaelbaruch.com",
+        "toEmail": "={{$('Store Artifacts and Push').first().json.raphaelEmail}}",
+        "subject": "={{'Proofread-ready editorial draft: ' + $('Store Artifacts and Push').first().json.slug}}",
+        "text": "={{'Article: ' + $('Store Artifacts and Push').first().json.slug + '\\nReason: ' + $('Store Artifacts and Push').first().json.selectedTopicReason + '\\nEditor approved: ' + $('Store Artifacts and Push').first().json.approved + '\\nArtifacts: ' + $('Store Artifacts and Push').first().json.artifactUrl + '\\nFramer status: Draft\\n\\nPublish manually only after personal read.'}}"
+      },
+      "id": "email-raphael",
+      "name": "Email Raphael",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        2800,
+        -60
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "REPLACE_SMTP_CREDENTIAL_ID",
+          "name": "SMTP Raphael"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Weekly Thursday 08:30": {
+      "main": [
+        [
+          {
+            "node": "Runtime Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Dry Run": {
+      "main": [
+        [
+          {
+            "node": "Runtime Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Runtime Config": {
+      "main": [
+        [
+          {
+            "node": "Pull Latest Repo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pull Latest Repo": {
+      "main": [
+        [
+          {
+            "node": "Select Next Topic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select Next Topic": {
+      "main": [
+        [
+          {
+            "node": "Anthropic Orchestrator Brief",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Orchestrator Brief": {
+      "main": [
+        [
+          {
+            "node": "Anthropic Writer Draft v1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Writer Draft v1": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Editor Review v1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Editor Review v1": {
+      "main": [
+        [
+          {
+            "node": "Approved v1?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approved v1?": {
+      "main": [
+        [
+          {
+            "node": "Store Artifacts and Push",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Anthropic Writer Draft v2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Writer Draft v2": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Editor Review v2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Editor Review v2": {
+      "main": [
+        [
+          {
+            "node": "Approved v2?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approved v2?": {
+      "main": [
+        [
+          {
+            "node": "Store Artifacts and Push",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Anthropic Writer Draft v3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Writer Draft v3": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Editor Review v3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Editor Review v3": {
+      "main": [
+        [
+          {
+            "node": "Store Artifacts and Push",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Artifacts and Push": {
+      "main": [
+        [
+          {
+            "node": "Create or Update Framer CMS Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create or Update Framer CMS Draft": {
+      "main": [
+        [
+          {
+            "node": "Email Raphael",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Berlin"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "name": "seo-geo"
+    },
+    {
+      "name": "editorial"
+    }
+  ],
+  "triggerCount": 2,
+  "updatedAt": "2026-05-06T00:00:00.000Z",
+  "versionId": "weekly-seo-geo-editorial-template"
+}

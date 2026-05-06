@@ -29,12 +29,12 @@ Generiert aus: Requirements-Analyse (Mai 2026)
 ### ☐ #1 · Sparring-Testimonials · Alle Seiten
 **Kategorie:** ✍️ DEIN INPUT → 🤖 CLAUDE CODE → 🎨 FRAMER
 
-**Problem:** Kein einziges Testimonial von einem Sparring-Klienten. Nur Mitarbeiterzitate aus der thekey.academy-Zeit sichtbar.
+**Problem:** Kein einziges Testimonial von einem Sparring-Klient:innen. Nur Mitarbeitendezitate aus der thekey.academy-Zeit sichtbar.
 
 **Dein Input:**
 - 3 Kunden kontaktieren und um ein kurzes Statement bitten
 - Format pro Testimonial: Name oder Pseudonym (z.B. "CEO, HealthTech-Startup") + 2–4 Sätze + konkretes Ergebnis
-- Falls keine echten Namen: vollständig anonymisiert ist okay ("Gründer, 45 Mio. EUR ARR-Unternehmen")
+- Falls keine echten Namen: vollständig anonymisiert ist okay ("Gründer:in, 45 Mio. EUR ARR-Unternehmen")
 
 **Was Claude dann macht:**
 - Testimonials redigieren und auf Tonalität der Website abstimmen
@@ -42,10 +42,10 @@ Generiert aus: Requirements-Analyse (Mai 2026)
 - Placement-Empfehlung je Seite geben
 
 **Definition of Done:**
-- [ ] Min. 3 Testimonials von Sparring-Klienten (nicht Mitarbeitern) vorhanden
+- [ ] Min. 3 Testimonials von Sparring-Klient:innen (nicht Mitarbeitenden) vorhanden
 - [ ] Mind. 1 Testimonial auf Homepage sichtbar (above the fold oder direkt nach Angebots-Sektion)
 - [ ] Jedes Testimonial nennt eine konkrete Situation oder ein konkretes Ergebnis (nicht nur "super Arbeit")
-- [ ] Rolle/Kontext des Klienten erkennbar (Branche, Unternehmensphase oder Rolle)
+- [ ] Rolle/Kontext der Klient:in erkennbar (Branche, Unternehmensphase oder Rolle)
 
 ---
 
@@ -59,11 +59,11 @@ Generiert aus: Requirements-Analyse (Mai 2026)
 **In Framer:** Seite auswählen → Rechtes Panel → "Page" → "SEO" → Title und Description eintragen.
 
 **Definition of Done:**
-- [ ] `/` → Title: "Strategisches Sparring für Führungskräfte | Raphael Baruch" (max. 60 Zeichen)
-- [ ] `/` → Description: Enthält "strategisches Sparring", "Führungskräfte", "Klarheit" (max. 155 Zeichen)
-- [ ] `/sparring` → Title: Enthält "Peer Sparring", "Clarity Streaming" oder Format-Keyword
-- [ ] `/sparring` → Description: Beschreibt die drei Formate konkret
-- [ ] `/about` → Title: Enthält "Raphael Baruch" + Kontext (z.B. "ehemaliger Geschäftsführer")
+- [ ] `/` → Title: "Executive Sparring für Führungskräfte | Raphael Baruch" (max. 60 Zeichen)
+- [ ] `/` → Description: Enthält "Executive Sparring", "Führungskräfte", "Klarheit" (max. 155 Zeichen)
+- [ ] `/sparring` → Title: Enthält "Executive Sparring", "Peer Sparring" oder Format-Keyword
+- [ ] `/sparring` → Description: Beschreibt Executive Sparring und die drei Formate konkret
+- [ ] `/about` → Title: Enthält "Raphael Baruch" + Kontext (z.B. "ehemaliger Geschäftsführende")
 - [ ] `/about` → Description: Erzählt die Kern-Story in einem Satz
 - [ ] Alle Titles ≤ 60 Zeichen, alle Descriptions ≤ 155 Zeichen
 
@@ -71,7 +71,7 @@ Generiert aus: Requirements-Analyse (Mai 2026)
 ```
 Schreibe optimierte SEO-Titles und Meta-Descriptions für drei Seiten
 der Website raphaelbaruch.com. Zielgruppe: C-Level-Führungskräfte im
-DACH-Raum, Haupt-Keyword: "strategisches Sparring".
+DACH-Raum, Haupt-Keyword: "Executive Sparring".
 Regeln: Title max. 60 Zeichen, Description max. 155 Zeichen.
 Seiten: / (Homepage), /sparring (Angebote), /about (Story).
 ```
@@ -88,7 +88,7 @@ Seiten: / (Homepage), /sparring (Angebote), /about (Story).
 - Rhythmus (wöchentlich / alle 2 Wochen / flexibel)?
 - Mindest- oder Typischlaufzeit?
 - Was passiert konkret in einer Session?
-- Mit welchem konkreten Output verlässt der Klient die Session?
+- Mit welchem konkreten Output verlässt die Klient:in die Session?
 
 **Was Claude dann macht:** Draus lesbare, stimmungsgerechte Texte schreiben, die zur Tonalität der Site passen.
 
@@ -120,7 +120,7 @@ Seiten: / (Homepage), /sparring (Angebote), /about (Story).
 - [ ] Min. 2 Case Studies vorhanden
 - [ ] Jede Case Study folgt dem Schema: Situation → Herausforderung → Sparring → Ergebnis
 - [ ] Keine echten Namen erforderlich, aber Rolle + Branche + Unternehmensgröße erkennbar
-- [ ] Tonalität konsistent mit dem Rest der Site (kein Berater-Sprech)
+- [ ] Tonalität konsistent mit dem Rest der Site (kein:e Berater:in-Sprech)
 - [ ] Placement: auf /sparring oder eigener /cases-Seite
 
 ---
@@ -129,7 +129,7 @@ Seiten: / (Homepage), /sparring (Angebote), /about (Story).
 
 ---
 
-### ☐ #5 · Prozess-Transparenz "Was passiert nach dem Klick" · /
+### ☑ #5 · Prozess-Transparenz "Was passiert nach dem Klick" · / ✅
 **Kategorie:** 🤖 CLAUDE CODE → 🎨 FRAMER
 
 **Problem:** Kein Hinweis, was nach dem Klick auf "Case besprechen" passiert. Fehlende Vorhersehbarkeit hemmt die Handlung.
@@ -177,8 +177,8 @@ Seiten: / (Homepage), /sparring (Angebote), /about (Story).
 **Prompt für Claude Code:**
 ```
 Generiere valides JSON-LD Schema.org Markup für raphaelbaruch.com.
-Person: Raphael Baruch, strategischer Sparringpartner, ehemaliger GF.
-ProfessionalService: Strategisches Sparring für Führungskräfte, DACH-Raum, Remote.
+Person: Raphael Baruch, Executive Sparringspartner mit Geschäftsführungserfahrung.
+ProfessionalService: Executive Sparring für Führungskräfte, DACH-Raum, Remote.
 LinkedIn-URL: [DEINE LINKEDIN-URL EINFÜGEN].
 Format: Einzelner <script type="application/ld+json"> Block, validiert.
 ```
@@ -197,7 +197,7 @@ Format: Einzelner <script type="application/ld+json"> Block, validiert.
 
 **Definition of Done:**
 - [ ] Min. Option C ist auf /sparring sichtbar
-- [ ] Kein Preisschock im Erstgespräch (Klient hat eine Größenordnung im Kopf)
+- [ ] Kein Preisschock im Erstgespräch (Klient:in hat eine Größenordnung im Kopf)
 - [ ] Formulierung konsistent mit Premium-Positioning (kein "günstig" oder "flexibel")
 
 ---
@@ -218,7 +218,7 @@ Format: Einzelner <script type="application/ld+json"> Block, validiert.
 
 ---
 
-### ☐ #10 · Bridge: Story → heutige Tätigkeit · /about
+### ☑ #10 · Bridge: Story → heutige Tätigkeit · /about ✅
 **Kategorie:** 🤖 CLAUDE CODE → 🎨 FRAMER
 
 **Problem:** About-Page endet mit der Transformation-Phase. Kein expliziter Abschluss "Und deshalb mache ich heute, was ich tue."
@@ -228,22 +228,29 @@ Format: Einzelner <script type="application/ld+json"> Block, validiert.
 **Definition of Done:**
 - [ ] About-Page hat einen finalen Abschnitt, der die Story mit dem heutigen Angebot verbindet
 - [ ] Enthält einen CTA ("Case besprechen →")
-- [ ] Klingt nach Raphael, nicht nach Berater-Broschüre
+- [ ] Klingt nach Raphael, nicht nach Beratungsbroschüre
 - [ ] Max. 3–4 Sätze (Dichte > Länge)
 
 ---
 
-### ☐ #11 · Externe Credentials & LinkedIn-Link · /about
+### ☐ #11 · Externe Credentials, Certifications & LinkedIn-Link · /about
 **Kategorie:** 🤝 HYBRID → 🎨 FRAMER
 
-**Problem:** thekey.academy wird erwähnt, aber kein Link. Kein LinkedIn. Kein externer Nachweis, dass die erzählte Story stimmt.
+**Problem:** thekey.academy wird erwähnt, aber kein Link. Kein LinkedIn. Kein externer Nachweis, dass die erzählte Story stimmt. Zusätzlich fehlt ein sauberer Ort für relevante Certifications / Weiterbildungen.
 
-**Dein Input:** LinkedIn-URL + optional: Link zu thekey.academy (falls noch aktiv oder archiviert).
+**Dein Input:**
+- LinkedIn-URL
+- Optional: Link zu thekey.academy (falls noch aktiv oder archiviert)
+- Liste relevanter Certifications / Ausbildungen / Weiterbildungen mit Institution + Jahr
+
+**Vorbereitet:**
+- Framer-Komponente `CredentialsSwipeCards.tsx` mit Swipe-Cards, optionalem Logo/Icon-Upload und bis zu 2 inhaltlichen Bullets pro Credential
 
 **Definition of Done:**
 - [ ] LinkedIn-Profil-Link auf /about sichtbar und korrekt
 - [ ] thekey.academy entweder verlinkt oder mit erklärendem Satz versehen ("heute Teil von X" oder "2022 erfolgreich verkauft")
 - [ ] Business-Coach-Ausbildung kurz erwähnt (Institution + Jahr reicht)
+- [ ] Weitere relevante Certifications können modular ergänzt werden (Titel, Institution, Jahr, optional Link)
 
 ---
 
@@ -251,12 +258,12 @@ Format: Einzelner <script type="application/ld+json"> Block, validiert.
 
 ---
 
-### ☐ #12 · Outcomes-Sektion: Was verlässt der Klient mit? · /sparring
+### ☐ #12 · Outcomes-Sektion: Was nimmt die Klient:in mit? · /sparring
 **Kategorie:** 🤝 HYBRID → 🎨 FRAMER
 
 **Definition of Done:**
 - [ ] Min. 3 konkrete Output-Formulierungen sichtbar (keine abstrakten Versprechen)
-- [ ] Formulierungen in Ich-Perspektive des Klienten ("Ich verlasse das Gespräch mit...")
+- [ ] Formulierungen in Ich-Perspektive des Klient:innen ("Ich verlasse das Gespräch mit...")
 - [ ] Keine messbaren KPIs versprochen (Integrität wahren)
 
 ---
@@ -292,7 +299,7 @@ Format: Einzelner <script type="application/ld+json"> Block, validiert.
 **Dein Input:** 3 Themen, zu denen Du eine klare Meinung hast (z.B. "Warum Einsamkeit in der Führung kein Soft-Skill-Problem ist").
 
 **Definition of Done:**
-- [ ] Min. 1 Artikel live (min. 1.200 Wörter, eigene Meinung, kein Berater-Generisch)
+- [ ] Min. 1 Artikel live (min. 1.200 Wörter, eigene Meinung, kein:e Berater:in-Generisch)
 - [ ] /blog als Seite in Framer eingerichtet
 - [ ] Artikel intern verlinkt (von Homepage und /about)
 - [ ] Rhythmus definiert: min. 1 Artikel / Monat

@@ -105,7 +105,7 @@ Font: Inter Display Light · Color: `text-secondary` (#767676)
 |------------------|-----------|-------|
 | `border-primary` | `#E5E5E5` | Default border — light grey |
 
-**Usage pattern:** Cards use `border-primary` as a 1px solid border. Some card variants use a **dashed** border stroke of the same color for a sketch-like, editorial feel.
+**Usage pattern:** Cards use `border-primary` as a 1px solid border or no border. Frames are never dashed, dotted, sketch-like, double, or decorative.
 
 ---
 
@@ -216,10 +216,9 @@ Derived from logo geometry — the brand favors heavy, generous rounding.
 | Token            | Style | Width | Color |
 |------------------|-------|-------|-------|
 | `border-default` | solid | 1px   | `border-primary` (#E5E5E5) |
-| `border-dashed`  | dashed | 1px  | `border-primary` (#E5E5E5) |
 | `border-brand`   | solid | 1.5px | `brand-02` (#FF6403) |
 
-**Dashed border usage:** Used on editorial/content cards to echo the hand-drawn, doodle aesthetic of the illustration system.
+**Frame rule:** Frames are either solid or absent. Never use dashed, dotted, hand-drawn, double, decorative, or otherwise distorted borders.
 
 ---
 
@@ -332,7 +331,7 @@ The rb Illustration Generator Gemini Gem is the primary tool for generating new 
 
 ### Cards
 - Background: `background-alt` (#FCF8F1) on light pages
-- Border: `border-default` (1px solid #E5E5E5) — or `border-dashed` for editorial/content cards
+- Border: `border-default` (1px solid #E5E5E5) or no border
 - Border radius: `radius-lg` (16px)
 - Padding: `space-8` (32px) desktop · `space-6` (24px) mobile
 - Shadow: `shadow-none` default · `shadow-md` on hover
@@ -382,5 +381,5 @@ Button sizing:
 2. **Generous whitespace** — Content breathes. Never crowd. Cards float on their backgrounds.
 3. **Warm neutrals first** — The default surface is warm cream (#FCF8F1), not cold white or grey. Brand colors are accents, not dominants.
 4. **One accent at a time** — Orange (#FF6403) for action. Violet (#9C73FF) for creative/emotional. Never both at once in the same component.
-5. **Dashed = editorial** — Dashed borders signal a content/thought card. Solid borders signal a functional/interactive component.
+5. **Frames stay honest** — Use solid frames or no frames. Never dashed, dotted, sketchy, double, decorative, or otherwise distorted borders.
 6. **Typography carries weight** — The typographic hierarchy does heavy lifting. Illustrations and icons are supporting cast, not heroes.
