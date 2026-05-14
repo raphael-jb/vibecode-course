@@ -35,26 +35,6 @@ const STYLES = `
         margin-bottom: 52px;
     }
 
-    .rb-credentials__eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 24px;
-        color: ${COLORS.orange};
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-    }
-
-    .rb-credentials__dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 999px;
-        background: ${COLORS.orange};
-        flex: 0 0 auto;
-    }
-
     .rb-credentials h2 {
         margin: 0;
         max-width: 720px;
@@ -282,7 +262,6 @@ function splitBullets(text: string) {
 
 export default function CredentialsSwipeCards(props) {
     const {
-        eyebrow,
         headline,
         intro,
         credentials,
@@ -312,12 +291,6 @@ export default function CredentialsSwipeCards(props) {
             <div className="rb-credentials__inner">
                 <div className="rb-credentials__header">
                     <div>
-                        {eyebrow ? (
-                            <div className="rb-credentials__eyebrow">
-                                <span className="rb-credentials__dot" />
-                                {eyebrow}
-                            </div>
-                        ) : null}
                         <h2>{parseItalic(headline)}</h2>
                     </div>
 
@@ -463,7 +436,6 @@ const DEFAULT_CREDENTIALS = [
 ]
 
 CredentialsSwipeCards.defaultProps = {
-    eyebrow: "Credentials",
     headline: "Erfahrung ist gut. *Einordnung* ist besser.",
     intro: "Ausbildungen und Zertifizierungen, die meine Arbeit nicht ersetzen, aber den Denkraum dahinter sichtbar machen.",
     background: COLORS.cream,
@@ -475,7 +447,6 @@ CredentialsSwipeCards.defaultProps = {
 }
 
 addPropertyControls(CredentialsSwipeCards, {
-    eyebrow: { type: ControlType.String, title: "Eyebrow", defaultValue: "Credentials" },
     headline: {
         type: ControlType.String,
         title: "Headline (*italic*)",

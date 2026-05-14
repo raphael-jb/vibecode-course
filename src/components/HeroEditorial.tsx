@@ -36,7 +36,6 @@ function parseText(text: string) {
 
 export default function HeroEditorial(props) {
     const {
-        eyebrow,
         headline,
         subline,
         image,
@@ -53,7 +52,6 @@ export default function HeroEditorial(props) {
         minHeight,
         headlineColor,
         sublineColor,
-        eyebrowColor,
         kenBurns,
     } = props
 
@@ -151,33 +149,6 @@ export default function HeroEditorial(props) {
                     flexDirection: "column",
                     alignItems: contentHAlign === "left" ? "flex-start" : contentHAlign === "right" ? "flex-end" : "center",
                 }}>
-                    {/* Eyebrow - featuring the Dot */}
-                    {eyebrow && (
-                        <motion.div 
-                            initial={isCanvas ? false : { opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2, duration: 0.5 }}
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 10,
-                                marginBottom: 24,
-                            }}
-                        >
-                            <div style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: accentColor }} />
-                            <span style={{
-                                fontFamily: "'Inter Tight', sans-serif",
-                                fontSize: 13,
-                                fontWeight: 500,
-                                letterSpacing: "0.1em",
-                                textTransform: "uppercase",
-                                color: eyebrowColor,
-                            }}>
-                                {eyebrow}
-                            </span>
-                        </motion.div>
-                    )}
-
                     {/* Headline - supports \n for manual breaks */}
                     <motion.h1 
                         initial={isCanvas ? false : { opacity: 0, y: 20 }}
@@ -258,7 +229,6 @@ function hexToRgba(hex: string, alpha: number): string {
 }
 
 HeroEditorial.defaultProps = {
-    eyebrow: "Über Raphael Baruch",
     headline: "Du trägst es leise.\n*Ich kenne das.*",
     subline: "Hinter jeder strategischen Entscheidung steht ein Mensch, der sie allein verantwortet. Ich war dieser Mensch.",
     contentHAlign: "left",
@@ -267,7 +237,6 @@ HeroEditorial.defaultProps = {
     background: COLORS.backgroundAlt,
     headlineColor: COLORS.textPrimary,
     sublineColor: COLORS.textSecondary,
-    eyebrowColor: COLORS.brand02,
     paddingTop: 120,
     paddingBottom: 120,
     showCta: true,
@@ -279,7 +248,6 @@ HeroEditorial.defaultProps = {
 }
 
 addPropertyControls(HeroEditorial, {
-    eyebrow: { type: ControlType.String, title: "Eyebrow" },
     headline: { type: ControlType.String, title: "Headline (*italic*)", displayTextArea: true },
     subline: { type: ControlType.String, title: "Subline", displayTextArea: true },
     image: { type: ControlType.Image, title: "Background Image" },
@@ -308,8 +276,7 @@ addPropertyControls(HeroEditorial, {
     minHeight: { type: ControlType.Number, title: "Min Height", min: 400, max: 1200, defaultValue: 800 },
     headlineColor: { type: ControlType.Color, title: "Headline Color", defaultValue: COLORS.textPrimary },
     sublineColor: { type: ControlType.Color, title: "Subline Color", defaultValue: COLORS.textSecondary },
-    eyebrowColor: { type: ControlType.Color, title: "Eyebrow Color", defaultValue: COLORS.brand02 },
-    accentColor: { type: ControlType.Color, title: "Accent Color (Dot/CTA)", defaultValue: COLORS.brand02 },
+    accentColor: { type: ControlType.Color, title: "Accent Color", defaultValue: COLORS.brand02 },
     background: { type: ControlType.Color, title: "Base Color (Light Overlay)", defaultValue: COLORS.backgroundAlt },
     paddingTop: { type: ControlType.Number, title: "Padding Top", min: 0, max: 400, step: 8 },
     paddingBottom: { type: ControlType.Number, title: "Padding Bottom", min: 0, max: 400, step: 8 },

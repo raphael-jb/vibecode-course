@@ -336,6 +336,76 @@ Format: Einzelner <script type="application/ld+json"> Block, validiert.
 
 ---
 
+## Peer Sparring Operating System — Slice 1 Wiring
+
+> Eigener Workstream, nicht Website-Content. Slice 1 (Intake + AI Prep Sheet) ist code-seitig fertig — diese Tasks bringen es live.
+> Operativer Runbook: `docs/peer-sparring/README.md`. Vollständiger Plan über alle 4 Slices: `~/.claude/plans/read-docs-products-md-carefully-the-recursive-frog.md`.
+
+---
+
+### ☐ #19 · Phase A — Externe Accounts einrichten · Peer Sparring
+**Kategorie:** ✍️ DEIN INPUT
+**Zeitschätzung:** ~30 min
+**Kosten:** alles im Free Tier (Anthropic ausgenommen — läuft über bestehenden Editorial-Pipeline-Key)
+
+**Definition of Done:**
+- [ ] **Supabase**: neues Projekt erstellt; Project URL und service-role key gesichert (Settings → API → service_role)
+- [ ] **Supabase**: `supabase/migrations/001_init.sql` im SQL Editor ausgeführt — `clients`, `cases` und Enums `session_status`, `session_mode`, `capture_source` existieren
+- [ ] **Google Drive**: Parent-Ordner (z. B. `Peer Sparring — Cases`) angelegt; Folder-ID aus URL `/folders/<id>` gesichert
+- [ ] **Resend**: Account erstellt; Sender-Domain via DNS-Record verifiziert; API-Key gesichert
+- [ ] **Anthropic**: API-Key vorhanden (i. d. R. derselbe wie für die Editorial Pipeline)
+
+---
+
+### ☐ #20 · Phase B — n8n Workflow wiring · Peer Sparring
+**Kategorie:** ✍️ DEIN INPUT (n8n)
+**Zeitschätzung:** ~20 min
+**Voraussetzung:** #19 abgeschlossen
+
+**Definition of Done:**
+- [ ] Dieses Repo auf dem n8n-Host gemountet (gleicher Pfad wie für die Editorial Pipeline)
+- [ ] `automations/n8n/peer-sparring/intake-and-prep.json` in n8n importiert
+- [ ] **Runtime Config** Node befüllt: `repoPath`, `supabaseUrl`, `driveCaseRootFolderId`, `raphaelEmail`, `notificationFromEmail`, `publicSiteUrl`
+- [ ] Credential `REPLACE_ANTHROPIC_CREDENTIAL_ID` → echter Anthropic Header-Auth Credential
+- [ ] Credential `REPLACE_SUPABASE_SERVICEROLE_CRED` → echter Supabase service-role Header-Auth Credential (`apikey` + `Authorization: Bearer`)
+- [ ] Credential `REPLACE_GOOGLE_DRIVE_OAUTH` → Google Drive/Docs OAuth2 (Scopes `drive.file`, `documents`)
+- [ ] Credential `REPLACE_RESEND_API_CRED` → Resend Header-Auth Credential (`Authorization: Bearer`)
+- [ ] Workflow aktiviert; produktive Webhook-URL aus **Intake Webhook** Node kopiert
+
+---
+
+### ☐ #21 · Phase C — Framer Intake Form einbauen · Peer Sparring
+**Kategorie:** 🎨 FRAMER
+**Zeitschätzung:** ~15 min
+**Voraussetzung:** #20 abgeschlossen
+
+**Definition of Done:**
+- [ ] Neue Code Component in Framer angelegt mit dem Inhalt aus `src/components/CaseBriefIntake.tsx`
+- [ ] Neue Seite `/case-brief` angelegt — **nicht** in die öffentliche Navigation aufnehmen (sechs sichtbare Seiten bleiben sechs)
+- [ ] `CaseBriefIntake` Component auf die Seite gezogen
+- [ ] Property `Webhook URL` auf die n8n-URL aus #20 gesetzt
+- [ ] Properties `Privacy URL` und `Success CTA URL` gesetzt
+- [ ] Seite publiziert
+
+---
+
+### ☐ #22 · Phase D — End-to-End Smoke Test · Peer Sparring
+**Kategorie:** ✍️ DEIN INPUT
+**Zeitschätzung:** ~10 min
+**Voraussetzung:** #21 abgeschlossen
+
+**Definition of Done:**
+- [ ] Synthetischen Case Brief über das Framer-Formular eingereicht → Server antwortet mit `200` und `case_id`
+- [ ] In Supabase Studio: ein Row in `clients`, ein Row in `cases` mit `status='Prepared'` und nicht-leerer `prep_doc_url`
+- [ ] In Google Drive: Folder `<case_id> — <case_title>` existiert mit dem Prep-Sheet-Doc darin
+- [ ] Prep Sheet liest sich wie Raphaels Stimme — kein `Sparringspartner` mit Fugen-s, kein `Ultimately`, kein `delve/leverage/journey/pivotal`
+- [ ] Raphaels Inbox: Benachrichtigungs-Mail mit Doc-Link und Case-ID
+- [ ] Test-Client-Inbox: Empfangs-Mail ohne Case-Inhalt
+- [ ] Duplikat-Test: zweite Submission mit derselben E-Mail → `409 open_case_exists`
+- [ ] Validierungs-Test: Submission mit `konkreter_anlass` < 30 Zeichen → `400 validation_failed` mit Feld-Detail
+
+---
+
 ## Empfohlene Reihenfolge
 
 ```

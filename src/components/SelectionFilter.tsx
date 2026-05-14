@@ -64,6 +64,7 @@ export default function SelectionFilter(props) {
         <section style={{
             width: "100%",
             backgroundColor: background,
+            borderRadius: 15,
             paddingTop,
             paddingBottom,
             paddingLeft: "clamp(24px, 6vw, 80px)",
@@ -80,27 +81,19 @@ export default function SelectionFilter(props) {
                 maxWidth: 1200,
                 width: "100%",
                 display: "flex",
-                flexWrap: "wrap",
-                gap: 48,
-                alignItems: "start",
+                flexDirection: "column",
+                gap: isMobile ? 40 : 56,
+                alignItems: "center",
             }}>
 
-                {/* Left column — stacks below 760px */}
                 <div style={{
-                    flex: "1 1 300px",
-                    minWidth: 0,
-                    position: isMobile ? "relative" : "sticky",
-                    top: isMobile ? 0 : 100,
+                    maxWidth: 760,
                     display: "flex",
                     flexDirection: "column",
-                    gap: 24,
+                    alignItems: "center",
+                    gap: 22,
+                    textAlign: "center",
                 }}>
-                    <div style={{
-                        width: 40,
-                        height: 2,
-                        background: accentColor,
-                        marginBottom: 8,
-                    }} />
                     <h2 style={{
                         fontFamily: "'Instrument Serif', serif",
                         fontSize: "clamp(38px, 4.5vw, 64px)",
@@ -118,20 +111,20 @@ export default function SelectionFilter(props) {
                             lineHeight: 1.5,
                             color: COLORS.textSecondary,
                             margin: 0,
+                            maxWidth: 620,
                         }}>
                             {subline}
                         </p>
                     )}
                 </div>
 
-                {/* Right column */}
                 <motion.div
                     style={{
-                        flex: "2 1 400px",
-                        minWidth: 0,
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 16,
+                        width: "100%",
+                        display: "grid",
+                        gridTemplateColumns: isMobile ? "1fr" : "repeat(3, minmax(0, 1fr))",
+                        gap: 20,
+                        alignItems: "stretch",
                     }}
                     variants={containerVariants}
                     initial={isCanvas ? "visible" : "hidden"}
@@ -142,69 +135,92 @@ export default function SelectionFilter(props) {
                         <motion.div
                             key={i}
                             variants={itemVariants}
-                            whileHover={{ x: 10 }}
+                            whileHover={{ y: -4 }}
                             style={{
                                 backgroundColor: cardBackground,
-                                borderRadius: 24,
-                                padding: "28px 36px",
-                                border: "1px solid rgba(0,0,0,0.04)",
+                                borderRadius: 16,
+                                padding: 24,
+                                minHeight: isMobile ? 220 : 300,
+                                border: `1px solid ${accentColor}`,
                                 display: "flex",
-                                alignItems: "start",
-                                gap: 20,
-                                transition: "background-color 0.3s ease",
+                                flexDirection: "column",
+                                justifyContent: "space-between",
+                                boxSizing: "border-box",
+                                transition: "transform 0.2s ease, background-color 0.3s ease",
                             }}
                         >
-                            {showXIcon && (
-                                <div style={{
-                                    width: 24,
-                                    height: 24,
-                                    borderRadius: "50%",
-                                    border: `1.5px solid ${accentColor}`,
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    flexShrink: 0,
-                                    marginTop: 4,
-                                }}>
+                            <div style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 8,
+                            }}>
+                                {showXIcon && (
                                     <span style={{
+                                        width: 20,
+                                        height: 20,
+                                        borderRadius: "50%",
+                                        border: `1px solid ${accentColor}`,
                                         color: accentColor,
-                                        fontSize: 16,
-                                        fontWeight: 600,
-                                        lineHeight: 1,
-                                        transform: "translateY(-1px)",
+                                        fontSize: 14,
+                                        fontWeight: 500,
+                                        lineHeight: "18px",
+                                        textAlign: "center",
+                                        flexShrink: 0,
                                     }}>×</span>
-                                </div>
-                            )}
+                                )}
+                                <span style={{
+                                    fontSize: 12,
+                                    fontWeight: 300,
+                                    color: COLORS.textSecondary,
+                                    letterSpacing: "0.01em",
+                                }}>
+                                    Kein guter Fit
+                                </span>
+                            </div>
+
                             <p style={{
-                                fontSize: "clamp(16px, 1.8vw, 22px)",
+                                fontFamily: "'Instrument Serif', serif",
+                                fontSize: "clamp(22px, 2.2vw, 30px)",
                                 fontWeight: 400,
-                                lineHeight: 1.35,
+                                lineHeight: 1.18,
                                 color: COLORS.textPrimary,
-                                margin: 0,
+                                margin: "32px 0 0 0",
+                                flexGrow: 1,
+                                display: "flex",
+                                alignItems: "flex-end",
                             }}>
                                 {item.text}
                             </p>
                         </motion.div>
                     ))}
+                </motion.div>
 
-                    <motion.div
-                        variants={itemVariants}
-                        style={{
-                            marginTop: 24,
-                            padding: "0 32px",
-                            borderLeft: `2px solid ${accentColor}`,
-                        }}
-                    >
-                        <p style={{
-                            fontFamily: "'Instrument Serif', serif",
-                            fontSize: 24,
-                            fontStyle: "italic",
-                            color: COLORS.textSecondary,
-                            margin: 0,
-                        }}>
-                            „Klarheit beginnt mit dem Mut, Nein zu sagen."
-                        </p>
-                    </motion.div>
+                <motion.div
+                    variants={itemVariants}
+                    initial={isCanvas ? "visible" : "hidden"}
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    style={{
+                        width: "100%",
+                        padding: 24,
+                        borderRadius: 16,
+                        border: `1px solid ${COLORS.brand02}`,
+                        backgroundColor: "#FFFFFF",
+                        boxShadow: "0 8px 32px rgba(255, 100, 3, 0.18), 0 2px 8px rgba(255, 100, 3, 0.10)",
+                        boxSizing: "border-box",
+                    }}
+                >
+                    <p style={{
+                        fontFamily: "'Instrument Serif', serif",
+                        fontSize: 28,
+                        fontWeight: 400,
+                        lineHeight: 1.35,
+                        color: COLORS.textPrimary,
+                        textAlign: "center",
+                        margin: 0,
+                    }}>
+                        Klarheit beginnt mit dem Mut, Nein zu sagen.
+                    </p>
                 </motion.div>
 
             </div>
@@ -222,9 +238,9 @@ SelectionFilter.defaultProps = {
     paddingTop: 120,
     paddingBottom: 120,
     items: [
-        { text: "Du suchst eine klassische Unternehmensberatung mit 100-seitigen Powerpoint-Decks." },
-        { text: "Du möchtest jemanden, der Dir sagt, was Du tun sollst, anstatt Deine eigene Urteilskraft zu schärfen." },
-        { text: "Du bist nicht bereit, Dein eigenes Handeln kritisch zu hinterfragen und in den Spiegel zu schauen." },
+        { text: "Du eine klassische Unternehmensberatung mit 100-seitigen Powerpoint-Decks suchst." },
+        { text: "Du möchtest, dass Dir jemand sagt, was Du tun sollst, statt Deine eigene Urteilskraft zu schärfen." },
+        { text: "Du nicht bereit bist, Dein eigenes Handeln kritisch zu hinterfragen und in den Spiegel zu schauen." },
     ],
 }
 

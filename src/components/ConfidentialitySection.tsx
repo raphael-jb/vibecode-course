@@ -21,13 +21,11 @@ function parseItalic(text: string) {
 
 export default function ConfidentialitySection(props) {
     const {
-        eyebrow,
         headline,
         subline,
         principles,
         closing,
         background,
-        accentColor,
         paddingTop,
         paddingBottom,
     } = props
@@ -58,48 +56,25 @@ export default function ConfidentialitySection(props) {
             <style>{FONT_IMPORT}</style>
 
             <div style={{
-                maxWidth: 1080,
+                maxWidth: 860,
                 margin: "0 auto",
-                display: "grid",
-                gridTemplateColumns: isMobile ? "1fr" : "minmax(0, 0.9fr) minmax(360px, 0.72fr)",
-                gap: isMobile ? 48 : 88,
-                alignItems: "start",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
             }}>
-                <div>
-                    {eyebrow ? (
-                        <div style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 8,
-                            marginBottom: 26,
-                        }}>
-                            <div style={{
-                                width: 8,
-                                height: 8,
-                                borderRadius: "50%",
-                                backgroundColor: accentColor,
-                                flexShrink: 0,
-                            }} />
-                            <span style={{
-                                fontFamily: UTILITY_FONT,
-                                fontSize: 13,
-                                fontWeight: 500,
-                                letterSpacing: "0.04em",
-                                color: accentColor,
-                            }}>
-                                {eyebrow}
-                            </span>
-                        </div>
-                    ) : null}
-
+                <div style={{
+                    maxWidth: 720,
+                    textAlign: "center",
+                    marginBottom: isMobile ? 44 : 56,
+                }}>
                     <h2 style={{
                         fontFamily: "'Instrument Serif', serif",
                         fontSize: isMobile ? 42 : 64,
                         fontWeight: 400,
                         lineHeight: 1.02,
                         color: COLORS.textPrimary,
-                        margin: "0 0 28px 0",
-                        maxWidth: 560,
+                        margin: "0 auto 28px auto",
+                        maxWidth: 680,
                     }}>
                         {parseItalic(headline)}
                     </h2>
@@ -111,7 +86,7 @@ export default function ConfidentialitySection(props) {
                             fontWeight: 300,
                             lineHeight: 1.58,
                             color: COLORS.textSecondary,
-                            margin: 0,
+                            margin: "0 auto",
                             maxWidth: 540,
                         }}>
                             {subline}
@@ -120,10 +95,15 @@ export default function ConfidentialitySection(props) {
                 </div>
 
                 <div style={{
+                    width: "100%",
                     borderTop: `1px solid ${COLORS.border}`,
                 }}>
                     {(principles || []).map((item, i) => (
                         <div key={i} style={{
+                            display: "grid",
+                            gridTemplateColumns: isMobile ? "1fr" : "minmax(180px, 0.36fr) minmax(0, 1fr)",
+                            gap: isMobile ? 10 : 32,
+                            alignItems: "center",
                             paddingTop: i === 0 ? 28 : 26,
                             paddingBottom: 26,
                             borderBottom: `1px solid ${COLORS.border}`,
@@ -134,7 +114,8 @@ export default function ConfidentialitySection(props) {
                                 fontWeight: 400,
                                 lineHeight: 1.05,
                                 color: COLORS.textPrimary,
-                                margin: "0 0 10px 0",
+                                margin: 0,
+                                textAlign: isMobile ? "center" : "right",
                             }}>
                                 {parseItalic(item.title)}
                             </h3>
@@ -145,6 +126,7 @@ export default function ConfidentialitySection(props) {
                                 lineHeight: 1.55,
                                 color: COLORS.textSecondary,
                                 margin: 0,
+                                textAlign: isMobile ? "center" : "left",
                             }}>
                                 {item.body}
                             </p>
@@ -158,8 +140,9 @@ export default function ConfidentialitySection(props) {
                             fontWeight: 400,
                             lineHeight: 1.24,
                             color: COLORS.navy,
-                            margin: "30px 0 0 0",
-                            maxWidth: 420,
+                            margin: "36px auto 0 auto",
+                            maxWidth: 560,
+                            textAlign: "center",
                         }}>
                             {parseItalic(closing)}
                         </p>
@@ -186,24 +169,20 @@ const DEFAULT_PRINCIPLES = [
 ]
 
 ConfidentialitySection.defaultProps = {
-    eyebrow: "Geschützter Raum",
     headline: "Hier darf alles *ausgesprochen* werden.",
     subline: "Ein Gespräch ohne Bühne, ohne Rolle und ohne spätere Verwendung. Nur Klarheit im Moment.",
     principles: DEFAULT_PRINCIPLES,
     closing: "Sicherheit ist keine Zusatzleistung. Sie ist die Voraussetzung.",
     background: COLORS.cream,
-    accentColor: COLORS.orange,
     paddingTop: 96,
     paddingBottom: 96,
 }
 
 addPropertyControls(ConfidentialitySection, {
-    eyebrow: { type: ControlType.String, title: "Eyebrow", defaultValue: "Geschützter Raum" },
     headline: { type: ControlType.String, title: "Headline (*italic*)", displayTextArea: true, defaultValue: "Hier darf alles *ausgesprochen* werden." },
     subline: { type: ControlType.String, title: "Subline", displayTextArea: true, defaultValue: "Ein Gespräch ohne Bühne, ohne Rolle und ohne spätere Verwendung. Nur Klarheit im Moment." },
     closing: { type: ControlType.String, title: "Closing (*italic*)", displayTextArea: true, defaultValue: "Sicherheit ist keine Zusatzleistung. Sie ist die Voraussetzung." },
     background: { type: ControlType.Color, title: "Background", defaultValue: COLORS.cream },
-    accentColor: { type: ControlType.Color, title: "Accent Color", defaultValue: COLORS.orange },
     paddingTop: { type: ControlType.Number, title: "Padding Top", defaultValue: 96, min: 0, max: 220, step: 8 },
     paddingBottom: { type: ControlType.Number, title: "Padding Bottom", defaultValue: 96, min: 0, max: 220, step: 8 },
     principles: {

@@ -32,7 +32,6 @@ function parseItalic(text: string) {
 
 export default function SparringContrast(props) {
     const {
-        eyebrow,
         headline,
         leadText,
         items,
@@ -72,34 +71,6 @@ export default function SparringContrast(props) {
             <style>{FONT_IMPORT}</style>
 
             <div style={{ maxWidth: 960, margin: "0 auto" }}>
-
-                {/* Eyebrow — centered */}
-                {eyebrow ? (
-                    <div style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: 8,
-                        marginBottom: 24,
-                    }}>
-                        <div style={{
-                            width: 8,
-                            height: 8,
-                            borderRadius: "50%",
-                            backgroundColor: accentColor,
-                            flexShrink: 0,
-                        }} />
-                        <span style={{
-                            fontFamily: "'Inter Tight', sans-serif",
-                            fontSize: 13,
-                            fontWeight: 500,
-                            letterSpacing: "0.04em",
-                            color: accentColor,
-                        }}>
-                            {eyebrow}
-                        </span>
-                    </div>
-                ) : null}
 
                 {/* Headline — centered */}
                 <h2 style={{
@@ -281,7 +252,6 @@ export default function SparringContrast(props) {
 }
 
 SparringContrast.defaultProps = {
-    eyebrow: "Ansatz",
     headline: "Dein Fall bestimmt den Ansatz. *Nicht umgekehrt.*",
     leadText: "Vom Sofort-Impuls bei einer akuten Führungsfrage bis zum belastbaren Transformationsplan für strategische Schwergewichte — das Format folgt immer Deiner Situation. Nicht meiner Methode.",
     pullQuote: "Ob akute Führungsfrage oder strategischer Systemwandel — *wir starten immer mit Deinem Fall, nicht mit meiner Methode.*",
@@ -300,11 +270,6 @@ SparringContrast.defaultProps = {
 }
 
 addPropertyControls(SparringContrast, {
-    eyebrow: {
-        type: ControlType.String,
-        title: "Eyebrow",
-        defaultValue: "Ansatz",
-    },
     headline: {
         type: ControlType.String,
         title: "Headline (*italic*)",

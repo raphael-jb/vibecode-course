@@ -1,12 +1,12 @@
-import React, { useState } from "react"
-import { addPropertyControls, ControlType, motion } from "framer"
+import React, { useEffect, useState } from "react"
+import { addPropertyControls, ControlType, motion, RenderTarget } from "framer"
 
 /**
  * CollaborativeFAQ (RESPONSIVE)
  * ──────────────────────────────
  * A high-end editorial FAQ section.
- * - Architecture: 2-column Desktop, 1-column Tablet/Mobile.
- * - Design: Instrument Serif H2 (65px), 400 weight only.
+ * - Architecture: centered header + centered accordion list.
+ * - Design: Instrument Serif H2, 400 weight only.
  * - Interaction: Focus mode + No/Solid borders only.
  * - SEO: Always renders answers in DOM, toggles visibility via CSS/Motion.
  */
@@ -24,15 +24,16 @@ const STYLES = `
     @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500&display=swap');
     
     .rb-faq-grid {
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        gap: 64px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 56px;
         width: 100%;
-        max-width: 1200px;
+        max-width: 920px;
     }
 
-    .rb-faq-left { grid-column: span 5; }
-    .rb-faq-right { grid-column: span 7; }
+    .rb-faq-left { width: 100%; }
+    .rb-faq-right { width: 100%; max-width: 780px; }
 
     .rb-faq-doodles {
         position: relative;
@@ -43,13 +44,9 @@ const STYLES = `
     /* Tablet Breakpoint: 1024px */
     @media (max-width: 1024px) {
         .rb-faq-grid { 
-            display: flex; 
-            flex-direction: column; 
             gap: 40px; 
         }
-        .rb-faq-left { width: 100%; position: relative !important; top: 0 !important; }
-        .rb-faq-right { width: 100%; }
-        .rb-faq-title { font-size: 56px !important; }
+        .rb-faq-left { position: relative !important; top: 0 !important; }
         .rb-faq-doodles { height: 120px; margin-top: 16px; }
     }
 
@@ -57,12 +54,30 @@ const STYLES = `
     @media (max-width: 600px) {
         .rb-faq-container { padding: 64px 24px !important; }
         .rb-faq-grid { gap: 24px; }
-        .rb-faq-title { font-size: 42px !important; }
-        .rb-faq-subtitle { font-size: 18px !important; }
-        .rb-faq-card { padding: 24px !important; }
         .rb-faq-doodles { height: 100px; margin-top: 12px; }
     }
 `
+
+const TYPE_PRESETS = {
+    desktop: {
+        title: 65,
+        subtitle: 20,
+        question: 28,
+        answer: 18,
+        ctaTitle: 32,
+        cardPadding: 32,
+    },
+    tablet: {
+        S: { title: 42, subtitle: 16, question: 21, answer: 15, ctaTitle: 24, cardPadding: 24 },
+        M: { title: 48, subtitle: 17, question: 23, answer: 16, ctaTitle: 26, cardPadding: 28 },
+        L: { title: 54, subtitle: 18, question: 25, answer: 17, ctaTitle: 28, cardPadding: 30 },
+    },
+    mobile: {
+        S: { title: 34, subtitle: 15, question: 19, answer: 14, ctaTitle: 21, cardPadding: 20 },
+        M: { title: 38, subtitle: 16, question: 21, answer: 15, ctaTitle: 23, cardPadding: 22 },
+        L: { title: 42, subtitle: 17, question: 23, answer: 16, ctaTitle: 25, cardPadding: 24 },
+    },
+}
 
 export default function CollaborativeFAQ(props) {
     const { 
@@ -76,11 +91,34 @@ export default function CollaborativeFAQ(props) {
         ctaHref,
         accentColor,
         borderWidth,
-        borderColor
+        borderColor,
+        tabletTextSize,
+        mobileTextSize,
     } = props
 
     const [openIndex, setOpenIndex] = useState(null)
+    const [viewport, setViewport] = useState<"desktop" | "tablet" | "mobile">("desktop")
     const hasDoodles = doodle1 || doodle2 || doodle3
+    const isCanvas = RenderTarget.current() === RenderTarget.canvas
+
+    useEffect(() => {
+        if (isCanvas) return
+        const check = () => {
+            if (window.innerWidth <= 600) setViewport("mobile")
+            else if (window.innerWidth <= 1024) setViewport("tablet")
+            else setViewport("desktop")
+        }
+        check()
+        window.addEventListener("resize", check)
+        return () => window.removeEventListener("resize", check)
+    }, [isCanvas])
+
+    const type =
+        viewport === "mobile"
+            ? TYPE_PRESETS.mobile[mobileTextSize || "M"]
+            : viewport === "tablet"
+              ? TYPE_PRESETS.tablet[tabletTextSize || "M"]
+              : TYPE_PRESETS.desktop
 
     return (
         <section className="rb-faq-container" style={{
@@ -99,18 +137,19 @@ export default function CollaborativeFAQ(props) {
                 <div className="rb-faq-left" style={{
                     display: "flex",
                     flexDirection: "column",
+                    alignItems: "center",
                     gap: 16,
-                    position: "sticky",
-                    top: 80,
                     height: "fit-content",
+                    textAlign: "center",
                 }}>
                     <h2 className="rb-faq-title" style={{
                         fontFamily: "'Instrument Serif', serif",
-                        fontSize: 65, // H2 Token
+                        fontSize: type.title,
                         fontWeight: 400,
                         lineHeight: 1.0,
                         color: COLORS.textPrimary,
                         margin: 0,
+                        maxWidth: 720,
                     }}>
                         {title.split("*").map((p, i) => (
                             <span key={i} style={{ fontStyle: i % 2 !== 0 ? "italic" : "normal" }}>{p}</span>
@@ -118,12 +157,12 @@ export default function CollaborativeFAQ(props) {
                     </h2>
                     <p className="rb-faq-subtitle" style={{
                         fontFamily: "'Inter Tight', sans-serif",
-                        fontSize: 20,
+                        fontSize: type.subtitle,
                         fontWeight: 300,
                         color: COLORS.textSecondary,
-                        maxWidth: 380,
+                        maxWidth: 560,
                         margin: 0,
-                        lineHeight: 1.3,
+                        lineHeight: 1.45,
                     }}>
                         {subtitle}
                     </p>
@@ -142,6 +181,7 @@ export default function CollaborativeFAQ(props) {
                     display: "flex",
                     flexDirection: "column",
                     gap: 12,
+                    alignItems: "stretch",
                 }}>
                     {items.map((item, i) => {
                         const isOpen = openIndex === i
@@ -160,7 +200,7 @@ export default function CollaborativeFAQ(props) {
                                 style={{
                                     backgroundColor: COLORS.backgroundAlt,
                                     borderRadius: 16,
-                                    padding: 32,
+                                    padding: type.cardPadding,
                                     cursor: "pointer",
                                     border: `${borderWidth}px solid ${borderColor}`,
                                     position: "relative",
@@ -174,7 +214,7 @@ export default function CollaborativeFAQ(props) {
                                 }}>
                                     <h4 style={{
                                         fontFamily: "'Instrument Serif', serif",
-                                        fontSize: 28,
+                                        fontSize: type.question,
                                         fontWeight: 400,
                                         color: COLORS.textPrimary,
                                         margin: 0,
@@ -202,7 +242,7 @@ export default function CollaborativeFAQ(props) {
                                 >
                                     <p style={{
                                         fontFamily: "'Inter Tight', sans-serif",
-                                        fontSize: 18,
+                                        fontSize: type.answer,
                                         fontWeight: 300,
                                         lineHeight: 1.5,
                                         color: COLORS.textSecondary,
@@ -222,7 +262,7 @@ export default function CollaborativeFAQ(props) {
                         style={{
                             backgroundColor: COLORS.brand02,
                             borderRadius: 16,
-                            padding: "32px",
+                            padding: type.cardPadding,
                             display: "flex",
                             justifyContent: "space-between",
                             alignItems: "center",
@@ -243,7 +283,7 @@ export default function CollaborativeFAQ(props) {
                             </span>
                             <h4 style={{
                                 fontFamily: "'Instrument Serif', serif",
-                                fontSize: 32,
+                                fontSize: type.ctaTitle,
                                 fontWeight: 400,
                                 color: "#FFFFFF",
                                 margin: "4px 0 0",
@@ -267,6 +307,8 @@ CollaborativeFAQ.defaultProps = {
     ctaHref: "https://calendar.app.google/TxnYmbFXwquFFQKK9",
     borderWidth: 0,
     borderColor: COLORS.borderPrimary,
+    tabletTextSize: "M",
+    mobileTextSize: "M",
     items: [
         { 
             question: "Ist das Coaching oder Consulting?", 
@@ -287,6 +329,20 @@ addPropertyControls(CollaborativeFAQ, {
     title: { type: ControlType.String, title: "Title", defaultValue: "Noch Fragen *offen?*" },
     subtitle: { type: ControlType.String, title: "Subtitle", displayTextArea: true },
     accentColor: { type: ControlType.Color, title: "Accent Color", defaultValue: COLORS.brand02 },
+    tabletTextSize: {
+        type: ControlType.Enum,
+        title: "Tablet Type",
+        options: ["S", "M", "L"],
+        optionTitles: ["S", "M", "L"],
+        defaultValue: "M",
+    },
+    mobileTextSize: {
+        type: ControlType.Enum,
+        title: "Mobile Type",
+        options: ["S", "M", "L"],
+        optionTitles: ["S", "M", "L"],
+        defaultValue: "M",
+    },
     borderWidth: { type: ControlType.Number, title: "Border Width", min: 0, max: 4, defaultValue: 0 },
     borderColor: { type: ControlType.Color, title: "Border Color", defaultValue: COLORS.borderPrimary },
     doodle1: { type: ControlType.Image, title: "Doodle 1 (Lightbulb)" },

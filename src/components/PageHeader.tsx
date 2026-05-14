@@ -21,7 +21,6 @@ function parseItalic(text: string) {
 
 export default function PageHeader(props) {
     const {
-        eyebrow,
         headline,
         subline,
         showCta,
@@ -61,33 +60,6 @@ export default function PageHeader(props) {
             <style>{FONT_IMPORT}</style>
 
             <div style={{ maxWidth: 960, margin: "0 auto" }}>
-
-                {/* Eyebrow */}
-                {eyebrow ? (
-                    <div style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 8,
-                        marginBottom: 28,
-                    }}>
-                        <div style={{
-                            width: 8,
-                            height: 8,
-                            borderRadius: "50%",
-                            backgroundColor: accentColor,
-                            flexShrink: 0,
-                        }} />
-                        <span style={{
-                            fontFamily: "'Inter Tight', sans-serif",
-                            fontSize: 13,
-                            fontWeight: 500,
-                            letterSpacing: "0.04em",
-                            color: accentColor,
-                        }}>
-                            {eyebrow}
-                        </span>
-                    </div>
-                ) : null}
 
                 {/* Headline — the visual hero of this header */}
                 <h1 style={{
@@ -179,7 +151,6 @@ export default function PageHeader(props) {
 }
 
 PageHeader.defaultProps = {
-    eyebrow: "Sparring",
     headline: "Nicht Antworten. *Klarheit.*",
     subline: "Kein Framework, kein Coaching-Programm — ein Gespräch auf Augenhöhe für Führungskräfte, die wissen was sie tun wollen, aber einen Raum brauchen um es zu finden.",
     showCta: true,
@@ -192,11 +163,6 @@ PageHeader.defaultProps = {
 }
 
 addPropertyControls(PageHeader, {
-    eyebrow: {
-        type: ControlType.String,
-        title: "Eyebrow",
-        defaultValue: "Sparring",
-    },
     headline: {
         type: ControlType.String,
         title: "Headline (*italic*)",

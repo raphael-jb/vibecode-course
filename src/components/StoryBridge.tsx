@@ -29,7 +29,6 @@ function parseText(text: string) {
 export default function StoryBridge(props) {
     const {
         text,
-        eyebrow,
         ctaLabel,
         ctaLink,
         subline,
@@ -102,19 +101,6 @@ export default function StoryBridge(props) {
                         zIndex: 1,
                     }}
                 >
-                    {/* Eyebrow */}
-                    {eyebrow && (
-                        <span style={{
-                            fontSize: 13,
-                            fontWeight: 600,
-                            letterSpacing: "0.1em",
-                            textTransform: "uppercase",
-                            color: accentColor,
-                        }}>
-                            {eyebrow}
-                        </span>
-                    )}
-
                     {/* Bridge Text */}
                     <h2 style={{
                         fontFamily: "'Instrument Serif', serif",
@@ -187,7 +173,6 @@ export default function StoryBridge(props) {
 }
 
 StoryBridge.defaultProps = {
-    eyebrow: "Der Resonanzraum",
     text: "Heute biete ich genau diesen *Raum* an, den ich mir damals selbst gewünscht hätte: Ein Sparring auf Augenhöhe, das keine Antworten vorgibt, sondern die eigene Klarheit befreit.",
     ctaLabel: "Den ersten Case besprechen",
     ctaLink: "#",
@@ -200,7 +185,6 @@ StoryBridge.defaultProps = {
 }
 
 addPropertyControls(StoryBridge, {
-    eyebrow: { type: ControlType.String, title: "Eyebrow", defaultValue: "Der Resonanzraum" },
     text: { type: ControlType.String, title: "Bridge Text", displayTextArea: true, defaultValue: StoryBridge.defaultProps.text },
     ctaLabel: { type: ControlType.String, title: "CTA Label", defaultValue: "Den ersten Case besprechen" },
     ctaLink: { type: ControlType.String, title: "CTA Link" },

@@ -1,5 +1,5 @@
 import { addPropertyControls, ControlType, RenderTarget } from "framer"
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 
 // ── Bokeh ──────────────────────────────────────────────────────────────────
@@ -16,10 +16,30 @@ const BOKEH_SCALE: Record<string, number> = {
 }
 
 // ── Overlay presets ────────────────────────────────────────────────────────
-const OVERLAY: Record<string, string> = {
-    light:  "linear-gradient(to bottom, rgba(8,5,3,.35) 0%, rgba(8,5,3,.05) 35%, rgba(8,5,3,0) 50%, rgba(8,5,3,.45) 78%, rgba(8,5,3,.70) 100%)",
-    medium: "linear-gradient(to bottom, rgba(8,5,3,.55) 0%, rgba(8,5,3,.15) 30%, rgba(8,5,3,.05) 50%, rgba(8,5,3,.62) 78%, rgba(8,5,3,.88) 100%)",
-    dark:   "linear-gradient(to bottom, rgba(8,5,3,.75) 0%, rgba(8,5,3,.40) 30%, rgba(8,5,3,.25) 50%, rgba(8,5,3,.78) 78%, rgba(8,5,3,.94) 100%)",
+const OVERLAY_STOPS: Record<string, Array<[number, number]>> = {
+    light:  [[0, 0.35], [35, 0.05], [50, 0],    [78, 0.45], [100, 0.70]],
+    medium: [[0, 0.55], [30, 0.15], [50, 0.05], [78, 0.62], [100, 0.88]],
+    dark:   [[0, 0.75], [30, 0.40], [50, 0.25], [78, 0.78], [100, 0.94]],
+}
+
+function hexToRgb(hex: string): { r: number; g: number; b: number } {
+    const m = hex.replace("#", "").match(/^([0-9a-f]{3}|[0-9a-f]{6})$/i)
+    if (!m) return { r: 8, g: 5, b: 3 }
+    let h = m[1]
+    if (h.length === 3) h = h.split("").map((c) => c + c).join("")
+    return {
+        r: parseInt(h.slice(0, 2), 16),
+        g: parseInt(h.slice(2, 4), 16),
+        b: parseInt(h.slice(4, 6), 16),
+    }
+}
+
+function buildOverlay(variant: string, color: string): string {
+    const { r, g, b } = hexToRgb(color)
+    const stops = (OVERLAY_STOPS[variant] ?? OVERLAY_STOPS.medium)
+        .map(([pos, a]) => `rgba(${r},${g},${b},${a}) ${pos}%`)
+        .join(", ")
+    return `linear-gradient(to bottom, ${stops})`
 }
 
 // ── Breakpoint tokens ──────────────────────────────────────────────────────
@@ -74,7 +94,7 @@ const TOKEN: Record<BP, {
         contentMaxW:   680,
     },
     S: {
-        heroPadding:  "0 24px 60px",
+        heroPadding:  "0 24px 140px",
         h1Size:        40,
         h1MB:          20,
         subSize:       16,
@@ -184,20 +204,20 @@ const WordSplitter = ({ text, isItalic = false, accent = false }: { text: string
 // ── Component ──────────────────────────────────────────────────────────────
 export default function HeroAnimated({
     heroImage,
-    labelText      = "Strategischer Sparringpartner",
     line1Before    = "Wer ist für",
     line1Highlight = "Dich",
     line1After     = "da,",
     line2          = "während Du für alle",
     line3          = "anderen da bist?",
     subline        = "Gestalte einen Raum, in dem es nur um Dich gehen darf.",
-    ctaLabel       = "Gespräch vereinbaren →",
+    ctaLabel       = "Gespräch vereinbaren",
     ctaHref        = "https://calendar.app.google/TxnYmbFXwquFFQKK9",
+    ctaIcon,
     bokehMode      = "medium",
     overlayVariant = "medium",
+    overlayColor   = "#080503",
 }: {
     heroImage?: string
-    labelText?: string
     line1Before?: string
     line1Highlight?: string
     line1After?: string
@@ -206,17 +226,29 @@ export default function HeroAnimated({
     subline?: string
     ctaLabel?: string
     ctaHref?: string
+    ctaIcon?: string
     bokehMode?: "off" | "subtle" | "medium" | "dreamy"
     overlayVariant?: "light" | "medium" | "dark"
+    overlayColor?: string
 }) {
     const isCanvas = RenderTarget.current() === RenderTarget.canvas
     const bp       = useBreakpoint()
     const t        = TOKEN[bp]
 
+    const sectionRef = useRef<HTMLElement>(null)
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const ptsRef    = useRef<any[]>([])
     const rafRef    = useRef<number>()
     const modeRef   = useRef(bokehMode)
+
+    // Subtle scroll-reveal: overlay is fully visible from the start; scroll drives
+    // a gentle vertical parallax on the gradient + a tiny intensification.
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start start", "end start"],
+    })
+    const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0.92, 1])
+    const overlayBgPos  = useTransform(scrollYProgress, (v) => `50% ${v * 30}%`)
 
     useEffect(() => { injectAnimCSS() }, [])
     useEffect(() => { modeRef.current = bokehMode }, [bokehMode])
@@ -301,10 +333,10 @@ export default function HeroAnimated({
     `
 
     return (
-        <section style={{
+        <section ref={sectionRef} style={{
             position: "relative",
             width: "100%",
-            height: "100vh",
+            height: bp === "S" ? "100svh" : "100vh",
             minHeight: 600,
             overflow: "hidden",
             display: "flex",
@@ -349,10 +381,13 @@ export default function HeroAnimated({
                 </div>
             )}
 
-            {/* Dark overlay */}
-            <div style={{
+            {/* Overlay — color configurable, gradient parallax-shifts on scroll */}
+            <motion.div style={{
                 position: "absolute", inset: 0, zIndex: 1,
-                background: OVERLAY[overlayVariant],
+                background: buildOverlay(overlayVariant, overlayColor),
+                backgroundSize: "100% 130%",
+                backgroundPosition: isCanvas ? "50% 0%" : overlayBgPos,
+                opacity: isCanvas ? 1 : overlayOpacity,
             }} />
 
             {/* Warm violet pulse */}
@@ -376,27 +411,6 @@ export default function HeroAnimated({
                 position: "relative", zIndex: 10,
                 maxWidth: t.contentMaxW,
             }}>
-
-                {/* Label */}
-                <motion.div
-                    style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: t.labelMB }}
-                    variants={fadeUp(0.05)}
-                    initial={initial}
-                    animate={animate}
-                >
-                    <div style={{
-                        width: 5, height: 5, borderRadius: "50%",
-                        background: "#FF6403", flexShrink: 0,
-                    }} />
-                    <span style={{
-                        fontWeight: 300, fontSize: 11,
-                        color: "rgba(255,255,255,0.55)",
-                        letterSpacing: "0.08em",
-                        textTransform: "uppercase",
-                    }}>
-                        {labelText}
-                    </span>
-                </motion.div>
 
                 {/* Headline */}
                 <motion.h1
@@ -459,6 +473,7 @@ export default function HeroAnimated({
                         fontSize: t.ctaFontSize,
                         fontFamily: "'Inter Tight', sans-serif",
                         textDecoration: "none",
+                        boxShadow: "0 2px 14px #FF6403",
                     }}
                     variants={fadeUp(0.55)}
                     initial={initial}
@@ -466,6 +481,18 @@ export default function HeroAnimated({
                     whileHover={{ opacity: 0.88 }}
                 >
                     {ctaLabel}
+                    {ctaIcon && (
+                        <img
+                            src={ctaIcon}
+                            alt=""
+                            style={{
+                                height: t.ctaFontSize,
+                                width: "auto",
+                                display: "block",
+                                flexShrink: 0,
+                            }}
+                        />
+                    )}
                 </motion.a>
             </div>
 
@@ -514,11 +541,6 @@ addPropertyControls(HeroAnimated, {
         type: ControlType.Image,
         title: "Hero Photo",
     },
-    labelText: {
-        type: ControlType.String,
-        title: "Label",
-        defaultValue: "Strategischer Sparringpartner",
-    },
     line1Before: {
         type: ControlType.String,
         title: "Line 1 — Davor",
@@ -552,12 +574,16 @@ addPropertyControls(HeroAnimated, {
     ctaLabel: {
         type: ControlType.String,
         title: "CTA Label",
-        defaultValue: "Gespräch vereinbaren →",
+        defaultValue: "Gespräch vereinbaren",
     },
     ctaHref: {
         type: ControlType.String,
         title: "CTA URL",
         defaultValue: "https://calendar.app.google/TxnYmbFXwquFFQKK9",
+    },
+    ctaIcon: {
+        type: ControlType.Image,
+        title: "CTA Icon",
     },
     bokehMode: {
         type: ControlType.Enum,
@@ -572,5 +598,10 @@ addPropertyControls(HeroAnimated, {
         options: ["light", "medium", "dark"],
         optionTitles: ["Hell", "Mittel", "Dunkel"],
         defaultValue: "medium",
+    },
+    overlayColor: {
+        type: ControlType.Color,
+        title: "Overlay Color",
+        defaultValue: "#080503",
     },
 })

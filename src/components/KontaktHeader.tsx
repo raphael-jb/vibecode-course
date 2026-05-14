@@ -21,7 +21,6 @@ function parseItalic(text: string) {
 
 export default function KontaktHeader(props) {
     const {
-        eyebrow,
         headline,
         lead,
         primaryCtaLabel,
@@ -62,31 +61,6 @@ export default function KontaktHeader(props) {
                 }}
             >
                 <div>
-                    {eyebrow ? (
-                        <div
-                            style={{
-                                display: "inline-flex",
-                                alignItems: "center",
-                                gap: 10,
-                                marginBottom: 28,
-                                color: accentColor,
-                                fontSize: 13,
-                                fontWeight: 600,
-                                letterSpacing: "0.06em",
-                                textTransform: "uppercase",
-                            }}
-                        >
-                            <span
-                                style={{
-                                    width: 9,
-                                    height: 9,
-                                    borderRadius: 999,
-                                    backgroundColor: accentColor,
-                                }}
-                            />
-                            {eyebrow}
-                        </div>
-                    ) : null}
                     <h1
                         style={{
                             margin: 0,
@@ -167,7 +141,6 @@ export default function KontaktHeader(props) {
 }
 
 KontaktHeader.defaultProps = {
-    eyebrow: "Kontakt",
     headline: "Lass uns *sprechen.*",
     lead: "Wenn Du einen Case, eine Frage oder einen ersten Gedanken hast: Schreib mir kurz. Ich melde mich persönlich.",
     primaryCtaLabel: "Erstgespräch buchen",
@@ -181,7 +154,6 @@ KontaktHeader.defaultProps = {
 }
 
 addPropertyControls(KontaktHeader, {
-    eyebrow: { type: ControlType.String, title: "Eyebrow", defaultValue: "Kontakt" },
     headline: { type: ControlType.String, title: "Headline (*italic*)", displayTextArea: true, defaultValue: KontaktHeader.defaultProps.headline },
     lead: { type: ControlType.String, title: "Lead", displayTextArea: true, defaultValue: KontaktHeader.defaultProps.lead },
     primaryCtaLabel: { type: ControlType.String, title: "CTA Label", defaultValue: "Erstgespräch buchen" },

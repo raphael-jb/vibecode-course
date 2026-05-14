@@ -34,7 +34,7 @@ function splitLines(text: string) {
         .filter(Boolean)
 }
 
-function FormatCard({ item, index, isMobile, headerHeight, expandableDesktop, defaultOpen }) {
+function FormatCard({ item, isMobile, headerHeight, expandableDesktop, defaultOpen }) {
     const [isOpen, setIsOpen] = useState(defaultOpen)
     const accentColor = item.accentColor || COLORS.brand01
     const hasExpandableContent = item.whatHappens || item.takeaway || item.ctaText
@@ -67,18 +67,7 @@ function FormatCard({ item, index, isMobile, headerHeight, expandableDesktop, de
                 gap: 24,
                 backgroundColor: item.tintColor || hexToRgba(accentColor, 0.08),
             }}>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 20 }}>
-                    <span style={{
-                        fontFamily: UTILITY_FONT,
-                        fontSize: 12,
-                        fontWeight: 500,
-                        letterSpacing: "0.08em",
-                        textTransform: "uppercase",
-                        color: accentColor,
-                    }}>
-                        {item.eyebrow || `0${index + 1}`}
-                    </span>
-
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: 20 }}>
                     {item.visual ? (
                         <img
                             src={item.visual}
@@ -90,16 +79,7 @@ function FormatCard({ item, index, isMobile, headerHeight, expandableDesktop, de
                                 flexShrink: 0,
                             }}
                         />
-                    ) : (
-                        <div style={{
-                            width: 36,
-                            height: 36,
-                            borderRadius: "50%",
-                            backgroundColor: accentColor,
-                            opacity: 0.9,
-                            flexShrink: 0,
-                        }} />
-                    )}
+                    ) : null}
                 </div>
 
                 <div>
@@ -274,12 +254,10 @@ function InfoBlock({ label, body, accentColor }) {
 
 export default function FormatGallery(props) {
     const {
-        eyebrow,
         headline,
         subline,
         items,
         background,
-        accentColor,
         paddingTop,
         paddingBottom,
         headerHeight,
@@ -313,33 +291,11 @@ export default function FormatGallery(props) {
             <style>{FONT_IMPORT}</style>
 
             <div style={{ maxWidth: 1180, margin: "0 auto" }}>
-                <div style={{ maxWidth: 760, marginBottom: isMobile ? 40 : 56 }}>
-                    {eyebrow ? (
-                        <div style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 8,
-                            marginBottom: 24,
-                        }}>
-                            <div style={{
-                                width: 8,
-                                height: 8,
-                                borderRadius: "50%",
-                                backgroundColor: accentColor,
-                                flexShrink: 0,
-                            }} />
-                            <span style={{
-                                fontFamily: UTILITY_FONT,
-                                fontSize: 13,
-                                fontWeight: 500,
-                                letterSpacing: "0.04em",
-                                color: accentColor,
-                            }}>
-                                {eyebrow}
-                            </span>
-                        </div>
-                    ) : null}
-
+                <div style={{
+                    maxWidth: 760,
+                    margin: `0 auto ${isMobile ? 40 : 56}px auto`,
+                    textAlign: "center",
+                }}>
                     <h2 style={{
                         fontFamily: "'Instrument Serif', serif",
                         fontSize: isMobile ? 38 : 56,
@@ -358,7 +314,7 @@ export default function FormatGallery(props) {
                             fontWeight: 300,
                             lineHeight: 1.55,
                             color: COLORS.textSecondary,
-                            margin: 0,
+                            margin: "0 auto",
                             maxWidth: 660,
                         }}>
                             {subline}
@@ -376,7 +332,6 @@ export default function FormatGallery(props) {
                         <FormatCard
                             key={i}
                             item={item}
-                            index={i}
                             isMobile={isMobile}
                             headerHeight={headerHeight}
                             expandableDesktop={expandableDesktop}
@@ -391,7 +346,6 @@ export default function FormatGallery(props) {
 
 const DEFAULT_ITEMS = [
     {
-        eyebrow: "01 / Peer Sparring",
         title: "Peer *Sparring*",
         positioning: "Dein fester Denkraum für laufende Führungsfragen.",
         bestFor: "Du willst Entscheidungen, Spannungen und Gedanken regelmäßig sortieren, ohne jedes Mal bei null anzufangen.",
@@ -404,7 +358,6 @@ const DEFAULT_ITEMS = [
         ctaLink: "https://calendar.app.google/TxnYmbFXwquFFQKK9",
     },
     {
-        eyebrow: "02 / Clarity Streaming",
         title: "Clarity *Streaming*",
         positioning: "Für ein konkretes Thema, das mehr als einen Impuls braucht.",
         bestFor: "Du stehst vor einer Entscheidung oder Frage, die zu viel Gewicht hat, um sie zwischen Meetings mitzudenken.",
@@ -417,7 +370,6 @@ const DEFAULT_ITEMS = [
         ctaLink: "https://calendar.app.google/TxnYmbFXwquFFQKK9",
     },
     {
-        eyebrow: "03 / Transformation Teaming",
         title: "Transformation *Teaming*",
         positioning: "Wenn nicht nur Du, sondern Dein Führungssystem neue Ausrichtung braucht.",
         bestFor: "Rollen, Erwartungen, Konflikte oder Veränderung sind nicht mehr sauber in einer Person zu lösen.",
@@ -432,11 +384,9 @@ const DEFAULT_ITEMS = [
 ]
 
 FormatGallery.defaultProps = {
-    eyebrow: "Formate",
     headline: "Drei Formate. *Ein Prinzip:* Dein Fall führt.",
     subline: "Manchmal reicht ein einzelnes Gespräch. Manchmal braucht Klarheit Rhythmus. Und manchmal muss nicht nur eine Person, sondern ein Führungsteam neu ausgerichtet werden.",
     background: COLORS.backgroundAlt,
-    accentColor: COLORS.brand02,
     paddingTop: 96,
     paddingBottom: 96,
     headerHeight: 300,
@@ -446,11 +396,9 @@ FormatGallery.defaultProps = {
 }
 
 addPropertyControls(FormatGallery, {
-    eyebrow: { type: ControlType.String, title: "Eyebrow", defaultValue: "Formate" },
     headline: { type: ControlType.String, title: "Headline (*italic*)", displayTextArea: true, defaultValue: "Drei Formate. *Ein Prinzip:* Dein Fall führt." },
     subline: { type: ControlType.String, title: "Subline", displayTextArea: true, defaultValue: "Manchmal reicht ein einzelnes Gespräch. Manchmal braucht Klarheit Rhythmus. Und manchmal muss nicht nur eine Person, sondern ein Führungsteam neu ausgerichtet werden." },
     background: { type: ControlType.Color, title: "Background", defaultValue: COLORS.backgroundAlt },
-    accentColor: { type: ControlType.Color, title: "Accent Color", defaultValue: COLORS.brand02 },
     paddingTop: { type: ControlType.Number, title: "Padding Top", defaultValue: 96, min: 0, max: 220, step: 8 },
     paddingBottom: { type: ControlType.Number, title: "Padding Bottom", defaultValue: 96, min: 0, max: 220, step: 8 },
     headerHeight: { type: ControlType.Number, title: "Header Height", defaultValue: 300, min: 190, max: 420, step: 10 },
@@ -462,7 +410,6 @@ addPropertyControls(FormatGallery, {
         control: {
             type: ControlType.Object,
             controls: {
-                eyebrow: { type: ControlType.String, title: "Eyebrow", defaultValue: "01 / Format" },
                 title: { type: ControlType.String, title: "Title (*italic*)", defaultValue: "Format *Name*" },
                 positioning: { type: ControlType.String, title: "Positioning", displayTextArea: true, defaultValue: "Kurze Einordnung." },
                 bestForLabel: { type: ControlType.String, title: "Best For Label", defaultValue: "Passt, wenn" },

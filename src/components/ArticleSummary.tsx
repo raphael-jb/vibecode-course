@@ -15,8 +15,6 @@ const FONT_IMPORT = "@import url('https://fonts.googleapis.com/css2?family=Instr
 export default function ArticleSummaryClean(props) {
     const {
         label,
-        showReadTime,
-        readTime,
         showProse,
         prose,
         proseFontSize,
@@ -67,35 +65,6 @@ export default function ArticleSummaryClean(props) {
             }}
         >
             <style>{FONT_IMPORT}</style>
-
-            {/* Eyebrow row */}
-            <div style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: 12,
-            }}>
-                <span style={{
-                    fontSize: 11,
-                    fontWeight: 300,
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    color: "#767676",
-                }}>
-                    {label}
-                </span>
-                {showReadTime && (
-                    <span style={{
-                        fontSize: 11,
-                        fontWeight: 300,
-                        letterSpacing: "0.04em",
-                        color: "#767676",
-                        whiteSpace: "nowrap",
-                    }}>
-                        {readTime} Min. Lesezeit
-                    </span>
-                )}
-            </div>
 
             {/* Prose block — zitierfähige Einheit für LLMs und AI Overviews */}
             {showProse && prose && (
@@ -161,8 +130,6 @@ export default function ArticleSummaryClean(props) {
 
 ArticleSummaryClean.defaultProps = {
     label: "Zusammenfassung",
-    showReadTime: true,
-    readTime: 4,
     showProse: true,
     prose: "Klarheit entsteht nicht durch mehr Information, sondern durch das Aussprechen der richtigen Spannung. Wer einen externen Resonanzraum nutzt, beschleunigt nicht die Entscheidung – sondern den Weg zur eigenen Urteilskraft.",
     proseFontSize: 16,
@@ -193,20 +160,6 @@ addPropertyControls(ArticleSummaryClean, {
         type: ControlType.String,
         title: "Label",
         defaultValue: "Zusammenfassung",
-    },
-    showReadTime: {
-        type: ControlType.Boolean,
-        title: "Lesezeit",
-        defaultValue: true,
-    },
-    readTime: {
-        type: ControlType.Number,
-        title: "Minuten",
-        defaultValue: 4,
-        min: 1,
-        max: 60,
-        step: 1,
-        hidden: (props) => !props.showReadTime,
     },
     showProse: {
         type: ControlType.Boolean,

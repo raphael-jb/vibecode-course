@@ -1,385 +1,113 @@
 # Raphael Baruch — Design System Style Reference
 
-> This file is the single source of truth for all visual decisions in the Raphael Baruch personal brand.  
-> Use it as the design system input for Claude Design.
+> This file is the single source of truth for all visual decisions and the verbal identity of the Raphael Baruch personal brand.
+> Last Updated: May 11, 2026 (Reflecting the "Baruch Code" & Status Quo)
 
 ---
 
-## 1. Brand Identity
+## 1. Brand Tokens
 
-**Brand name:** Raphael Baruch · raphaelbaruch.com  
-**Voice & feel:** Warm, human, serious but not sterile. A sparring partner — not a consultant. Combines editorial clarity (Instrument Serif) with honest utility (Inter Display). Doodle illustrations signal approachability and craft.
+### 1.1 Core Palette
 
-**Logo:** Two-piece geometric mark — a filled rounded rectangle with an inner rounded cutout (top), and an outlined rounded square (bottom). Heavy corner radii. Available in: black, white, grey, orange (`brand-02`), purple (`brand-01`), yellow (`brand-03`).  
-`/rb-logo/rb-logo-{black|white|grey|orange|purple|yellow}.png`
+| Token | Hex | Name | Role |
+| :--- | :--- | :--- | :--- |
+| `cream` | `#FCF8F1` | Warm Cream | **Primary Surface** (Main background) |
+| `navy` | `#0E2616` | Navy | **Anchor Text** (Headlines & high-contrast UI) |
+| `orange` | `#FF6403` | Action Orange | **Primary Action** (CTAs, primary accents) |
+| `violet` | `#9C73FF` | Violet | **Secondary Accent** (Soft tension, creative) |
+| `yellow` | `#FFC857` | Amber | **Tertiary Accent** (Warmth, optimism) |
+| `white` | `#FFFFFF` | White | **Secondary Surface** (Cards & containers) |
+| `muted` | `#767676` | Grey | **Subtle Text** (Body copy, descriptions) |
+| `border` | `#E5E5E5` | Light Grey | **UI Structure** (Default solid borders) |
 
----
-
-## 2. Typography
-
-### 2.1 Fonts
-
-| Role | Family | Weights Used |
-|---|---|---|
-| Headings | **Instrument Serif** | Regular, Italic |
-| Body / UI | **Inter Display** | Light (300) |
-| Captions | **Inter Display** | Light (300) |
-
-**Typographic emphasis pattern:** Instrument Serif italic is used for emotionally weighted or key words within otherwise upright heading text. Example: "Ich bin Dein Sparringpartner für *Deine Weiterentwicklung.*" — the italic word carries the meaning, the upright sets the frame.
+**Note on Navy:** Although technically a deep forest-green hex, it is strictly referred to and used as **Navy** across the system.
 
 ---
 
-### 2.2 Heading Scale
+### 1.2 Typography
 
-Font: Instrument Serif Regular · Color: `text-primary` (#000000)
+**Family:**
+*   **Emotional/Headings:** `Instrument Serif` (Italic for emphasis)
+*   **Utility/Body:** `Inter Display` (Light 300, Regular 400, Medium 500, SemiBold 600)
 
-| Token | Name      | Size  | Line Height |
-|-------|-----------|-------|-------------|
-| `h1`  | Heading 1 | 80px  | 1.0         |
-| `h2`  | Heading 2 | 65px  | 1.0         |
-| `h3`  | Heading 3 | 50px  | 1.0         |
-| `h4`  | Heading 4 | 40px  | 1.0         |
-| `h5`  | Heading 5 | 28px  | 1.2         |
-| `h6`  | Heading 6 | 20px  | 1.2         |
-
-**Usage note:** Headings at H1–H4 intentionally use a tight line-height (1.0). They are display-scale text — do not add extra spacing between lines.
+**Scale (Fluid):**
+*   **H1:** `clamp(54px, 8vw, 88px)` | Line Height: `0.97` | Font: `Instrument Serif`
+*   **H2:** `clamp(42px, 5.8vw, 68px)` | Line Height: `1.0` | Font: `Instrument Serif`
+*   **H3:** `clamp(30px, 3.6vw, 44px)` | Line Height: `1.04` | Font: `Instrument Serif`
 
 ---
 
-### 2.3 Body / Paragraph Scale
+## 2. Voice & Copywriting (The Baruch Code)
 
-Font: Inter Display Light · Color: `text-secondary` (#767676)
+To maintain a human, grounded, and serious brand voice, follow these linguistic signals to avoid "AI Slop."
 
-| Token      | Name   | Size | Line Height |
-|------------|--------|------|-------------|
-| `body`     | Body   | 20px | 1.2         |
-| `body-2`   | Body 2 | 18px | 1.4         |
-| `body-3`   | Body 3 | 16px | 1.2         |
-| `blog-text`| Blog   | 20px | 1.4         |
+### 2.1 Hard Negatives (AI Slop Detection)
+If a text contains these, it is **off-brand**:
+1.  **False Profundity:** "It's not just X, it's Y" or "More than a tool, a [Metaphor]."
+2.  **Adjective Piling:** Using 2-3 generic adjectives like "comprehensive, holistic, seamless."
+3.  **Lexical Smoothing:** Using safe, middle-of-the-road words. Avoid "delve," "leverage," "vibrant," "journey," "pivotal."
+4.  **Register Inelasticity:** A tone that never breaks. AI stays formal; Baruch is atmospheric then punchy.
+5.  **Summary Addiction:** Ending with "Ultimately," "In summary," or "In today's fast-paced world."
 
-**Usage note:** `blog-text` is the long-form reading variant — slightly looser leading for sustained reading comfort.
-
----
-
-### 2.4 Caption Scale
-
-Font: Inter Display Light · Color: `text-secondary` (#767676)
-
-| Token       | Name      | Size | Line Height |
-|-------------|-----------|------|-------------|
-| `caption`   | Caption   | 10px | 1.2         |
-| `caption-2` | Caption 2 | 12px | 1.2         |
-| `caption-3` | Caption 3 | 12px | 1.2         |
+### 2.2 The "Human" Signals (Dos)
+*   **Sensory Anchoring:** Start scenes or sections with a physical sensation (Smell: *Kirschblütenrauch*, Sound: *Knistern*, Light: *kaltes Leuchten*).
+*   **Emotional Physicality:** Never name the emotion. Show the "Zittern der Hände" or "Pressen der Worte durch die Zähne."
+*   **Vertical Breathing:** Use short fragments or single-word sentences as a "beat."
+    *   *Example:*
+        Stille.
+        Atme.
+        Dann die Antwort.
+*   **Weighty Vocabulary:** Use words with friction: *Urteilskraft, Tollkühnheit, Resonanzraum, Substanz, Aushalten, Zäsur.*
+*   **Affirmative Substanz:** Benenne direkt und konkret, *was* etwas ist — nicht, was es nicht ist. Wirkung entsteht aus dem positiven Anker, nicht aus der Abgrenzung. Negation ist ein rhetorischer Umweg; sie kann punktuell als Pointe funktionieren, taugt aber nicht als Standard-Opener. ("Ein präziser Sparringraum für Führungsfragen, die Substanz haben.")
 
 ---
 
-## 3. Color Tokens
+### 2.3 Lexikon & Schreibweise
 
-### 3.1 Backgrounds
-
-| Token                  | Hex       | Notes |
-|------------------------|-----------|-------|
-| `background-primary`   | `#F0EDED` | Main light surface — warm near-white |
-| `background-secondary` | `#101010` | Dark surface — near-black |
-| `background-tertiary`  | `#000000` | True black — deepest layer |
-| `background-alt`       | `#FCF8F1` | Warm cream — used for cards and sections on light bg |
-
-**Usage pattern observed on site:** `background-alt` (#FCF8F1) is the dominant page background. `background-primary` (#F0EDED) appears as a slightly cooler alternative. Dark surfaces (`background-secondary`, `background-tertiary`) for contrast sections or overlays.
+**Sparringpartner / Sparringraum** — beide Begriffe werden **ohne Fugen-s** geschrieben (nicht "Sparringspartner", nicht "Sparringsraum"). Grammatikalisch eine Grauzone, phonetisch klar überlegen. Diese Schreibweise ist für die gesamte Marke verbindlich — in Copy, Headlines, UI, SEO-Titeln und Metadaten gleichermaßen.
 
 ---
 
-### 3.2 Text Colors
+### 2.4 Gender-Richtlinien
 
-| Token            | Hex       | Notes |
-|------------------|-----------|-------|
-| `text-primary`   | `#000000` | Headlines, high-emphasis text |
-| `text-secondary` | `#767676` | Body copy, default paragraph color |
-| `text-tertiary`  | `#767676` | Same as secondary — reserved for future differentiation |
-| `text-invert`    | `#FFFFFF` | Text on dark/brand surfaces |
+Die Marke spricht inklusiv, aber nicht performativ. Drei Regeln, in dieser Reihenfolge angewendet:
 
----
-
-### 3.3 Border Colors
-
-| Token            | Hex       | Notes |
-|------------------|-----------|-------|
-| `border-primary` | `#E5E5E5` | Default border — light grey |
-
-**Usage pattern:** Cards use `border-primary` as a 1px solid border or no border. Frames are never dashed, dotted, sketch-like, double, or decorative.
+1.  **Geschlechtsneutral, wo es geht.** Bevorzuge neutrale Sammel- und Funktionsbezeichnungen: *Mitarbeitende, Team, Führungskraft, Gegenüber, Personen, Menschen*. Das ist die erste Wahl — nicht der Workaround.
+2.  **Wenn gendern, dann mit Doppelpunkt.** Wo eine neutrale Form nicht greift, ist der **Doppelpunkt** Marken-Standard: *Kolleg:in, Gründer:in, Mitarbeiter:in, Klient:in*. Kein Sternchen, kein Binnen-I, kein Schrägstrich, kein Unterstrich.
+3.  **Englische Begriffe nicht gendern, nicht eindeutschen.** Englische Lehnwörter und Berufsbezeichnungen bleiben in ihrer Form: *Coach, CEO, Founder, Investor, Mentor*. Mehrzahl mit englischer Pluralform: *Coaches, CEOs, Founders*. Keine Konstruktionen wie "Coach:in" oder "Coachin".
 
 ---
 
-### 3.4 Brand Colors
+## 3. Layout Patterns
 
-| Token      | Hex       | Name              | Personality |
-|------------|-----------|-------------------|-------------|
-| `brand-01` | `#9C73FF` | Violet / Purple   | Creative, emotional, depth |
-| `brand-02` | `#FF6403` | Orange            | Energy, action, CTA |
-| `brand-03` | `#FFC857` | Amber / Yellow    | Warmth, optimism |
-| `brand-04` | `#767676` | Grey / Neutral    | Balance, text |
-| `brand-05` | `#7DB79F` | Teal / Green      | Growth, calm |
-| `brand-06` | `#00A8E8` | Sky Blue / Cyan   | Clarity, openness |
-| `brand-07` | `#E5E5E5` | Light Grey        | Borders, subtle fill |
-| `brand-08` | `#0E2616` | Forest Green      | Grounding, nature |
+### 3.1 Section Shell
+*   **Container Width:** `max-width: 1180px`
+*   **Desktop Padding:** `112px 0` (Vertical) | `40px` (Horizontal gutter)
+*   **Mobile Padding:** `72px 0` (Vertical) | `22px` (Horizontal gutter)
+*   **No Top Label Pattern:** Do not use the old orange-dot-plus-keyword row above section headlines. Start sections directly with the real headline or with substantive body copy.
 
-**Primary accent:** `brand-02` (#FF6403) Orange — used for CTAs, links (Link 2), logo variants.  
-**Secondary accent:** `brand-01` (#9C73FF) Violet — used in gradients, holo illustration effects.
+### 3.2 Responsive Grid
+*   **Gap:** Standardized at `22px` or `24px`.
+*   **Grid-3:** `repeat(3, minmax(0, 1fr))` on desktop → `repeat(2, 1fr)` on tablet → `1fr` on mobile.
 
 ---
 
-## 4. Gradients
+## 4. Component Recipes
 
-Both gradients are linear at **315°** (top-right → bottom-left).
+### 4.1 Thought Cards
+Used for quotes or case examples.
+*   **Background:** `white` (#FFFFFF)
+*   **Border:** `1px dashed [accent-color]` (Orange or Violet)
+*   **Border Radius:** `16px`
+*   **Typography:** Large H3 inside (`Instrument Serif`).
 
-### Gradient 1 — Warm Spectrum
-`brand-01` → `brand-06` → `brand-03`
-
-```css
-background: linear-gradient(315deg, #FFC857 0%, #00A8E8 50%, #9C73FF 100%);
-```
-
-### Gradient 2 — Cool Spectrum
-`brand-03` → `brand-02` → `brand-01`
-
-```css
-background: linear-gradient(315deg, #9C73FF 0%, #FF6403 50%, #FFC857 100%);
-```
-
-| Token    | Hex       | Role in gradients |
-|----------|-----------|-------------------|
-| `brand-01` | `#9C73FF` | Gradient 1 start · Gradient 2 end |
-| `brand-03` | `#FFC857` | Gradient 1 end · Gradient 2 start |
-| `brand-06` | `#00A8E8` | Gradient 1 midpoint |
-| `brand-02` | `#FF6403` | Gradient 2 midpoint |
+### 4.2 Product/Status Cards
+*   **Solid Variant:** `1px solid border` (#E5E5E5)
+*   **CTA Variant:** `1.5px solid orange` (#FF6403) with Signature Glow.
+*   **Signature Glow:** `box-shadow: 0 2px 14px rgba(255, 100, 3, 0.25)`
 
 ---
 
-## 5. Link Styles
+## 5. Prompting Instruction (System Prompt)
 
-### Link 1 — Standard (blue)
-
-| State   | Color     | Decoration |
-|---------|-----------|------------|
-| Default | `#0099FF` | None |
-| Hover   | `#0088FF` | Underline |
-| Current | `#111111` | Underline |
-
-### Link 2 — Brand (orange)
-
-| State   | Color              | Decoration |
-|---------|--------------------|------------|
-| Default | `brand-02` (#FF6403) | None |
-| Hover   | `brand-02` (#FF6403) | Underline |
-| Current | `brand-02` (#FF6403) | Underline |
-
----
-
-## 6. Spacing
-
-Base unit: **4px**
-
-| Token       | Value  | Usage |
-|-------------|--------|-------|
-| `space-1`   | 4px    | Micro gaps |
-| `space-2`   | 8px    | Tight — icon padding, inline gaps |
-| `space-3`   | 12px   | Compact — small component padding |
-| `space-4`   | 16px   | Default — base component padding |
-| `space-6`   | 24px   | Section-internal spacing |
-| `space-8`   | 32px   | Component separation |
-| `space-10`  | 40px   | Section gaps |
-| `space-12`  | 48px   | Large section margins |
-| `space-16`  | 64px   | Hero/section vertical padding |
-| `space-24`  | 96px   | Major section breaks |
-| `space-32`  | 128px  | Page-level vertical rhythm |
-
----
-
-## 7. Border Radius
-
-Derived from logo geometry — the brand favors heavy, generous rounding.
-
-| Token     | Value   | Usage |
-|-----------|---------|-------|
-| `radius-sm`  | 4px  | Tags, pills, small chips |
-| `radius-md`  | 8px  | Input fields, small cards |
-| `radius-lg`  | 16px | Standard cards, panels |
-| `radius-xl`  | 24px | Large cards, image frames |
-| `radius-2xl` | 32px | Hero sections, modals |
-| `radius-full`| 9999px | Buttons (pill), avatars, badges |
-
-**Usage pattern from site:** Cards use `radius-lg` (16px). Logo mark uses approx. `radius-2xl` (32px) internally.
-
----
-
-## 8. Borders
-
-| Token            | Style | Width | Color |
-|------------------|-------|-------|-------|
-| `border-default` | solid | 1px   | `border-primary` (#E5E5E5) |
-| `border-brand`   | solid | 1.5px | `brand-02` (#FF6403) |
-
-**Frame rule:** Frames are either solid or absent. Never use dashed, dotted, hand-drawn, double, decorative, or otherwise distorted borders.
-
----
-
-## 9. Shadows
-
-Light, non-intrusive — the brand avoids heavy elevation/depth effects.
-
-| Token         | Value | Usage |
-|---------------|-------|-------|
-| `shadow-none` | none  | Default state |
-| `shadow-sm`   | `0 1px 3px rgba(0,0,0,0.06)` | Subtle lift |
-| `shadow-md`   | `0 4px 16px rgba(0,0,0,0.08)` | Cards on hover |
-| `shadow-lg`   | `0 8px 32px rgba(0,0,0,0.10)` | Modals, floating elements |
-
----
-
-## 10. Motion
-
-| Token               | Value    | Notes |
-|---------------------|----------|-------|
-| `duration-fast`     | 100ms    | Micro-interactions |
-| `duration-default`  | 200ms    | Standard transitions |
-| `duration-slow`     | 350ms    | Page transitions, reveals |
-| `easing-default`    | `ease`   | Standard |
-| `easing-in-out`     | `cubic-bezier(0.4, 0, 0.2, 1)` | Smooth UI transitions |
-| `easing-spring`     | `cubic-bezier(0.34, 1.56, 0.64, 1)` | Playful, on-brand bouncy |
-
----
-
-## 11. Layout & Grid
-
-### Breakpoints
-
-| Token  | Breakpoint | Label |
-|--------|------------|-------|
-| `sm`   | 640px      | Mobile landscape |
-| `md`   | 768px      | Tablet |
-| `lg`   | 1024px     | Desktop |
-| `xl`   | 1280px     | Wide desktop |
-| `2xl`  | 1536px     | Ultra-wide |
-
-### Grid
-
-- **Columns:** 12 (desktop) · 4 (mobile)
-- **Gutter:** 24px (desktop) · 16px (mobile)
-- **Max content width:** 1200px
-- **Page horizontal padding:** 40px (desktop) · 24px (tablet) · 16px (mobile)
-
----
-
-## 12. Icon System
-
-Three icon sets — all in Noun Project doodle style. Available as SVG + PNG pairs.
-
-### 12.1 Arrows & General
-~53 pairs — Arrows (directional, curved, bold), symbols (check, star, heart, light bulb, message, diamond, ribbon, microphone, pencil, package, plus/minus, etc.)  
-Path: `/Icons/Arrows & General/noun-{name}-{id}.svg`
-
-### 12.2 Food Icon Doodle
-~270 pairs — Food-themed hand-drawn doodle icons.  
-Path: `/Icons/Food Icon Doodle/`
-
-### 12.3 Pattern Doodles
-~45 pairs — Repeating pattern elements and decorative doodles.  
-Path: `/Icons/Pattern Doodles/`
-
-**Icon usage rules:**
-- Use SVG as primary format for UI.
-- Default icon color: `text-primary` (#000000) or `text-secondary` (#767676).
-- On dark backgrounds: `text-invert` (#FFFFFF).
-- Brand accent icons: `brand-01` (#9C73FF) or `brand-02` (#FF6403).
-- Do not apply gradients directly to icons — use solid brand colors only.
-
----
-
-## 13. Illustration System
-
-### Style: B/W Doodle
-
-- **Line quality:** Rough, unperfect, slightly jittery outlines. Hatched/crosshatched details. Marker-style weight. No smooth vector curves.
-- **Line colors:** `#000000` (black) or `#767676` (dark grey) only — as outlines, not fills.
-- **Fill:** None. Interior of all shapes is empty white space.
-- **Background:** Always `#FFFFFF` — solid, no gradients or textures.
-- **Composition:** Single isolated motif, maximum whitespace, no scenes or backgrounds.
-- **Text:** Never included unless explicitly specified.
-
-### Style: Holo (Neon Outline)
-
-Same rough line base as B/W Doodle, plus:
-
-- **Color application:** Neon outline running parallel to the black rough contours. Applied ONLY as outline — interior stays empty.
-- **Allowed holo colors:** Strictly the brand palette:
-  - `brand-01` #9C73FF (Violet)
-  - `brand-02` #FF6403 (Orange)
-  - `brand-03` #FFC857 (Amber)
-  - `brand-05` #7DB79F (Teal)
-  - `brand-06` #00A8E8 (Blue)
-- **"holo bunt":** Multiple brand holo colors simultaneously.
-- **"holo [color]":** Single specified color only.
-- **"holo" (no color):** Single self-chosen brand color — strict monochrome holo.
-- **Minimal accents:** A few isolated neon sparks/lines in the same chosen color around the motif — no more.
-- **Background:** Always `#FFFFFF`.
-
-### Illustration generator
-The rb Illustration Generator Gemini Gem is the primary tool for generating new illustrations consistent with this style. Prompt format: `[Motiv]` for B/W, `[Motiv] holo` for single-color holo, `[Motiv] holo bunt` for multi-color holo.
-
----
-
-## 14. Component Patterns
-
-### Cards
-- Background: `background-alt` (#FCF8F1) on light pages
-- Border: `border-default` (1px solid #E5E5E5) or no border
-- Border radius: `radius-lg` (16px)
-- Padding: `space-8` (32px) desktop · `space-6` (24px) mobile
-- Shadow: `shadow-none` default · `shadow-md` on hover
-- Transition: `duration-default` (200ms) `easing-default`
-
-### Buttons (inferred from brand)
-
-| Variant | Background | Text | Border | Radius |
-|---------|------------|------|--------|--------|
-| Primary | `brand-02` (#FF6403) | `text-invert` | none | `radius-full` |
-| Secondary | transparent | `text-primary` | `border-default` | `radius-full` |
-| Ghost | transparent | `brand-02` | none | `radius-full` |
-| Dark | `background-secondary` | `text-invert` | none | `radius-full` |
-
-Button sizing:
-- Height: 48px (default) · 40px (small) · 56px (large)
-- Padding: `space-6` (24px) horizontal
-- Font: Inter Display Light · 16px
-
-### Navigation
-- Background: transparent (scrolled: `background-primary` or white with backdrop blur)
-- Logo: `rb-logo-black.png` on light · `rb-logo-white.png` on dark
-- Links: `text-primary` default · `brand-02` on active/hover
-
----
-
-## 15. Logo Usage
-
-| Variant | File | Use on |
-|---------|------|--------|
-| Black | `rb-logo-black.png` | Light backgrounds |
-| White | `rb-logo-white.png` | Dark backgrounds |
-| Grey | `rb-logo-grey.png` | Subtle/watermark use |
-| Orange | `rb-logo-orange.png` | Brand accent contexts |
-| Purple | `rb-logo-purple.png` | Brand accent contexts |
-| Yellow | `rb-logo-yellow.png` | Brand accent contexts |
-
-**Clear space:** Minimum padding around logo = logo height × 0.5 on all sides.  
-**Minimum size:** 24px height.  
-**Do not:** Rotate, stretch, recolor, or apply gradients to the logo.
-
----
-
-## 16. Design Principles
-
-1. **Human before polished** — Instrument Serif italic for the emotional word. Doodle illustrations over stock photography. Rough lines over perfect vectors.
-2. **Generous whitespace** — Content breathes. Never crowd. Cards float on their backgrounds.
-3. **Warm neutrals first** — The default surface is warm cream (#FCF8F1), not cold white or grey. Brand colors are accents, not dominants.
-4. **One accent at a time** — Orange (#FF6403) for action. Violet (#9C73FF) for creative/emotional. Never both at once in the same component.
-5. **Frames stay honest** — Use solid frames or no frames. Never dashed, dotted, sketchy, double, decorative, or otherwise distorted borders.
-6. **Typography carries weight** — The typographic hierarchy does heavy lifting. Illustrations and icons are supporting cast, not heroes.
+> "Act as Raphael Baruch. You are geerdet, atmospheric, and serious. You hate 'coaching cheese' and marketing fluff. You write vertically. You start with sensory details. You show, don't tell. You use heavy German words like 'Substanz' and 'Urteilskraft'. You never conclude with a summary. Your goal is not to be liked, but to be clear."

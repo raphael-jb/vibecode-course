@@ -187,6 +187,20 @@ export default function ProcessSteps(props) {
                                     maxWidth: isMobile ? "none" : 300,
                                 }}>
                                     {step.text}
+                                    {step.linkUrl && step.linkLabel && (
+                                        <> <a
+                                            href={step.linkUrl}
+                                            style={{
+                                                fontSize: 16,
+                                                fontWeight: 300,
+                                                color: accentColor,
+                                                textDecoration: "none",
+                                                borderBottom: `1px solid ${accentColor}`,
+                                                paddingBottom: 1,
+                                                cursor: "pointer",
+                                            }}
+                                        >{step.linkLabel}</a></>
+                                    )}
                                 </p>
                             </div>
                         </motion.div>
@@ -205,17 +219,23 @@ ProcessSteps.defaultProps = {
     paddingTop: 120,
     paddingBottom: 120,
     steps: [
-        { 
-            title: "30-Minuten-*Case-Call*", 
-            text: "Wir sprechen über Deine aktuelle Herausforderung und prüfen, ob die Chemie und der Case passen." 
+        {
+            title: "30-Minuten-*Case-Call*",
+            text: "Wir sprechen über Deine aktuelle Herausforderung und prüfen, ob die Chemie und der Case passen.",
+            linkLabel: "",
+            linkUrl: "",
         },
-        { 
-            title: "Format-*Check*", 
-            text: "Gemeinsam wählen wir den Modus, der Dir jetzt am meisten bringt – vom schnellen Impuls bis zur Begleitung." 
+        {
+            title: "Format-*Check*",
+            text: "Gemeinsam wählen wir den Modus, der Dir jetzt am meisten bringt – vom schnellen Impuls bis zur Begleitung.",
+            linkLabel: "",
+            linkUrl: "",
         },
-        { 
-            title: "*Start*", 
-            text: "Kein langes Onboarding. Wir steigen direkt in die Arbeit ein, damit Du sofort mit mehr Klarheit rausgehst." 
+        {
+            title: "*Start*",
+            text: "Kein langes Onboarding. Wir steigen direkt in die Arbeit ein, damit Du sofort mit mehr Klarheit rausgehst.",
+            linkLabel: "",
+            linkUrl: "",
         },
     ],
 }
@@ -234,6 +254,8 @@ addPropertyControls(ProcessSteps, {
             controls: {
                 title: { type: ControlType.String, title: "Step Title" },
                 text: { type: ControlType.String, title: "Step Text", displayTextArea: true },
+                linkLabel: { type: ControlType.String, title: "Link Label" },
+                linkUrl: { type: ControlType.String, title: "Link URL" },
             }
         }
     },

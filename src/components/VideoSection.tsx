@@ -47,7 +47,6 @@ function PlayIcon({ size = 28 }: { size?: number }) {
 
 export default function VideoSection(props) {
     const {
-        eyebrow,
         headline,
         subline,
         videoUrl,
@@ -101,34 +100,6 @@ export default function VideoSection(props) {
                 alignItems: "center",
                 gap: 0,
             }}>
-
-                {/* Eyebrow */}
-                {eyebrow ? (
-                    <div style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: 8,
-                        marginBottom: 20,
-                    }}>
-                        <div style={{
-                            width: 8,
-                            height: 8,
-                            borderRadius: "50%",
-                            backgroundColor: accentColor,
-                            flexShrink: 0,
-                        }} />
-                        <span style={{
-                            fontFamily: "'Inter Tight', sans-serif",
-                            fontSize: 13,
-                            fontWeight: 500,
-                            letterSpacing: "0.04em",
-                            color: accentColor,
-                        }}>
-                            {eyebrow}
-                        </span>
-                    </div>
-                ) : null}
 
                 {/* Headline */}
                 <h2 style={{
@@ -307,7 +278,6 @@ export default function VideoSection(props) {
 }
 
 VideoSection.defaultProps = {
-    eyebrow: "18:00 Uhr",
     headline: "Es ist Sonntag, *18 Uhr.*",
     subline: "Du bist nicht ausgebrannt. Du trägst es nur. Leise. Wieder.",
     videoUrl: "",
@@ -320,11 +290,6 @@ VideoSection.defaultProps = {
 }
 
 addPropertyControls(VideoSection, {
-    eyebrow: {
-        type: ControlType.String,
-        title: "Eyebrow",
-        defaultValue: "18:00 Uhr",
-    },
     headline: {
         type: ControlType.String,
         title: "Headline (*italic*)",

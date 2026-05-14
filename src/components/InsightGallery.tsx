@@ -76,7 +76,6 @@ export default function InsightGallery(props) {
 function InsightCard({ 
     title, 
     frontImage, 
-    backEyebrow, 
     backHeadline, 
     backParagraph, 
     backExample, 
@@ -212,19 +211,6 @@ function InsightCard({
                             gap: 16,
                         }}
                     >
-                        {backEyebrow && (
-                            <span style={{
-                                fontFamily: "'Inter Tight', sans-serif",
-                                fontSize: 12,
-                                fontWeight: 500,
-                                textTransform: "uppercase",
-                                letterSpacing: "0.05em",
-                                color: COLORS.brand02,
-                            }}>
-                                {backEyebrow}
-                            </span>
-                        )}
-
                         {backHeadline && (
                             <h3 style={{
                                 fontFamily: "'Instrument Serif', serif",
@@ -315,7 +301,6 @@ InsightGallery.defaultProps = {
     items: [
         { 
             title: "Messbarer *Erfolg*", 
-            backEyebrow: "Leadership",
             backHeadline: "Wachstum *verstehen*",
             backParagraph: "Über 90 % der Lernenden auf Masterplan sind nicht nur überdurchschnittlich zufrieden, sondern auch hochmotiviert.",
             backExample: "Führungskräfte nutzen Dashboards zur Team-Entwicklung.",
@@ -324,7 +309,6 @@ InsightGallery.defaultProps = {
         },
         { 
             title: "Hohes *Engagement*", 
-            backEyebrow: "Community",
             backHeadline: "Aktivität *steigern*",
             backParagraph: "3,7x mehr Lernaktivität als auf anderen Plattformen. Unsere Inhalte fesseln nachhaltig.", 
             backExample: "Mitarbeitende teilen Insights direkt in Slack.",
@@ -333,7 +317,6 @@ InsightGallery.defaultProps = {
         },
         { 
             title: "Effiziente *Prozesse*", 
-            backEyebrow: "Scale",
             backHeadline: "Zeit *gewinnen*",
             backParagraph: "Sparen Sie bis zu 30 % Zeit in der Personalentwicklung durch automatisierte Zuweisungen.", 
             backExample: "Automatisierte Onboarding-Strecken für neue Leads.",
@@ -375,7 +358,6 @@ addPropertyControls(InsightGallery, {
                 title: { type: ControlType.String, title: "Headline (Front)", defaultValue: "Titel *hier*" },
                 frontImage: { type: ControlType.Image, title: "Visual (Front)" },
                 tintColor: { type: ControlType.Color, title: "Card Tint", defaultValue: COLORS.backgroundAlt },
-                backEyebrow: { type: ControlType.String, title: "Eyebrow (Back)", defaultValue: "EYEBROW" },
                 backHeadline: { type: ControlType.String, title: "Headline (Back)", defaultValue: "Headline *Italic*" },
                 backParagraph: { type: ControlType.String, title: "Paragraph (Back)", displayTextArea: true, defaultValue: "Beschreibungstext hier..." },
                 backExample: { type: ControlType.String, title: "Example Box (Back)", defaultValue: "Ein konkretes Beispiel..." },

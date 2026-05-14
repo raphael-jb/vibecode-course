@@ -24,6 +24,7 @@ export default function ThoughtCardPro(props) {
         text,
         label,
         icon,
+        iconImage,
         accentColor,
         borderStyle,
         backgroundColor,
@@ -33,6 +34,7 @@ export default function ThoughtCardPro(props) {
         borderRadius,
         showIcon,
         italicAccent,
+        textAlign,
         shadowColor,
         shadowX,
         shadowY,
@@ -40,6 +42,7 @@ export default function ThoughtCardPro(props) {
         shadowSpread,
     } = props
 
+    const hasLabel = label && label.trim() !== ""
     const shadowStyle = `${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowSpread}px ${shadowColor}`
 
     return (
@@ -53,7 +56,7 @@ export default function ThoughtCardPro(props) {
             boxShadow: shadowStyle,
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
+            justifyContent: hasLabel ? "flex-start" : "center",
             boxSizing: "border-box",
             fontFamily: "'Inter Display', sans-serif",
             WebkitFontSmoothing: "antialiased",
@@ -65,28 +68,30 @@ export default function ThoughtCardPro(props) {
             `}</style>
 
             {/* Header / Label Area */}
-            <div style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                zIndex: 2,
-            }}>
-                {showIcon && (
-                    <span style={{ fontSize: 18, color: accentColor }}>
-                        {icon}
-                    </span>
-                )}
-                <span style={{
-                    fontFamily: "'Inter Display', sans-serif",
-                    fontWeight: 300,
-                    fontSize: 12,
-                    color: COLORS.textSecondary,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
+            {hasLabel && (
+                <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    zIndex: 2,
                 }}>
-                    {label}
-                </span>
-            </div>
+                    {showIcon && (
+                        iconImage
+                            ? <img src={iconImage} style={{ width: 24, height: 24, objectFit: "contain", display: "block" }} />
+                            : <span style={{ fontSize: 18, color: accentColor }}>{icon}</span>
+                    )}
+                    <span style={{
+                        fontFamily: "'Inter Display', sans-serif",
+                        fontWeight: 300,
+                        fontSize: 12,
+                        color: COLORS.textSecondary,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.08em",
+                    }}>
+                        {label}
+                    </span>
+                </div>
+            )}
 
             {/* Main Thought Text */}
             <p style={{
@@ -96,9 +101,11 @@ export default function ThoughtCardPro(props) {
                 lineHeight: 1.1,
                 color: textColor,
                 margin: 0,
-                marginTop: 32,
+                marginTop: hasLabel ? 32 : 0,
                 zIndex: 2,
                 fontStyle: italicAccent ? "italic" : "normal",
+                textAlign: textAlign,
+                width: "100%",
             }}>
                 {text}
             </p>
@@ -123,8 +130,10 @@ ThoughtCardPro.defaultProps = {
     text: "Ich treffe jeden Tag Entscheidungen, aber nicht jede aus freien Stücken.",
     label: "Gedanke",
     icon: "💭",
+    iconImage: "",
     accentColor: COLORS.brandPurple,
-    borderStyle: "dashed",
+    borderStyle: "solid",
+    textAlign: "left",
     backgroundColor: "#FFFFFF",
     textColor: COLORS.textPrimary,
     fontSize: 32,
@@ -151,11 +160,16 @@ addPropertyControls(ThoughtCardPro, {
         title: "Label",
         defaultValue: ThoughtCardPro.defaultProps.label,
     },
+    iconImage: {
+        type: ControlType.Image,
+        title: "Icon Bild",
+        hidden: (props) => !props.showIcon,
+    },
     icon: {
         type: ControlType.String,
-        title: "Icon",
+        title: "Icon Emoji",
         defaultValue: ThoughtCardPro.defaultProps.icon,
-        hidden: (props) => !props.showIcon,
+        hidden: (props) => !props.showIcon || !!props.iconImage,
     },
     showIcon: {
         type: ControlType.Boolean,
@@ -170,9 +184,16 @@ addPropertyControls(ThoughtCardPro, {
     borderStyle: {
         type: ControlType.Enum,
         title: "Rahmen",
-        options: ["dashed", "solid", "none"],
-        optionTitles: ["Gestrichelt", "Durchgezogen", "Keiner"],
-        defaultValue: "dashed",
+        options: ["solid", "none"],
+        optionTitles: ["Linie", "Keiner"],
+        defaultValue: "solid",
+    },
+    textAlign: {
+        type: ControlType.Enum,
+        title: "Ausrichtung",
+        options: ["left", "center", "right"],
+        optionTitles: ["Links", "Mitte", "Rechts"],
+        defaultValue: "left",
     },
     backgroundColor: {
         type: ControlType.Color,

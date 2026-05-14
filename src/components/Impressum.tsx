@@ -16,7 +16,7 @@ const STYLES = `
     .rb-impressum {
         width: 100%;
         min-height: 100vh;
-        background: ${COLORS.cream};
+        background: ${COLORS.white};
         color: ${COLORS.navy};
         box-sizing: border-box;
         padding: 172px 100px;
@@ -40,18 +40,6 @@ const STYLES = `
         align-items: flex-start;
     }
 
-    .rb-impressum__kicker {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        margin: 0 0 28px;
-        color: ${COLORS.orange};
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-    }
-
     .rb-impressum h1 {
         margin: 0 0 72px;
         font-family: 'Instrument Serif', Georgia, serif;
@@ -66,13 +54,6 @@ const STYLES = `
         font-style: italic;
     }
 
-    .rb-impressum__dot {
-        width: 9px;
-        height: 9px;
-        border-radius: 999px;
-        background: ${COLORS.orange};
-    }
-
     .rb-impressum__intro {
         max-width: 420px;
         margin: 0;
@@ -84,8 +65,9 @@ const STYLES = `
 
     .rb-impressum__panel {
         background: ${COLORS.white};
-        border: 1px solid ${COLORS.border};
-        border-radius: 15px;
+        border: 1px solid ${COLORS.orange};
+        border-radius: 16px;
+        box-shadow: 0 2px 14px rgba(255, 100, 3, 0.25);
         overflow: hidden;
     }
 
@@ -227,10 +209,6 @@ export default function Impressum(props) {
 
             <div className="rb-impressum__wrap">
                 <header className="rb-impressum__header">
-                    <div className="rb-impressum__kicker">
-                        <span className="rb-impressum__dot" />
-                        Rechtliches
-                    </div>
                     <h1>Impressum</h1>
                     <p className="rb-impressum__intro">{legalIntro}</p>
                 </header>

@@ -1,0 +1,3 @@
+Grober Plot
+
+Elouan wird als Weltenwanderer mit Aruna in Kontakt kommen. Ohne es zu wissen oder so benannt zu werden, wird er auf den Achtgliedrigen Pfad Buddhas gehen und dabei die Auspicious 8 sammeln, um Stück um Stück seiner eigenen Erleuchtung näher zu kommen. Aruna unterstützt ihn dabei, nicht wissend, dass es auch ihr eigener Erkenntnispfad ist. Sie werden feststellen, dass Elouan die Verkörperung des unendlichen Potenzials, also Shiva, und Aruna die Manifestation von allem, also auch Buru, Kaya und Shakti ist. Alle empfundenen Antagonisten 

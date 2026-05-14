@@ -160,7 +160,6 @@ export default function QuestionnaireOverlay(props) {
         anchorId,
         triggerHash,
         bookingLink,
-        resultEyebrow,
         resultPages,
         leadTitle,
         leadQuestion,
@@ -491,7 +490,7 @@ export default function QuestionnaireOverlay(props) {
                                         letterSpacing: "0.08em",
                                         marginBottom: 16,
                                     }}>
-                                        {resultEyebrow} {result.label}
+                                        {result.label}
                                     </div>
                                     {renderHeading(result.title || successTitle)}
                                     <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 18, lineHeight: 1.5, color: COLORS.textSecondary, marginBottom: 24 }}>
@@ -594,7 +593,6 @@ QuestionnaireOverlay.defaultProps = {
     anchorId: "quiz",
     triggerHash: "quiz",
     bookingLink: "https://calendar.app.google/TxnYmbFXwquFFQKK9",
-    resultEyebrow: "Passendes Format:",
     showLeadStep: false,
     leadTitle: "Wenn Du willst: *direkt weiter.*",
     leadQuestion: "Wohin darf Raphael Deine Einschätzung schicken?",
@@ -620,7 +618,6 @@ addPropertyControls(QuestionnaireOverlay, {
     anchorId: { type: ControlType.String, title: "Legacy Anchor", defaultValue: "quiz", hidden: () => true },
     triggerHash: { type: ControlType.String, title: "Legacy Hash", defaultValue: "quiz", hidden: () => true },
     bookingLink: { type: ControlType.String, title: "Booking Link", defaultValue: "https://calendar.app.google/TxnYmbFXwquFFQKK9" },
-    resultEyebrow: { type: ControlType.String, title: "Result Eyebrow", defaultValue: "Passendes Format:" },
     webhookUrl: { type: ControlType.String, title: "Webhook URL", placeholder: "e.g. Formspark/Zapier URL" },
     showLeadStep: { type: ControlType.Boolean, title: "Lead Step", defaultValue: false },
     leadTitle: { type: ControlType.String, title: "Lead Title", defaultValue: "Wenn Du willst: *direkt weiter.*", hidden: (p) => !p.showLeadStep },

@@ -1,0 +1,487 @@
+{
+  "name": "Session — Intake and Prep Sheet",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "peer-sparring-intake",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-intake",
+      "name": "Intake Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-1100, 0],
+      "webhookId": "peer-sparring-intake"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "repo-path", "name": "repoPath", "type": "string", "value": "/data/raphaelbaruch" },
+            { "id": "supabase-url", "name": "supabaseUrl", "type": "string", "value": "https://YOUR-PROJECT.supabase.co" },
+            { "id": "drive-case-root", "name": "driveCaseRootFolderId", "type": "string", "value": "REPLACE_GOOGLE_DRIVE_FOLDER_ID" },
+            { "id": "anthropic-model", "name": "anthropicModel", "type": "string", "value": "claude-opus-4-7" },
+            { "id": "raphael-email", "name": "raphaelEmail", "type": "string", "value": "raphael@example.com" },
+            { "id": "notification-from", "name": "notificationFromEmail", "type": "string", "value": "raphael-baruch@notifications.example.com" },
+            { "id": "prep-prompt-path", "name": "prepPromptPath", "type": "string", "value": "automations/n8n/peer-sparring/prompts/prep-sheet.md" },
+            { "id": "public-site", "name": "publicSiteUrl", "type": "string", "value": "https://www.raphaelbaruch.com" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "runtime-config",
+      "name": "Runtime Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-880, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate intake payload against docs/peer-sparring/intake-payload-contract.md\nconst raw = $('Intake Webhook').first().json.body || $('Intake Webhook').first().json;\nconst errors = [];\nfunction str(value) { return typeof value === 'string' ? value : ''; }\nfunction trimmed(value) { return str(value).trim(); }\nconst client = raw.client || {};\nconst brief = raw.case_brief || {};\nconst consent = raw.consent || {};\nconst name = trimmed(client.name);\nconst email = trimmed(client.email).toLowerCase();\nif (name.length < 2 || name.length > 120) errors.push({ field: 'client.name', rule: 'length_2_120' });\nif (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) errors.push({ field: 'client.email', rule: 'email_format' });\nconst long = ['konkreter_anlass', 'entscheidung_oder_spannung'];\nfor (const key of long) {\n  if (trimmed(brief[key]).length < 30) errors.push({ field: `case_brief.${key}`, rule: 'min_length', expected: 30 });\n}\nconst short = ['beteiligte', 'bisher_versucht', 'gutes_ergebnis'];\nfor (const key of short) {\n  if (trimmed(brief[key]).length < 3) errors.push({ field: `case_brief.${key}`, rule: 'min_length', expected: 3 });\n}\nif (!['offline', 'live', 'online'].includes(raw.session_mode)) errors.push({ field: 'session_mode', rule: 'enum' });\nif (consent.data_processing !== true) errors.push({ field: 'consent.data_processing', rule: 'must_be_true' });\nif (errors.length) {\n  return [{ json: { valid: false, status: 400, body: { ok: false, error: 'validation_failed', details: errors } } }];\n}\nconst case_brief = {\n  konkreter_anlass: trimmed(brief.konkreter_anlass),\n  entscheidung_oder_spannung: trimmed(brief.entscheidung_oder_spannung),\n  beteiligte: trimmed(brief.beteiligte),\n  bisher_versucht: trimmed(brief.bisher_versucht),\n  gutes_ergebnis: trimmed(brief.gutes_ergebnis),\n  dringlichkeit: trimmed(brief.dringlichkeit) || null,\n  constraints: trimmed(brief.constraints) || null,\n  aktuelle_hypothese: trimmed(brief.aktuelle_hypothese) || null,\n  optionaler_kontext: trimmed(brief.optionaler_kontext) || null\n};\nlet case_title = case_brief.konkreter_anlass.slice(0, 60).trim();\ncase_title = case_title.replace(/[\\s,;:.!?\\-—]+$/u, '');\nreturn [{ json: { valid: true, client: { name, email }, case_brief, case_title, session_mode: raw.session_mode, consent: { data_processing: !!consent.data_processing, marketing: !!consent.marketing }, submitted_at: raw.submitted_at || new Date().toISOString() } }];"
+      },
+      "id": "validate-payload",
+      "name": "Validate Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-660, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "id": "is-valid",
+              "leftValue": "={{$json.valid}}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-valid",
+      "name": "Valid?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [-440, 0]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{$json.body}}",
+        "options": { "responseCode": "={{$json.status}}" }
+      },
+      "id": "respond-validation-error",
+      "name": "Respond Validation Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [-220, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$('Runtime Config').first().json.supabaseUrl}}/rest/v1/clients?on_conflict=email",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "content-type", "value": "application/json" },
+            { "name": "Prefer", "value": "resolution=merge-duplicates,return=representation" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { email: $json.client.email, name: $json.client.name, marketing_consent: $json.consent.marketing, marketing_consent_at: $json.consent.marketing ? $json.submitted_at : null } }}"
+      },
+      "id": "upsert-client",
+      "name": "Upsert Client",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-220, -100],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_SUPABASE_SERVICEROLE_CRED",
+          "name": "Supabase Service Role"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{$('Runtime Config').first().json.supabaseUrl}}/rest/v1/cases?client_id=eq.{{$json[0].id}}&status=in.(\"Brief received\",\"Prepared\",\"Session complete\",\"Summary in review\",\"Update available\")&select=case_id",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth"
+      },
+      "id": "check-open-case",
+      "name": "Check Open Case",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [0, -100],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_SUPABASE_SERVICEROLE_CRED",
+          "name": "Supabase Service Role"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "id": "no-open-case",
+              "leftValue": "={{ Array.isArray($json) ? $json.length : 0 }}",
+              "rightValue": 0,
+              "operator": { "type": "number", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-no-open-case",
+      "name": "No Open Case?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [220, -100]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { ok: false, error: 'open_case_exists', message: 'Es gibt bereits einen offenen Case für diese E-Mail. Raphael meldet sich dort.' } }}",
+        "options": { "responseCode": 409 }
+      },
+      "id": "respond-conflict",
+      "name": "Respond 409 Conflict",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [440, 100]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$('Runtime Config').first().json.supabaseUrl}}/rest/v1/cases",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "content-type", "value": "application/json" },
+            { "name": "Prefer", "value": "return=representation" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { client_id: $('Upsert Client').first().json[0].id, case_title: $('Validate Payload').first().json.case_title, case_brief: $('Validate Payload').first().json.case_brief, session_mode: $('Validate Payload').first().json.session_mode, status: 'Brief received' } }}"
+      },
+      "id": "insert-case",
+      "name": "Insert Case",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [440, -200],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_SUPABASE_SERVICEROLE_CRED",
+          "name": "Supabase Service Role"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "name": "={{ $json[0].case_id + ' — ' + $('Validate Payload').first().json.case_title }}",
+        "driveId": { "__rl": true, "mode": "list", "value": "My Drive" },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{$('Runtime Config').first().json.driveCaseRootFolderId}}"
+        },
+        "options": {}
+      },
+      "id": "create-drive-folder",
+      "name": "Create Drive Folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [660, -200],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "REPLACE_GOOGLE_DRIVE_OAUTH",
+          "name": "Google Drive — Raphael"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\nconst cfg = $('Runtime Config').first().json;\nconst promptText = fs.readFileSync(path.join(cfg.repoPath, cfg.prepPromptPath), 'utf8');\nconst payload = $('Validate Payload').first().json;\nconst caseRow = $('Insert Case').first().json[0];\nconst folder = $('Create Drive Folder').first().json;\nconst caseBriefJson = JSON.stringify(payload.case_brief, null, 2);\nconst rendered = promptText\n  .replace('{{client_name}}', payload.client.name)\n  .replace('{{case_title}}', payload.case_title)\n  .replace('{{case_brief_json}}', caseBriefJson);\nreturn [{ json: {\n  prompt: rendered,\n  case_id: caseRow.case_id,\n  case_title: payload.case_title,\n  client_name: payload.client.name,\n  client_email: payload.client.email,\n  folder_id: folder.id || folder.fileId || folder.folderId\n} }];"
+      },
+      "id": "build-prep-prompt",
+      "name": "Build Prep Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [880, -200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "content-type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { model: $('Runtime Config').first().json.anthropicModel, max_tokens: 2000, messages: [{ role: 'user', content: $json.prompt }] } }}"
+      },
+      "id": "anthropic-prep",
+      "name": "Anthropic Prep Sheet",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1100, -200],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ANTHROPIC_CREDENTIAL_ID",
+          "name": "Anthropic API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const anthropic = $json;\nconst markdown = (anthropic.content && anthropic.content[0] && anthropic.content[0].text) || '';\nconst meta = $('Build Prep Prompt').first().json;\nreturn [{ json: { ...meta, prepMarkdown: markdown } }];"
+      },
+      "id": "extract-prep",
+      "name": "Extract Prep Markdown",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1320, -200]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "title": "={{ 'Prep Sheet — ' + $json.case_title }}",
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{$json.folder_id}}"
+        },
+        "options": {}
+      },
+      "id": "create-prep-doc",
+      "name": "Create Prep Doc",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [1540, -200],
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "REPLACE_GOOGLE_DRIVE_OAUTH",
+          "name": "Google Drive — Raphael"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{$json.documentId || $json.id}}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insertText",
+              "text": "={{$('Extract Prep Markdown').first().json.prepMarkdown}}",
+              "locationChoice": "endOfSegmentLocation"
+            }
+          ]
+        }
+      },
+      "id": "write-prep-body",
+      "name": "Write Prep Doc Body",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [1760, -200],
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "REPLACE_GOOGLE_DRIVE_OAUTH",
+          "name": "Google Drive — Raphael"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ $('Runtime Config').first().json.supabaseUrl + '/rest/v1/cases?case_id=eq.' + $('Extract Prep Markdown').first().json.case_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "content-type", "value": "application/json" },
+            { "name": "Prefer", "value": "return=minimal" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { prep_doc_url: 'https://docs.google.com/document/d/' + ($json.documentId || $json.id), status: 'Prepared' } }}"
+      },
+      "id": "patch-case-prepared",
+      "name": "Patch Case → Prepared",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1980, -200],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_SUPABASE_SERVICEROLE_CRED",
+          "name": "Supabase Service Role"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "content-type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { from: $('Runtime Config').first().json.notificationFromEmail, to: [$('Runtime Config').first().json.raphaelEmail], subject: 'Neuer Session Case Brief: ' + $('Extract Prep Markdown').first().json.case_title, text: 'Case-Titel: ' + $('Extract Prep Markdown').first().json.case_title + '\\nClient: ' + $('Extract Prep Markdown').first().json.client_name + ' <' + $('Extract Prep Markdown').first().json.client_email + '>\\nPrep Sheet: https://docs.google.com/document/d/' + ($('Write Prep Doc Body').first().json.documentId || $('Write Prep Doc Body').first().json.id) + '\\nDrive-Ordner: https://drive.google.com/drive/folders/' + $('Extract Prep Markdown').first().json.folder_id + '\\nCase-ID: ' + $('Extract Prep Markdown').first().json.case_id + '\\n\\n— n8n' } }}"
+      },
+      "id": "notify-raphael",
+      "name": "Notify Raphael",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2200, -200],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_RESEND_API_CRED",
+          "name": "Resend API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "content-type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { from: $('Runtime Config').first().json.notificationFromEmail, to: [$('Extract Prep Markdown').first().json.client_email], subject: 'Dein Case Brief liegt bei Raphael', text: 'Hallo ' + $('Extract Prep Markdown').first().json.client_name + ',\\n\\nDanke — Dein Case Brief ist eingegangen. Raphael liest ihn und meldet sich mit einem Vorschlag für die 90-Minuten-Session.\\n\\nDu bekommst diese Mail als Empfangsquittung. Sie enthält keinen Case-Inhalt.\\n\\nBis bald — als Sparringpartner für die Frage, die jetzt zählt.\\n\\nRaphael Baruch' } }}"
+      },
+      "id": "confirm-client",
+      "name": "Confirm Client",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2420, -200],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_RESEND_API_CRED",
+          "name": "Resend API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { ok: true, case_id: $('Extract Prep Markdown').first().json.case_id } }}",
+        "options": { "responseCode": 200 }
+      },
+      "id": "respond-success",
+      "name": "Respond 200 OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [2640, -200]
+    }
+  ],
+  "connections": {
+    "Intake Webhook": {
+      "main": [[{ "node": "Runtime Config", "type": "main", "index": 0 }]]
+    },
+    "Runtime Config": {
+      "main": [[{ "node": "Validate Payload", "type": "main", "index": 0 }]]
+    },
+    "Validate Payload": {
+      "main": [[{ "node": "Valid?", "type": "main", "index": 0 }]]
+    },
+    "Valid?": {
+      "main": [
+        [{ "node": "Upsert Client", "type": "main", "index": 0 }],
+        [{ "node": "Respond Validation Error", "type": "main", "index": 0 }]
+      ]
+    },
+    "Upsert Client": {
+      "main": [[{ "node": "Check Open Case", "type": "main", "index": 0 }]]
+    },
+    "Check Open Case": {
+      "main": [[{ "node": "No Open Case?", "type": "main", "index": 0 }]]
+    },
+    "No Open Case?": {
+      "main": [
+        [{ "node": "Insert Case", "type": "main", "index": 0 }],
+        [{ "node": "Respond 409 Conflict", "type": "main", "index": 0 }]
+      ]
+    },
+    "Insert Case": {
+      "main": [[{ "node": "Create Drive Folder", "type": "main", "index": 0 }]]
+    },
+    "Create Drive Folder": {
+      "main": [[{ "node": "Build Prep Prompt", "type": "main", "index": 0 }]]
+    },
+    "Build Prep Prompt": {
+      "main": [[{ "node": "Anthropic Prep Sheet", "type": "main", "index": 0 }]]
+    },
+    "Anthropic Prep Sheet": {
+      "main": [[{ "node": "Extract Prep Markdown", "type": "main", "index": 0 }]]
+    },
+    "Extract Prep Markdown": {
+      "main": [[{ "node": "Create Prep Doc", "type": "main", "index": 0 }]]
+    },
+    "Create Prep Doc": {
+      "main": [[{ "node": "Write Prep Doc Body", "type": "main", "index": 0 }]]
+    },
+    "Write Prep Doc Body": {
+      "main": [[{ "node": "Patch Case → Prepared", "type": "main", "index": 0 }]]
+    },
+    "Patch Case → Prepared": {
+      "main": [[{ "node": "Notify Raphael", "type": "main", "index": 0 }]]
+    },
+    "Notify Raphael": {
+      "main": [[{ "node": "Confirm Client", "type": "main", "index": 0 }]]
+    },
+    "Confirm Client": {
+      "main": [[{ "node": "Respond 200 OK", "type": "main", "index": 0 }]]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Berlin"
+  },
+  "staticData": null,
+  "tags": [
+    { "name": "peer-sparring" },
+    { "name": "intake" }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2026-05-11T00:00:00.000Z",
+  "versionId": "peer-sparring-intake-and-prep-v1"
+}

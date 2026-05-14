@@ -113,7 +113,6 @@ function SliderRow({ dimension, isMobile, animated, rowIndex }) {
 
 export default function ProcessSpectrum(props) {
     const {
-        eyebrow,
         headline,
         subline,
         product1Name,
@@ -125,6 +124,7 @@ export default function ProcessSpectrum(props) {
         quizCtaLink,
         accentColor,
         background,
+        padding,
         paddingTop,
         paddingBottom,
     } = props
@@ -164,7 +164,12 @@ export default function ProcessSpectrum(props) {
         return () => observer.disconnect()
     }, [isCanvas])
 
-    const hPad = isMobile ? 24 : 80
+    const sectionPadding = {
+        top: padding?.top ?? paddingTop ?? 96,
+        right: padding?.right ?? 80,
+        bottom: padding?.bottom ?? paddingBottom ?? 96,
+        left: padding?.left ?? 80,
+    }
 
     const legend = [
         { color: COLORS.brand01, name: product1Name },
@@ -176,42 +181,16 @@ export default function ProcessSpectrum(props) {
         <div ref={containerRef} style={{
             width: "100%",
             backgroundColor: background,
-            paddingTop,
-            paddingBottom,
-            paddingLeft: hPad,
-            paddingRight: hPad,
+            borderRadius: 15,
+            paddingTop: sectionPadding.top,
+            paddingRight: sectionPadding.right,
+            paddingBottom: sectionPadding.bottom,
+            paddingLeft: sectionPadding.left,
             boxSizing: "border-box",
         }}>
             <style>{FONT_IMPORT}</style>
 
             <div style={{ maxWidth: 960, margin: "0 auto" }}>
-
-                {/* Eyebrow */}
-                {eyebrow ? (
-                    <div style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 8,
-                        marginBottom: 24,
-                    }}>
-                        <div style={{
-                            width: 8,
-                            height: 8,
-                            borderRadius: "50%",
-                            backgroundColor: accentColor,
-                            flexShrink: 0,
-                        }} />
-                        <span style={{
-                            fontFamily: "'Inter Tight', sans-serif",
-                            fontSize: 13,
-                            fontWeight: 500,
-                            letterSpacing: "0.04em",
-                            color: accentColor,
-                        }}>
-                            {eyebrow}
-                        </span>
-                    </div>
-                ) : null}
 
                 {/* Headline */}
                 <h2 style={{
@@ -220,8 +199,9 @@ export default function ProcessSpectrum(props) {
                     fontWeight: 400,
                     lineHeight: 1.0,
                     color: COLORS.textPrimary,
-                    margin: "0 0 20px 0",
+                    margin: "0 auto 20px auto",
                     maxWidth: 680,
+                    textAlign: "center",
                 }}>
                     {parseItalic(headline)}
                 </h2>
@@ -234,8 +214,9 @@ export default function ProcessSpectrum(props) {
                         fontWeight: 300,
                         lineHeight: 1.55,
                         color: COLORS.textSecondary,
-                        margin: "0 0 56px 0",
+                        margin: "0 auto 56px auto",
                         maxWidth: 560,
+                        textAlign: "center",
                     }}>
                         {subline}
                     </p>
@@ -347,7 +328,6 @@ export default function ProcessSpectrum(props) {
 }
 
 ProcessSpectrum.defaultProps = {
-    eyebrow: "Der Prozess",
     headline: "Ich denke mit. *Nicht für.*",
     subline: "Das Format folgt Deinem Case — von der Sofort-Reaktion bis zur mehrmonatigen Transformation. Und sie gehen häufig ineinander über — in alle Richtungen. Wir passen uns fluidly and effortlessly an.",
     product1Name: "Sofort-Impuls",
@@ -355,6 +335,7 @@ ProcessSpectrum.defaultProps = {
     product3Name: "Transformation Teaming",
     accentColor: COLORS.brand01,
     background: COLORS.backgroundAlt,
+    padding: { top: 96, right: 80, bottom: 96, left: 80 },
     paddingTop: 96,
     paddingBottom: 96,
     showQuizCta: true,
@@ -369,7 +350,6 @@ ProcessSpectrum.defaultProps = {
 }
 
 addPropertyControls(ProcessSpectrum, {
-    eyebrow:  { type: ControlType.String, title: "Eyebrow", defaultValue: "Der Prozess" },
     headline: { type: ControlType.String, title: "Headline (*italic*)", displayTextArea: true, defaultValue: "Ich denke mit. *Nicht für.*" },
     subline:  { type: ControlType.String, title: "Subline", displayTextArea: true, defaultValue: "Das Format folgt Deinem Case — von der Sofort-Reaktion bis zur mehrmonatigen Transformation." },
     product1Name: { type: ControlType.String, title: "Format 1 (Lila)",  defaultValue: "Sofort-Impuls" },
@@ -393,6 +373,14 @@ addPropertyControls(ProcessSpectrum, {
     quizCtaLink:  { type: ControlType.String,  title: "Quiz CTA Link", defaultValue: "https://calendar.app.google/TxnYmbFXwquFFQKK9", hidden: (p) => !p.showQuizCta },
     accentColor:  { type: ControlType.Color,   title: "Accent Color", defaultValue: COLORS.brand01 },
     background:   { type: ControlType.Color,   title: "Background",   defaultValue: COLORS.backgroundAlt },
-    paddingTop:   { type: ControlType.Number,  title: "Padding Top",    defaultValue: 96, min: 0, max: 200, step: 8 },
-    paddingBottom:{ type: ControlType.Number,  title: "Padding Bottom", defaultValue: 96, min: 0, max: 200, step: 8 },
+    padding: {
+        type: ControlType.Object,
+        title: "Padding",
+        controls: {
+            top:    { type: ControlType.Number, title: "Top",    defaultValue: 96, min: 0, max: 240, step: 8 },
+            right:  { type: ControlType.Number, title: "Right",  defaultValue: 80, min: 0, max: 240, step: 8 },
+            bottom: { type: ControlType.Number, title: "Bottom", defaultValue: 96, min: 0, max: 240, step: 8 },
+            left:   { type: ControlType.Number, title: "Left",   defaultValue: 80, min: 0, max: 240, step: 8 },
+        },
+    },
 })
